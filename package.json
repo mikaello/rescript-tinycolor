@@ -22,6 +22,6 @@
     "bs-platform": "^4.0.18"
   },
   "dependencies": {
-    "tinycolor2": "^1.4.1"
+    "@ctrl/tinycolor": "^2.3.0"
   }
 }

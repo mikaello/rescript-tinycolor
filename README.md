@@ -28,6 +28,11 @@ open BsTinycolor;
 /* Examples of bs-tinycolor here */
 ```
 
+## Differences from original
+
+- It is not possible to create a invalid tinycolor instance, it will either return `Some(t)` if it is valid, or `None` if it is invalid
+- `setAlpha` is immutable, it will return a new instance with changed alpha value
+
 ## Contribute
 
 If you find bugs or there are updates in [TinyColor](https://github.com/bgrins/TinyColor), feel free to open an issue or PR. If you are upgrading any dependencies, please use yarn so `yarn.lock` is updated.

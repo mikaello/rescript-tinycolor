@@ -18,6 +18,11 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@ctrl/tinycolor@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-2.3.0.tgz#3af67cdc8e938433d405c58ff9b556c986117720"
+  integrity sha512-N7f17eBWGCb9K5LHV9W0NSQwXZZ4ZHFtuqlVKwPffmF0fwd+nl5AOGaLC+qFhW2LveiZB0ZYHh2TKGW5Qixe3Q==
+
 "@glennsl/bs-jest@^0.4.7":
   version "0.4.7"
   resolved "https://registry.yarnpkg.com/@glennsl/bs-jest/-/bs-jest-0.4.7.tgz#9719dc8c8ceed11d2de92adf9e02dd364c3f9398"
@@ -3311,11 +3316,6 @@ throat@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-4.1.0.tgz#89037cbc92c56ab18926e6ba4cbb200e15672a6a"
   integrity sha1-iQN8vJLFarGJJua6TLsgDhVnKmo=
-
-tinycolor2@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
-  integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
 
 tmpl@1.0.x:
   version "1.0.4"
