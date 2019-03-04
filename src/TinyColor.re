@@ -188,3 +188,66 @@ external toMsFilter: (string, string) => string = "";
 [@bs.send] external toString: t => string = "";
 
 /* COLOR MODIFICATION */
+
+let callIfValidModificationValue = (value, modFun, color) =>
+  if (value >= 0 && value <= 100) {
+    Some(modFun(color, value));
+  } else {
+    None;
+  };
+
+[@bs.send] external lighten: (t, int) => t = "";
+let lighten = (~value: int=10, color: option(t)) =>
+  Belt.Option.flatMap(color, callIfValidModificationValue(value, lighten));
+
+[@bs.send] external brighten: (t, int) => t = "";
+let brighten = (~value: int=10, color: option(t)) =>
+  Belt.Option.flatMap(color, callIfValidModificationValue(value, brighten));
+
+[@bs.send] external darken: (t, int) => t = "";
+let darken = (~value: int=10, color: option(t)) =>
+  Belt.Option.flatMap(color, callIfValidModificationValue(value, darken));
+
+[@bs.send] external tint: (t, int) => t = "";
+let tint = (~value: int=10, color: option(t)) =>
+  Belt.Option.flatMap(color, callIfValidModificationValue(value, tint));
+
+[@bs.send] external shade: (t, int) => t = "";
+let shade = (~value: int=10, color: option(t)) =>
+  Belt.Option.flatMap(color, callIfValidModificationValue(value, shade));
+
+[@bs.send] external desaturate: (t, int) => t = "";
+let desaturate = (~value: int=10, color: option(t)) =>
+  Belt.Option.flatMap(
+    color,
+    callIfValidModificationValue(value, desaturate),
+  );
+
+[@bs.send] external saturate: (t, int) => t = "";
+let saturate = (~value: int=10, color: option(t)) =>
+  Belt.Option.flatMap(color, callIfValidModificationValue(value, saturate));
+
+[@bs.send] external spin: (t, int) => t = "";
+let spin = (~value: int=10, color: t) =>
+  if (value >= (-360) && value <= 360) {
+    Some(spin(color, value));
+  } else {
+    None;
+  };
+
+[@bs.send] external greyscale: t => t = "";
+let greyscale = (color: option(t)) => Belt.Option.map(color, greyscale);
+
+/* COLOR COMBINATIONS */
+
+/*
+ analogous
+ monochromatic
+ splitcomplement
+ triad
+ tetrad
+ polyad
+ complement
+ */
+
+/* COLOR UTILITIES */

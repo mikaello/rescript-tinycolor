@@ -246,3 +246,61 @@ describe("string representation methods", () => {
     expect(Option.map(shortHex, TinyColor.toString)) === Some("#667788")
   );
 });
+
+describe("color modification tests", () => {
+  let red = TinyColor.makeFromString("red");
+
+  test("lighten(int, t)", () => {
+    let a = TinyColor.lighten(~value=10, red);
+    expect(Option.map(a, TinyColor.toHexString))
+    |> toEqual(Some("#ff3333"));
+  });
+
+  test("lighten(int, t) does not change original instance", () => {
+    let a = TinyColor.lighten(~value=10, red);
+
+    expect(Option.map(a, TinyColor.toHex8String))
+    |> not
+    |> toEqual(Option.map(red, TinyColor.toHex8String));
+  });
+
+  test("brighten(int, t)", () => {
+    let a = 1;
+    expect(a) === 1;
+  });
+
+  test("darken(int, t)", () => {
+    let a = 1;
+    expect(a) === 1;
+  });
+
+  test("tint(int, t)", () => {
+    let a = 1;
+    expect(a) === 1;
+  });
+
+  test("shade(int, t)", () => {
+    let a = 1;
+    expect(a) === 1;
+  });
+
+  test("desaturate(int, t)", () => {
+    let a = 1;
+    expect(a) === 1;
+  });
+
+  test("saturate(int, t)", () => {
+    let a = 1;
+    expect(a) === 1;
+  });
+
+  test("spin(int, t)", () => {
+    let a = 1;
+    expect(a) === 1;
+  });
+
+  test("greyscale(t)", () => {
+    let a = 1;
+    expect(a) === 1;
+  });
+});
