@@ -98,24 +98,11 @@ type hsvaRatio = {
   a: float,
 };
 
+/* CREATE COLOR */
+
 [@bs.module "@ctrl/tinycolor"] external make: 'tinyColor => t = "tinycolor";
 
 [@bs.get] external isValid: t => bool = "";
-[@bs.get] external getFormat: t => string = "format";
-
-[@bs.get] external getOriginalInput: t => 'tinyColor = "originalInput";
-[@bs.send] external getBrightness: t => float = "";
-[@bs.send] external isLight: t => bool = "";
-[@bs.send] external isDark: t => bool = "";
-[@bs.send] external getLuminance: t => float = "";
-[@bs.send] external getAlpha: t => float = "";
-[@bs.send] external setAlpha: (t, float) => t = "";
-[@bs.send] external clone: t => t = "";
-
-let setAlpha = (alphaValue: float, color: t): t => {
-  let colorClone = clone(color);
-  setAlpha(colorClone, alphaValue);
-};
 
 let returnSomeIfValid = (color: t): option(t) =>
   if (isValid(color)) {
@@ -149,6 +136,24 @@ let makeFromHsvRatio = (color: hsvRatio) =>
   color |> hsvRatioToJs |> make |> returnSomeIfValid;
 let makeFromHsvaRatio = (color: hsvaRatio) =>
   color |> hsvaRatioToJs |> make |> returnSomeIfValid;
+
+/* GET COLOR PROPERTIES */
+
+[@bs.get] external getFormat: t => string = "format";
+
+[@bs.get] external getOriginalInput: t => 'tinyColor = "originalInput";
+[@bs.send] external getBrightness: t => float = "";
+[@bs.send] external isLight: t => bool = "";
+[@bs.send] external isDark: t => bool = "";
+[@bs.send] external getLuminance: t => float = "";
+[@bs.send] external getAlpha: t => float = "";
+[@bs.send] external setAlpha: (t, float) => t = "";
+[@bs.send] external clone: t => t = "";
+
+let setAlpha = (alphaValue: float, color: t): t => {
+  let colorClone = clone(color);
+  setAlpha(colorClone, alphaValue);
+};
 
 /* STRING REPRESENTATIONS */
 
