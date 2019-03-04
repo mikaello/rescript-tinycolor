@@ -31,7 +31,8 @@ open BsTinycolor;
 ## Differences from original
 
 - It is not possible to create a invalid tinycolor instance, it will either return `Some(t)` if it is valid, or `None` if it is invalid
-- `setAlpha` is immutable, it will return a new instance with changed alpha value
+- `setAlpha(val)` is immutable, it will return a new instance with changed alpha value
+- `toName()` returns an option, either `Some(string)` if a name could be deduced (e.g. _red_) or `None` if not
 
 ## Contribute
 

@@ -16,6 +16,14 @@ type rgba = {
 };
 
 [@bs.deriving jsConverter]
+type rgbaPercentage = {
+  r: string,
+  g: string,
+  b: string,
+  a: float,
+};
+
+[@bs.deriving jsConverter]
 type rgbRatio = {
   r: float,
   g: float,
@@ -33,15 +41,15 @@ type rgbaRatio = {
 [@bs.deriving jsConverter]
 type hsl = {
   h: int,
-  s: int,
-  l: int,
+  s: float,
+  l: float,
 };
 
 [@bs.deriving jsConverter]
 type hsla = {
   h: int,
-  s: int,
-  l: int,
+  s: float,
+  l: float,
   a: float,
 };
 
@@ -63,15 +71,15 @@ type hslaRatio = {
 [@bs.deriving jsConverter]
 type hsv = {
   h: int,
-  s: int,
-  v: int,
+  s: float,
+  v: float,
 };
 
 [@bs.deriving jsConverter]
 type hsva = {
   h: int,
-  s: int,
-  v: int,
+  s: float,
+  v: float,
   a: float,
 };
 
@@ -141,3 +149,37 @@ let makeFromHsvRatio = (color: hsvRatio) =>
   color |> hsvRatioToJs |> make |> returnSomeIfValid;
 let makeFromHsvaRatio = (color: hsvaRatio) =>
   color |> hsvaRatioToJs |> make |> returnSomeIfValid;
+
+/* STRING REPRESENTATIONS */
+
+[@bs.send] external toHsv: t => Js.t('hsv) = "";
+let toHsv = (color: t) => toHsv(color) |> hsvaFromJs;
+[@bs.send] external toHsvString: t => string = "";
+[@bs.send] external toHsl: t => Js.t('hsl) = "";
+let toHsl = (color: t) => toHsl(color) |> hslaFromJs;
+[@bs.send] external toHslString: t => string = "";
+[@bs.send] external toHex: t => string = "";
+[@bs.send] external toHexString: t => string = "";
+[@bs.send] external toHex8: t => string = "";
+[@bs.send] external toHex8String: t => string = "";
+[@bs.send] external toRgb: t => Js.t('rgb) = "";
+let toRgb = (color: t) => toRgb(color) |> rgbaFromJs;
+[@bs.send] external toRgbString: t => string = "";
+[@bs.send] external toPercentageRgb: t => Js.t('rgbaPercent) = "";
+let toPercentageRgb = (color: t) =>
+  toPercentageRgb(color) |> rgbaPercentageFromJs;
+[@bs.send] external toPercentageRgbString: t => string = "";
+[@bs.send] external toName: t => 'maybeName = "";
+let toName = (color: t) => {
+  let name = toName(color);
+  if (Js.typeof(name) === "string") {
+    Some(name);
+  } else {
+    None;
+  };
+};
+[@bs.module "@ctrl/tinycolor"]
+external toMsFilter: (string, string) => string = "";
+[@bs.send] external toString: t => string = "";
+
+/* COLOR MODIFICATION */

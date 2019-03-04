@@ -62,15 +62,15 @@ describe("making tinycolor", () => {
   });
 
   test("makeFromHsl() returns valid", () => {
-    let a = TinyColor.makeFromHsl({h: 100, s: 100, l: 100});
+    let a = TinyColor.makeFromHsl({h: 10, s: 0.1, l: 0.1});
     expect(Option.isSome(a)) === true;
   });
   test("makeFromHsl() returns correct format", () => {
-    let a = TinyColor.makeFromHsl({h: 100, s: 100, l: 100});
+    let a = TinyColor.makeFromHsl({h: 10, s: 0.1, l: 0.1});
     expect(Option.map(a, TinyColor.getFormat)) === Some("hsl");
   });
   test("makeFromHsla() returns valid", () => {
-    let a = TinyColor.makeFromHsla({h: 100, s: 100, l: 100, a: 0.7});
+    let a = TinyColor.makeFromHsla({h: 100, s: 0.1, l: 0.1, a: 0.7});
     expect(Option.isSome(a)) === true;
   });
   test("makeFromHslRatio() returns valid", () => {
@@ -90,15 +90,15 @@ describe("making tinycolor", () => {
   });
 
   test("makeFromHsv() returns valid", () => {
-    let a = TinyColor.makeFromHsv({h: 100, s: 100, v: 100});
+    let a = TinyColor.makeFromHsv({h: 1, s: 0.1, v: 0.1});
     expect(Option.isSome(a)) === true;
   });
   test("makeFromHsv() returns correct format", () => {
-    let a = TinyColor.makeFromHsv({h: 100, s: 100, v: 100});
+    let a = TinyColor.makeFromHsv({h: 10, s: 0.1, v: 0.1});
     expect(Option.map(a, TinyColor.getFormat)) === Some("hsv");
   });
   test("makeFromHsva() returns valid", () => {
-    let a = TinyColor.makeFromHsva({h: 100, s: 100, v: 100, a: 0.7});
+    let a = TinyColor.makeFromHsva({h: 100, s: 0.1, v: 0.1, a: 0.7});
     expect(Option.isSome(a)) === true;
   });
   test("makeFromHsvRatio() returns valid", () => {
@@ -121,7 +121,7 @@ describe("making tinycolor", () => {
 describe("set and get alpha (also tests clone())", () => {
   test("getting alpha value", () => {
     let alphaValue = 0.7;
-    let a = TinyColor.makeFromHsla({h: 10, s: 10, l: 10, a: alphaValue});
+    let a = TinyColor.makeFromHsla({h: 20, s: 0.2, l: 0.2, a: alphaValue});
     expect(Option.map(a, TinyColor.getAlpha)) === Some(alphaValue);
   });
 
@@ -129,7 +129,7 @@ describe("set and get alpha (also tests clone())", () => {
     let oldAlpha = 0.2;
     let newAlpha = 0.9;
 
-    let a = TinyColor.makeFromHsva({h: 10, s: 10, v: 10, a: oldAlpha});
+    let a = TinyColor.makeFromHsva({h: 10, s: 0.1, v: 0.1, a: oldAlpha});
     Option.map(a, TinyColor.setAlpha(newAlpha)) |> ignore;
     expect(Option.map(a, TinyColor.getAlpha)) === Some(oldAlpha);
   });
@@ -138,7 +138,7 @@ describe("set and get alpha (also tests clone())", () => {
     let oldAlpha = 0.2;
     let newAlpha = 0.9;
 
-    let a = TinyColor.makeFromHsva({h: 10, s: 10, v: 10, a: oldAlpha});
+    let a = TinyColor.makeFromHsva({h: 100, s: 0.1, v: 0.1, a: oldAlpha});
     let b = Option.map(a, TinyColor.setAlpha(newAlpha));
     expect(Option.map(b, TinyColor.getAlpha)) === Some(newAlpha);
   });
@@ -154,18 +154,21 @@ describe("getBrightness()", () => {
     expect(Option.map(color, TinyColor.getLuminance)) === Some(0.0);
   });
 });
+
 describe("isLight()", () =>
   test("that light color is returned as light", () => {
     let light = TinyColor.makeFromString("white");
     expect(Option.map(light, TinyColor.isLight)) === Some(true);
   })
 );
+
 describe("isDark()", () =>
   test("that dark color is returned as dark", () => {
     let black = TinyColor.makeFromString("black");
     expect(Option.map(black, TinyColor.isDark)) === Some(true);
   })
 );
+
 describe("getLuminance()", () => {
   test("getting luminance for dark color", () => {
     let color = TinyColor.makeFromString("black");
@@ -175,4 +178,71 @@ describe("getLuminance()", () => {
     let color = TinyColor.makeFromString("white");
     expect(Option.map(color, TinyColor.getLuminance)) === Some(1.0);
   });
+});
+
+describe("string representation methods", () => {
+  let hsv = TinyColor.makeFromHsva({h: 15, s: 0.5, v: 1.0, a: 0.1});
+  let hsl = TinyColor.makeFromHsla({h: 280, s: 0.5, l: 0.75, a: 0.5});
+  let rgb = TinyColor.makeFromRgba({r: 0, g: 10, b: 20, a: 0.9});
+  let shortHex = TinyColor.makeFromString("#678");
+  let red = TinyColor.makeFromString("red");
+
+  test("toHsv()", () =>
+    expect(Option.map(hsv, TinyColor.toHsv))
+    == Some({h: 15, s: 0.5, v: 1.0, a: 0.1})
+  );
+  test("toHsvString()", () =>
+    expect(Option.map(hsv, TinyColor.toHsvString))
+    === Some("hsva(15, 50%, 100%, 0.1)")
+  );
+  test("toHsl()", () =>
+    expect(Option.map(hsl, TinyColor.toHsl))
+    == Some({h: 280, s: 0.5, l: 0.75, a: 0.5})
+  );
+  test("toHslString()", () =>
+    expect(Option.map(hsl, TinyColor.toHslString))
+    === Some("hsla(280, 50%, 75%, 0.5)")
+  );
+  test("toHex()", () =>
+    expect(Option.map(rgb, TinyColor.toHex)) === Some("000a14")
+  );
+  test("toHexString()", () =>
+    expect(Option.map(rgb, TinyColor.toHexString)) === Some("#000a14")
+  );
+  test("toHex8()", () =>
+    expect(Option.map(shortHex, TinyColor.toHex8)) === Some("667788ff")
+  );
+  test("toHex8String()", () =>
+    expect(Option.map(shortHex, TinyColor.toHex8String))
+    === Some("#667788ff")
+  );
+  test("toRgb()", () =>
+    expect(Option.map(rgb, TinyColor.toRgb))
+    == Some({r: 0, g: 10, b: 20, a: 0.9})
+  );
+  test("toRgbString()", () =>
+    expect(Option.map(rgb, TinyColor.toRgbString))
+    === Some("rgba(0, 10, 20, 0.9)")
+  );
+  test("toPercentageRgb()", () =>
+    expect(Option.map(rgb, TinyColor.toPercentageRgb))
+    == Some({r: "0%", g: "4%", b: "8%", a: 0.9})
+  );
+  test("toPercentageRgbString()", () =>
+    expect(Option.map(rgb, TinyColor.toPercentageRgbString))
+    === Some("rgba(0%, 4%, 8%, 0.9)")
+  );
+  test("toName() defined", () =>
+    expect(Option.map(red, TinyColor.toName)) === Some(Some("red"))
+  );
+  test("toName() undefined", () =>
+    expect(Option.map(rgb, TinyColor.toName)) |> toEqual(Some(None))
+  );
+  test("toMsFilter()", () =>
+    expect(TinyColor.toMsFilter("red", "blue"))
+    === "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ff0000ff)"
+  );
+  test("toString(), test hex", () =>
+    expect(Option.map(shortHex, TinyColor.toString)) === Some("#667788")
+  );
 });
