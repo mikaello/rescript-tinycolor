@@ -269,49 +269,44 @@ let callIfValidModificationValue = (value, modFun, color) =>
   };
 
 [@bs.send] external lighten: (t, int) => t = "";
-let lighten = (~value: int=10, color: option(t)) =>
-  Option.flatMap(color, callIfValidModificationValue(value, lighten));
+let lighten = (~value: int=10, color: t) =>
+  callIfValidModificationValue(value, lighten, color);
 
 [@bs.send] external brighten: (t, int) => t = "";
-let brighten = (~value: int=10, color: option(t)) =>
-  Option.flatMap(color, callIfValidModificationValue(value, brighten));
+let brighten = (~value: int=10, color: t) =>
+  callIfValidModificationValue(value, brighten, color);
 
 [@bs.send] external darken: (t, int) => t = "";
-let darken = (~value: int=10, color: option(t)) =>
-  Option.flatMap(color, callIfValidModificationValue(value, darken));
+let darken = (~value: int=10, color: t) =>
+  callIfValidModificationValue(value, darken, color);
 
 [@bs.send] external tint: (t, int) => t = "";
-let tint = (~value: int=10, color: option(t)) =>
-  Option.flatMap(color, callIfValidModificationValue(value, tint));
+let tint = (~value: int=10, color: t) =>
+  callIfValidModificationValue(value, tint, color);
 
 [@bs.send] external shade: (t, int) => t = "";
-let shade = (~value: int=10, color: option(t)) =>
-  Option.flatMap(color, callIfValidModificationValue(value, shade));
+let shade = (~value: int=10, color: t) =>
+  callIfValidModificationValue(value, shade, color);
 
 [@bs.send] external desaturate: (t, int) => t = "";
-let desaturate = (~value: int=10, color: option(t)) =>
-  Option.flatMap(color, callIfValidModificationValue(value, desaturate));
+let desaturate = (~value: int=10, color: t) =>
+  callIfValidModificationValue(value, desaturate, color);
 
 [@bs.send] external saturate: (t, int) => t = "";
-let saturate = (~value: int=10, color: option(t)) =>
-  Option.flatMap(color, callIfValidModificationValue(value, saturate));
+let saturate = (~value: int=10, color: t) =>
+  callIfValidModificationValue(value, saturate, color);
 
 [@bs.send] external spin: (t, int) => t = "";
-let spin = (~value: int=10, color: option(t)) => {
-  let callSpin = color' => spin(color', value);
-  Option.map(color, callSpin);
+let spin = (~value: int=10, color: t) => {
+  spin(color, value);
 };
 
 [@bs.send] external mix: (t, t, int) => t = "";
-let mix = (~value: int=50, color1: option(t), color2: option(t)) => {
-  switch (color1, color2) {
-  | (Some(c1), Some(c2)) => callIfValidModificationValue(value, mix(c1), c2)
-  | _ => None
-  };
+let mix = (~value: int=50, color1: t, color2: t) => {
+  callIfValidModificationValue(value, mix(color1), color2);
 };
 
 [@bs.send] external greyscale: t => t = "";
-let greyscale = (color: option(t)) => Option.map(color, greyscale);
 
 /* COLOR COMBINATIONS */
 

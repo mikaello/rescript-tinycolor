@@ -274,88 +274,94 @@ describe("string representation methods", () => {
 describe("color modification tests", () => {
   let red = TinyColor.makeFromString("red");
 
-  test("lighten(int, t)", () => {
-    let a = TinyColor.lighten(~value=10, red);
-    expect(Option.map(a, TinyColor.toHexString))
-    |> toEqual(Some("#ff3333"));
-  });
+  let optionMapTwo = (color, fn1, fn2) =>
+    Option.flatMap(color, fn1)->Option.map(fn2);
 
-  test("lighten(int, t) does not change original instance", () => {
-    let a = TinyColor.lighten(~value=10, red);
+  test("lighten(int, t)", () =>
+    optionMapTwo(red, TinyColor.lighten(~value=10), TinyColor.toHexString)
+    |> expect
+    |> toEqual(Some("#ff3333"))
+  );
 
-    expect(Option.map(a, TinyColor.toHex8String))
+  test("lighten(int, t) does not change original instance", () =>
+    optionMapTwo(red, TinyColor.lighten(~value=10), TinyColor.toHex8String)
+    |> expect
     |> not
-    |> toEqual(Option.map(red, TinyColor.toHex8String));
-  });
+    |> toEqual(Option.map(red, TinyColor.toHex8String))
+  );
 
-  test("brighten(int, t)", () => {
-    let a = TinyColor.brighten(~value=10, red);
-    expect(Option.map(a, TinyColor.toHexString))
-    |> toEqual(Some("#ff1919"));
-  });
+  test("brighten(int, t)", () =>
+    optionMapTwo(red, TinyColor.brighten(~value=10), TinyColor.toHexString)
+    |> expect
+    |> toEqual(Some("#ff1919"))
+  );
 
-  test("brighten(int, t) dose not change original instance", () => {
-    let a = TinyColor.brighten(~value=10, red);
-
-    expect(Option.map(a, TinyColor.toString))
+  test("brighten(int, t) dose not change original instance", () =>
+    optionMapTwo(red, TinyColor.brighten(~value=10), TinyColor.toString)
+    |> expect
     |> not
-    |> toEqual(Option.map(red, TinyColor.toString));
-  });
+    |> toEqual(Option.map(red, TinyColor.toString))
+  );
 
-  test("darken(int, t)", () => {
-    let a = TinyColor.darken(~value=10, red);
-    expect(Option.map(a, TinyColor.toHexString))
-    |> toEqual(Some("#cc0000"));
-  });
+  test("darken(int, t)", () =>
+    optionMapTwo(red, TinyColor.darken(~value=10), TinyColor.toHexString)
+    |> expect
+    |> toEqual(Some("#cc0000"))
+  );
 
-  test("tint(int, t)", () => {
-    let a = TinyColor.tint(~value=10, red);
-    expect(Option.map(a, TinyColor.toHexString))
-    |> toEqual(Some("#ff1a1a"));
-  });
+  test("tint(int, t)", () =>
+    optionMapTwo(red, TinyColor.tint(~value=10), TinyColor.toHexString)
+    |> expect
+    |> toEqual(Some("#ff1a1a"))
+  );
 
-  test("shade(int, t)", () => {
-    let a = TinyColor.shade(~value=10, red);
-    expect(Option.map(a, TinyColor.toHexString))
-    |> toEqual(Some("#e60000"));
-  });
+  test("shade(int, t)", () =>
+    optionMapTwo(red, TinyColor.shade(~value=10), TinyColor.toHexString)
+    |> expect
+    |> toEqual(Some("#e60000"))
+  );
 
-  test("desaturate(int, t)", () => {
-    let a = TinyColor.desaturate(~value=10, red);
-    expect(Option.map(a, TinyColor.toHexString))
-    |> toEqual(Some("#f20d0d"));
-  });
+  test("desaturate(int, t)", () =>
+    optionMapTwo(red, TinyColor.desaturate(~value=10), TinyColor.toHexString)
+    |> expect
+    |> toEqual(Some("#f20d0d"))
+  );
 
-  test("saturate(int, t)", () => {
-    let a = TinyColor.saturate(~value=10, red);
-    expect(Option.map(a, TinyColor.toHexString))
-    |> toEqual(Some("#ff0000"));
-  });
+  test("saturate(int, t)", () =>
+    optionMapTwo(red, TinyColor.saturate(~value=10), TinyColor.toHexString)
+    |> expect
+    |> toEqual(Some("#ff0000"))
+  );
 
-  test("spin(int, t)", () => {
-    let a = TinyColor.spin(~value=180, red);
-    expect(Option.map(a, TinyColor.toHex8String)) === Some("#00ffffff");
-  });
+  test("spin(int, t)", () =>
+    Option.map(red, TinyColor.spin(~value=180))
+    ->Option.map(TinyColor.toHex8String)
+    |> expect === Some("#00ffffff")
+  );
 
-  test("spin(int, t) with value 360 does not change", () => {
-    let a = TinyColor.spin(~value=360, red);
-    expect(Option.map(a, TinyColor.toHex8String))
-    === Option.map(red, TinyColor.toHex8String);
-  });
+  test("spin(int, t) with value 360 does not change", () =>
+    Option.map(red, TinyColor.spin(~value=360))
+    ->Option.map(TinyColor.toHex8String)
+    |> expect === Option.map(red, TinyColor.toHex8String)
+  );
 
   test("mix(int, t)", () => {
     let color1 = TinyColor.makeFromString("#f0f");
     let color2 = TinyColor.makeFromString("#0f0");
 
-    let a = TinyColor.mix(~value=50, color1, color2);
-    expect(Option.map(a, TinyColor.toHexString))
-    |> toEqual(Some("#808080"));
+    switch (color1, color2) {
+    | (Some(c1), Some(c2)) =>
+      TinyColor.mix(~value=50, c1, c2)->Option.map(TinyColor.toHexString)
+      |> expect
+      |> toEqual(Some("#808080"))
+    | _ => expect(false) === true
+    };
   });
 
-  test("greyscale(t)", () => {
-    let a = TinyColor.greyscale(red);
-    expect(Option.map(a, TinyColor.toHex8String)) === Some("#808080ff");
-  });
+  test("greyscale(t)", () =>
+    Option.map(red, TinyColor.greyscale)->Option.map(TinyColor.toHex8String)
+    |> expect === Some("#808080ff")
+  );
 });
 
 describe("color combinations", () => {
