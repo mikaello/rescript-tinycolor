@@ -228,12 +228,10 @@ let saturate = (~value: int=10, color: option(t)) =>
   Belt.Option.flatMap(color, callIfValidModificationValue(value, saturate));
 
 [@bs.send] external spin: (t, int) => t = "";
-let spin = (~value: int=10, color: t) =>
-  if (value >= (-360) && value <= 360) {
-    Some(spin(color, value));
-  } else {
-    None;
-  };
+let spin = (~value: int=10, color: option(t)) => {
+  let callSpin = color' => spin(color', value);
+  Belt.Option.map(color, callSpin);
+};
 
 [@bs.send] external greyscale: t => t = "";
 let greyscale = (color: option(t)) => Belt.Option.map(color, greyscale);

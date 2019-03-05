@@ -265,42 +265,62 @@ describe("color modification tests", () => {
   });
 
   test("brighten(int, t)", () => {
-    let a = 1;
-    expect(a) === 1;
+    let a = TinyColor.brighten(~value=10, red);
+    expect(Option.map(a, TinyColor.toHexString))
+    |> toEqual(Some("#ff1919"));
+  });
+
+  test("brighten(int, t) dose not change original instance", () => {
+    let a = TinyColor.brighten(~value=10, red);
+
+    expect(Option.map(a, TinyColor.toString))
+    |> not
+    |> toEqual(Option.map(red, TinyColor.toString));
   });
 
   test("darken(int, t)", () => {
-    let a = 1;
-    expect(a) === 1;
+    let a = TinyColor.darken(~value=10, red);
+    expect(Option.map(a, TinyColor.toHexString))
+    |> toEqual(Some("#cc0000"));
   });
 
   test("tint(int, t)", () => {
-    let a = 1;
-    expect(a) === 1;
+    let a = TinyColor.tint(~value=10, red);
+    expect(Option.map(a, TinyColor.toHexString))
+    |> toEqual(Some("#ff1a1a"));
   });
 
   test("shade(int, t)", () => {
-    let a = 1;
-    expect(a) === 1;
+    let a = TinyColor.shade(~value=10, red);
+    expect(Option.map(a, TinyColor.toHexString))
+    |> toEqual(Some("#e60000"));
   });
 
   test("desaturate(int, t)", () => {
-    let a = 1;
-    expect(a) === 1;
+    let a = TinyColor.desaturate(~value=10, red);
+    expect(Option.map(a, TinyColor.toHexString))
+    |> toEqual(Some("#f20d0d"));
   });
 
   test("saturate(int, t)", () => {
-    let a = 1;
-    expect(a) === 1;
+    let a = TinyColor.saturate(~value=10, red);
+    expect(Option.map(a, TinyColor.toHexString))
+    |> toEqual(Some("#ff0000"));
   });
 
   test("spin(int, t)", () => {
-    let a = 1;
-    expect(a) === 1;
+    let a = TinyColor.spin(~value=180, red);
+    expect(Option.map(a, TinyColor.toHex8String)) === Some("#00ffffff");
+  });
+
+  test("spin(int, t) with value 360 does not change", () => {
+    let a = TinyColor.spin(~value=360, red);
+    expect(Option.map(a, TinyColor.toHex8String))
+    === Option.map(red, TinyColor.toHex8String);
   });
 
   test("greyscale(t)", () => {
-    let a = 1;
-    expect(a) === 1;
+    let a = TinyColor.greyscale(red);
+    expect(Option.map(a, TinyColor.toHex8String)) === Some("##808080ff");
   });
 });
