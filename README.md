@@ -1,15 +1,14 @@
-# (WIP) bs-tinycolor
+# bs-tinycolor
 
+[![NPM version](http://img.shields.io/npm/v/bs-tinycolor.svg)](https://www.npmjs.org/package/bs-tinycolor)
 [![Build Status](https://travis-ci.org/mikaello/bs-tinycolor.svg?branch=master)](https://travis-ci.org/mikaello/bs-tinycolor)
-
-🚧 **UNDER CONSTRUCTION** 🚧
 
 Bucklescript bindings for [TinyColor](https://github.com/TypeCtrl/tinycolor): fast, small color manipulation and conversion. See also [https://typectrl.github.io/tinycolor](https://typectrl.github.io/tinycolor)
 
 ## Getting started
 
 ```
-yarn add https://github.com/mikaello/bs-tinycolor
+yarn add bs-tinycolor
 ```
 
 Then add `bs-tinycolor` as a dependency to `bsconfig.json`:
