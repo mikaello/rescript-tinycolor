@@ -357,3 +357,93 @@ describe("color modification tests", () => {
     expect(Option.map(a, TinyColor.toHex8String)) === Some("#808080ff");
   });
 });
+
+describe("color utils", () => {
+  test("equals() returns true for equal colors", () => {
+    let a = TinyColor.makeFromString("red");
+    let b = TinyColor.makeFromRgb({r: 255, g: 0, b: 0});
+
+    expect(Option.eq(a, b, TinyColor.equals)) === true;
+  });
+
+  test("equals() returns false for unequal colors", () => {
+    let a = TinyColor.makeFromString("red");
+    let b = TinyColor.makeFromString("blue");
+
+    expect(Option.eq(a, b, TinyColor.equals)) === false;
+  });
+
+  test("random()", () => {
+    let a = TinyColor.random();
+    let b = TinyColor.random();
+
+    expect(TinyColor.equals(a, b)) === false;
+  });
+
+  test("readability()", () => {
+    let a = TinyColor.makeFromString("#000");
+    let b = TinyColor.makeFromString("#fff");
+
+    switch (a, b) {
+    | (Some(a), Some(b)) =>
+      expect(TinyColor.readability(a, b)) |> toEqual(21.0)
+    | _ => expect(true) === false
+    };
+  });
+
+  test("isReadable()", () =>
+    switch (
+      TinyColor.makeFromString("#000"),
+      TinyColor.makeFromString("#fff"),
+    ) {
+    | (Some(a), Some(b)) =>
+      expect(TinyColor.isReadable(a, b)) |> toEqual(true)
+    | _ => expect(true) === false
+    }
+  );
+
+  test("isReadable() should return false for unreadable combo", () =>
+    switch (
+      TinyColor.makeFromString("#eee"),
+      TinyColor.makeFromString("#fff"),
+    ) {
+    | (Some(a), Some(b)) =>
+      expect(TinyColor.isReadable(a, b)) |> toEqual(false)
+    | _ => expect(true) === false
+    }
+  );
+
+  test("mostReadable() no options", () => {
+    let a = TinyColor.makeFromString("#000");
+    let cmp1 = TinyColor.makeFromString("#f00");
+    let cmp2 = TinyColor.makeFromString("#0f0");
+    let cmp3 = TinyColor.makeFromString("#00f");
+
+    switch (a, cmp1, cmp2, cmp3) {
+    | (Some(a), Some(c1), Some(c2), Some(c3)) =>
+      expect(TinyColor.mostReadable([|c1, c2, c3|], a)) |> toEqual(c2)
+    | _ => expect(false) === true
+    };
+  });
+
+  test("mostReadable() with options", () => {
+    let a = TinyColor.makeFromString("#ff0088");
+    let cmp = TinyColor.makeFromString("#2e0c3a");
+
+    switch (a, cmp) {
+    | (Some(a), Some(c)) =>
+      expect(
+        TinyColor.mostReadable(
+          ~includeFallbackColors=true,
+          ~level="AAA",
+          ~size="small",
+          [|c|],
+          a,
+        )
+        |> TinyColor.toHexString,
+      )
+      |> toEqual("#000000")
+    | _ => expect(false) === true
+    };
+  });
+});

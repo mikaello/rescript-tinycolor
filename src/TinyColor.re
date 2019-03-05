@@ -326,3 +326,51 @@ let greyscale = (color: option(t)) => Option.map(color, greyscale);
  */
 
 /* COLOR UTILITIES */
+
+[@bs.send] external equals: (t, t) => bool = "";
+
+[@bs.module "@ctrl/tinycolor"] external random: unit => t = "";
+
+[@bs.module "@ctrl/tinycolor"] external readability: (t, t) => float = "";
+
+[@bs.deriving jsConverter]
+type wcagObject = {
+  level: string, /* AA | AAA */
+  size: string /* small | large */
+};
+
+[@bs.module "@ctrl/tinycolor"]
+external isReadableOption: (t, t, wcagObject) => bool = "isReadable";
+
+[@bs.module "@ctrl/tinycolor"]
+external isReadable: (t, t) => bool = "isReadable";
+let isReadable = (~wcag: option(wcagObject)=?, color1: t, color2: t): bool => {
+  switch (wcag) {
+  | Some(wcagOption) => isReadableOption(color1, color2, wcagOption)
+  | None => isReadable(color1, color2)
+  };
+};
+
+[@bs.deriving jsConverter]
+type mostReadableConfig = {
+  includeFallbackColors: Js.nullable(bool),
+  level: Js.nullable(string),
+  size: Js.nullable(string),
+};
+[@bs.module "@ctrl/tinycolor"]
+external mostReadable: (t, array(t), 'config) => t = "";
+let mostReadable =
+    (
+      ~includeFallbackColors: option(bool)=?,
+      ~level: option(string)=?,
+      ~size: option(string)=?,
+      compareColors: array(t),
+      color: t,
+    ) => {
+  let config: mostReadableConfig = {
+    includeFallbackColors: Js.Nullable.fromOption(includeFallbackColors),
+    level: Js.Nullable.fromOption(level),
+    size: Js.Nullable.fromOption(size),
+  };
+  mostReadable(color, compareColors, mostReadableConfigToJs(config));
+};
