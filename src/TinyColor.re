@@ -302,6 +302,14 @@ let spin = (~value: int=10, color: option(t)) => {
   Option.map(color, callSpin);
 };
 
+[@bs.send] external mix: (t, t, int) => t = "";
+let mix = (~value: int=50, color1: option(t), color2: option(t)) => {
+  switch (color1, color2) {
+  | (Some(c1), Some(c2)) => callIfValidModificationValue(value, mix(c1), c2)
+  | _ => None
+  };
+};
+
 [@bs.send] external greyscale: t => t = "";
 let greyscale = (color: option(t)) => Option.map(color, greyscale);
 

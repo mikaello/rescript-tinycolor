@@ -343,6 +343,15 @@ describe("color modification tests", () => {
     === Option.map(red, TinyColor.toHex8String);
   });
 
+  test("mix(int, t)", () => {
+    let color1 = TinyColor.makeFromString("#f0f");
+    let color2 = TinyColor.makeFromString("#0f0");
+
+    let a = TinyColor.mix(~value=50, color1, color2);
+    expect(Option.map(a, TinyColor.toHexString))
+    |> toEqual(Some("#808080"));
+  });
+
   test("greyscale(t)", () => {
     let a = TinyColor.greyscale(red);
     expect(Option.map(a, TinyColor.toHex8String)) === Some("#808080ff");
