@@ -358,6 +358,83 @@ describe("color modification tests", () => {
   });
 });
 
+describe("color combinations", () => {
+  let mapAndReturnHexArray = (color, fn) =>
+    Option.map(color, fn)
+    ->Option.getWithDefault([||])
+    ->Array.map(TinyColor.toHexString);
+
+  test("analogous()", () =>
+    mapAndReturnHexArray(
+      TinyColor.makeFromString("#f00"),
+      TinyColor.analogous,
+    )
+    |> expect
+    |> toEqual([|
+         "#ff0000",
+         "#ff0066",
+         "#ff0033",
+         "#ff0000",
+         "#ff3300",
+         "#ff6600",
+       |])
+  );
+
+  test("monochromatic()", () =>
+    mapAndReturnHexArray(
+      TinyColor.makeFromString("#f00"),
+      TinyColor.monochromatic,
+    )
+    |> expect
+    |> toEqual([|
+         "#ff0000",
+         "#2a0000",
+         "#550000",
+         "#800000",
+         "#aa0000",
+         "#d40000",
+       |])
+  );
+
+  test("splitcomplement()", () =>
+    mapAndReturnHexArray(
+      TinyColor.makeFromString("#f00"),
+      TinyColor.splitcomplement,
+    )
+    |> expect
+    |> toEqual([|"#ff0000", "#ccff00", "#0066ff"|])
+  );
+
+  test("triad()", () =>
+    mapAndReturnHexArray(TinyColor.makeFromString("#f00"), TinyColor.triad)
+    |> expect
+    |> toEqual([|"#ff0000", "#00ff00", "#0000ff"|])
+  );
+
+  test("tetrad()", () =>
+    mapAndReturnHexArray(TinyColor.makeFromString("#f00"), TinyColor.tetrad)
+    |> expect
+    |> toEqual([|"#ff0000", "#80ff00", "#00ffff", "#7f00ff"|])
+  );
+
+  test("polyad()", () =>
+    mapAndReturnHexArray(
+      TinyColor.makeFromString("#f00"),
+      TinyColor.polyad(~n=4),
+    )
+    |> expect
+    |> toEqual([|"#ff0000", "#80ff00", "#00ffff", "#7f00ff"|])
+  );
+
+  test("complement()", () => {
+    let hex =
+      TinyColor.makeFromString("#f00")
+      ->Option.map(TinyColor.complement)
+      ->Option.map(TinyColor.toHexString);
+    expect(hex) |> toEqual(Some("#00ffff"));
+  });
+});
+
 describe("color utils", () => {
   test("equals() returns true for equal colors", () => {
     let a = TinyColor.makeFromString("red");

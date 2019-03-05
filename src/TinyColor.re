@@ -315,15 +315,25 @@ let greyscale = (color: option(t)) => Option.map(color, greyscale);
 
 /* COLOR COMBINATIONS */
 
-/*
- analogous
- monochromatic
- splitcomplement
- triad
- tetrad
- polyad
- complement
- */
+[@bs.send]
+external analogous: (t, Js.nullable(int), Js.nullable(int)) => array(t) =
+  "";
+let analogous = (~results: option(int)=?, ~slices: option(int)=?, color: t) =>
+  analogous(
+    color,
+    Js.Nullable.fromOption(results),
+    Js.Nullable.fromOption(slices),
+  );
+[@bs.send] external monochromatic: (t, Js.nullable(int)) => array(t) = "";
+let monochromatic = (~results: option(int)=?, color: t) =>
+  monochromatic(color, Js.Nullable.fromOption(results));
+[@bs.send] external splitcomplement: t => array(t) = "";
+[@bs.send] external triad: t => array(t) = "";
+[@bs.send] external tetrad: t => array(t) = "";
+[@bs.send] external polyad: (t, Js.nullable(int)) => array(t) = "";
+let polyad = (~n: option(int)=?, color: t) =>
+  polyad(color, Js.Nullable.fromOption(n));
+[@bs.send] external complement: t => t = "";
 
 /* COLOR UTILITIES */
 
