@@ -1,3 +1,4 @@
+open Belt;
 type t;
 
 [@bs.deriving jsConverter]
@@ -98,9 +99,7 @@ type hsvaRatio = {
   a: float,
 };
 
-/* CREATE COLOR */
-
-[@bs.module "@ctrl/tinycolor"] external make: 'tinyColor => t = "tinycolor";
+/* VALIDATOR UTILS */
 
 [@bs.get] external isValid: t => bool = "";
 
@@ -111,27 +110,100 @@ let returnSomeIfValid = (color: t): option(t) =>
     None;
   };
 
+let isFraction = value => value >= 0.0 && value <= 1.0;
+let isValidHue = hue => hue >= 0 && hue <= 360;
+
+let validateRgb = (color: rgb) => {
+  let validRgbRange = value => value >= 0 && value <= 255;
+  switch (color) {
+  | {r, g, b} when validRgbRange(r) && validRgbRange(g) && validRgbRange(b) =>
+    Some(color)
+  | _ => None
+  };
+};
+
+let validateRgba = (color: rgba) => {
+  switch (color) {
+  | {r, g, b, a} when validateRgb({r, g, b}) !== None && isFraction(a) =>
+    Some(color)
+  | _ => None
+  };
+};
+
+let validateHsl = (color: hsl) => {
+  switch (color) {
+  | {h, s, l} when isValidHue(h) && isFraction(s) && isFraction(l) =>
+    Some(color)
+  | _ => None
+  };
+};
+
+let validateHsla = (color: hsla) => {
+  switch (color) {
+  | {h, s, l, a} when validateHsl({h, s, l}) !== None && isFraction(a) =>
+    Some(color)
+  | _ => None
+  };
+};
+
+let validateHsv = (color: hsv) => {
+  switch (color) {
+  | {h, s, v} when isValidHue(h) && isFraction(s) && isFraction(v) =>
+    Some(color)
+  | _ => None
+  };
+};
+
+let validateHsva = (color: hsva) => {
+  switch (color) {
+  | {h, s, v, a} when validateHsv({h, s, v}) !== None && isFraction(a) =>
+    Some(color)
+  | _ => None
+  };
+};
+/* CREATE COLOR */
+
+[@bs.module "@ctrl/tinycolor"] external make: 'tinyColor => t = "tinycolor";
+
 let makeFromString = (color: string) => returnSomeIfValid(make(color));
 let makeFromRgb = (color: rgb) =>
-  color |> rgbToJs |> make |> returnSomeIfValid;
+  (color |> validateRgb)
+  ->(Option.map(rgbToJs))
+  ->(Option.map(make))
+  ->(Option.flatMap(returnSomeIfValid));
 let makeFromRgba = (color: rgba) =>
-  color |> rgbaToJs |> make |> returnSomeIfValid;
+  (color |> validateRgba)
+  ->(Option.map(rgbaToJs))
+  ->(Option.map(make))
+  ->(Option.flatMap(returnSomeIfValid));
 let makeFromRgbRatio = (color: rgbRatio) =>
   color |> rgbRatioToJs |> make |> returnSomeIfValid;
 let makeFromRgbaRatio = (color: rgbaRatio) =>
   color |> rgbaRatioToJs |> make |> returnSomeIfValid;
 let makeFromHsl = (color: hsl) =>
-  color |> hslToJs |> make |> returnSomeIfValid;
+  (color |> validateHsl)
+  ->(Option.map(hslToJs))
+  ->(Option.map(make))
+  ->(Option.flatMap(returnSomeIfValid));
 let makeFromHsla = (color: hsla) =>
-  color |> hslaToJs |> make |> returnSomeIfValid;
+  (color |> validateHsla)
+  ->(Option.map(hslaToJs))
+  ->(Option.map(make))
+  ->(Option.flatMap(returnSomeIfValid));
 let makeFromHslRatio = (color: hslRatio) =>
   color |> hslRatioToJs |> make |> returnSomeIfValid;
 let makeFromHslaRatio = (color: hslaRatio) =>
   color |> hslaRatioToJs |> make |> returnSomeIfValid;
 let makeFromHsv = (color: hsv) =>
-  color |> hsvToJs |> make |> returnSomeIfValid;
+  (color |> validateHsv)
+  ->(Option.map(hsvToJs))
+  ->(Option.map(make))
+  ->(Option.flatMap(returnSomeIfValid));
 let makeFromHsva = (color: hsva) =>
-  color |> hsvaToJs |> make |> returnSomeIfValid;
+  (color |> validateHsva)
+  ->(Option.map(hsvaToJs))
+  ->(Option.map(make))
+  ->(Option.flatMap(returnSomeIfValid));
 let makeFromHsvRatio = (color: hsvRatio) =>
   color |> hsvRatioToJs |> make |> returnSomeIfValid;
 let makeFromHsvaRatio = (color: hsvaRatio) =>
@@ -198,43 +270,40 @@ let callIfValidModificationValue = (value, modFun, color) =>
 
 [@bs.send] external lighten: (t, int) => t = "";
 let lighten = (~value: int=10, color: option(t)) =>
-  Belt.Option.flatMap(color, callIfValidModificationValue(value, lighten));
+  Option.flatMap(color, callIfValidModificationValue(value, lighten));
 
 [@bs.send] external brighten: (t, int) => t = "";
 let brighten = (~value: int=10, color: option(t)) =>
-  Belt.Option.flatMap(color, callIfValidModificationValue(value, brighten));
+  Option.flatMap(color, callIfValidModificationValue(value, brighten));
 
 [@bs.send] external darken: (t, int) => t = "";
 let darken = (~value: int=10, color: option(t)) =>
-  Belt.Option.flatMap(color, callIfValidModificationValue(value, darken));
+  Option.flatMap(color, callIfValidModificationValue(value, darken));
 
 [@bs.send] external tint: (t, int) => t = "";
 let tint = (~value: int=10, color: option(t)) =>
-  Belt.Option.flatMap(color, callIfValidModificationValue(value, tint));
+  Option.flatMap(color, callIfValidModificationValue(value, tint));
 
 [@bs.send] external shade: (t, int) => t = "";
 let shade = (~value: int=10, color: option(t)) =>
-  Belt.Option.flatMap(color, callIfValidModificationValue(value, shade));
+  Option.flatMap(color, callIfValidModificationValue(value, shade));
 
 [@bs.send] external desaturate: (t, int) => t = "";
 let desaturate = (~value: int=10, color: option(t)) =>
-  Belt.Option.flatMap(
-    color,
-    callIfValidModificationValue(value, desaturate),
-  );
+  Option.flatMap(color, callIfValidModificationValue(value, desaturate));
 
 [@bs.send] external saturate: (t, int) => t = "";
 let saturate = (~value: int=10, color: option(t)) =>
-  Belt.Option.flatMap(color, callIfValidModificationValue(value, saturate));
+  Option.flatMap(color, callIfValidModificationValue(value, saturate));
 
 [@bs.send] external spin: (t, int) => t = "";
 let spin = (~value: int=10, color: option(t)) => {
   let callSpin = color' => spin(color', value);
-  Belt.Option.map(color, callSpin);
+  Option.map(color, callSpin);
 };
 
 [@bs.send] external greyscale: t => t = "";
-let greyscale = (color: option(t)) => Belt.Option.map(color, greyscale);
+let greyscale = (color: option(t)) => Option.map(color, greyscale);
 
 /* COLOR COMBINATIONS */
 

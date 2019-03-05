@@ -29,6 +29,10 @@ describe("making tinycolor", () => {
     let a = TinyColor.makeFromRgb({r: 100, g: 100, b: 100});
     expect(Option.isSome(a)) === true;
   });
+  test("makeFromRgb() returns None for invalid values", () => {
+    let a = TinyColor.makeFromRgb({r: 700, g: 800, b: 100});
+    expect(Option.isNone(a)) === true;
+  });
   test("makeFromRgb() returns correct format", () => {
     let a = TinyColor.makeFromRgb({r: 100, g: 100, b: 100});
     expect(Option.map(a, TinyColor.getFormat)) === Some("rgb");
@@ -36,6 +40,10 @@ describe("making tinycolor", () => {
   test("makeFromRgba() returns valid", () => {
     let a = TinyColor.makeFromRgba({r: 100, g: 100, b: 100, a: 0.1});
     expect(Option.isSome(a)) === true;
+  });
+  test("makeFromRgba() returns None for invalid values", () => {
+    let a = TinyColor.makeFromRgba({r: 100, g: 100, b: 100, a: 1.1});
+    expect(Option.isNone(a)) === true;
   });
   test("makeFromRgba() returns correct format", () => {
     let a = TinyColor.makeFromRgba({r: 100, g: 100, b: 100, a: 0.7});
@@ -62,16 +70,24 @@ describe("making tinycolor", () => {
   });
 
   test("makeFromHsl() returns valid", () => {
-    let a = TinyColor.makeFromHsl({h: 10, s: 0.1, l: 0.1});
+    let a = TinyColor.makeFromHsl({h: 10, s: 0.10, l: 0.10});
     expect(Option.isSome(a)) === true;
   });
+  test("makeFromHsl() returns None for invalid values", () => {
+    let a = TinyColor.makeFromHsl({h: 370, s: 0.10, l: 0.10});
+    expect(Option.isNone(a)) === true;
+  });
   test("makeFromHsl() returns correct format", () => {
-    let a = TinyColor.makeFromHsl({h: 10, s: 0.1, l: 0.1});
+    let a = TinyColor.makeFromHsl({h: 10, s: 0.10, l: 0.10});
     expect(Option.map(a, TinyColor.getFormat)) === Some("hsl");
   });
   test("makeFromHsla() returns valid", () => {
-    let a = TinyColor.makeFromHsla({h: 100, s: 0.1, l: 0.1, a: 0.7});
+    let a = TinyColor.makeFromHsla({h: 100, s: 0.10, l: 0.10, a: 0.7});
     expect(Option.isSome(a)) === true;
+  });
+  test("makeFromHsla() returns None for invalid values", () => {
+    let a = TinyColor.makeFromHsla({h: 100, s: 2.10, l: 0.10, a: 0.7});
+    expect(Option.isNone(a)) === true;
   });
   test("makeFromHslRatio() returns valid", () => {
     let a = TinyColor.makeFromHslRatio({h: 0.1, s: 0.5, l: 0.7});
@@ -90,16 +106,24 @@ describe("making tinycolor", () => {
   });
 
   test("makeFromHsv() returns valid", () => {
-    let a = TinyColor.makeFromHsv({h: 1, s: 0.1, v: 0.1});
+    let a = TinyColor.makeFromHsv({h: 1, s: 0.10, v: 0.10});
     expect(Option.isSome(a)) === true;
   });
+  test("makeFromHsv() returns None for invalid", () => {
+    let a = TinyColor.makeFromHsv({h: 1000, s: 0.10, v: 0.10});
+    expect(Option.isNone(a)) === true;
+  });
   test("makeFromHsv() returns correct format", () => {
-    let a = TinyColor.makeFromHsv({h: 10, s: 0.1, v: 0.1});
+    let a = TinyColor.makeFromHsv({h: 10, s: 0.10, v: 0.10});
     expect(Option.map(a, TinyColor.getFormat)) === Some("hsv");
   });
   test("makeFromHsva() returns valid", () => {
-    let a = TinyColor.makeFromHsva({h: 100, s: 0.1, v: 0.1, a: 0.7});
+    let a = TinyColor.makeFromHsva({h: 100, s: 0.10, v: 0.10, a: 0.7});
     expect(Option.isSome(a)) === true;
+  });
+  test("makeFromHsva() returns None for invalid", () => {
+    let a = TinyColor.makeFromHsva({h: 100, s: 0.10, v: 0.10, a: 3.7});
+    expect(Option.isNone(a)) === true;
   });
   test("makeFromHsvRatio() returns valid", () => {
     let a = TinyColor.makeFromHsvRatio({h: 0.1, s: 0.5, v: 0.7});
@@ -121,7 +145,7 @@ describe("making tinycolor", () => {
 describe("set and get alpha (also tests clone())", () => {
   test("getting alpha value", () => {
     let alphaValue = 0.7;
-    let a = TinyColor.makeFromHsla({h: 20, s: 0.2, l: 0.2, a: alphaValue});
+    let a = TinyColor.makeFromHsla({h: 20, s: 0.20, l: 0.20, a: alphaValue});
     expect(Option.map(a, TinyColor.getAlpha)) === Some(alphaValue);
   });
 
@@ -129,7 +153,7 @@ describe("set and get alpha (also tests clone())", () => {
     let oldAlpha = 0.2;
     let newAlpha = 0.9;
 
-    let a = TinyColor.makeFromHsva({h: 10, s: 0.1, v: 0.1, a: oldAlpha});
+    let a = TinyColor.makeFromHsva({h: 10, s: 0.10, v: 0.10, a: oldAlpha});
     Option.map(a, TinyColor.setAlpha(newAlpha)) |> ignore;
     expect(Option.map(a, TinyColor.getAlpha)) === Some(oldAlpha);
   });
@@ -138,7 +162,7 @@ describe("set and get alpha (also tests clone())", () => {
     let oldAlpha = 0.2;
     let newAlpha = 0.9;
 
-    let a = TinyColor.makeFromHsva({h: 100, s: 0.1, v: 0.1, a: oldAlpha});
+    let a = TinyColor.makeFromHsva({h: 100, s: 0.10, v: 0.10, a: oldAlpha});
     let b = Option.map(a, TinyColor.setAlpha(newAlpha));
     expect(Option.map(b, TinyColor.getAlpha)) === Some(newAlpha);
   });
@@ -181,15 +205,15 @@ describe("getLuminance()", () => {
 });
 
 describe("string representation methods", () => {
-  let hsv = TinyColor.makeFromHsva({h: 15, s: 0.5, v: 1.0, a: 0.1});
-  let hsl = TinyColor.makeFromHsla({h: 280, s: 0.5, l: 0.75, a: 0.5});
+  let hsv = TinyColor.makeFromHsva({h: 15, s: 0.50, v: 1.0, a: 0.1});
+  let hsl = TinyColor.makeFromHsla({h: 280, s: 0.50, l: 0.75, a: 0.5});
   let rgb = TinyColor.makeFromRgba({r: 0, g: 10, b: 20, a: 0.9});
   let shortHex = TinyColor.makeFromString("#678");
   let red = TinyColor.makeFromString("red");
 
   test("toHsv()", () =>
     expect(Option.map(hsv, TinyColor.toHsv))
-    == Some({h: 15, s: 0.5, v: 1.0, a: 0.1})
+    == Some({h: 15, s: 0.50, v: 1.0, a: 0.1})
   );
   test("toHsvString()", () =>
     expect(Option.map(hsv, TinyColor.toHsvString))
@@ -321,6 +345,6 @@ describe("color modification tests", () => {
 
   test("greyscale(t)", () => {
     let a = TinyColor.greyscale(red);
-    expect(Option.map(a, TinyColor.toHex8String)) === Some("##808080ff");
+    expect(Option.map(a, TinyColor.toHex8String)) === Some("#808080ff");
   });
 });
