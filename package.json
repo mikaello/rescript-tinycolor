@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@glennsl/bs-jest": "^0.4.7",
-    "bs-platform": "^4.0.18"
+    "bs-platform": "^5.0.0"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^2.3.0"
