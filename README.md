@@ -71,6 +71,8 @@ If you find bugs or there are updates in [TinyColor](https://github.com/bgrins/T
 
 If you add, remove or change bindings, remember to update the tests as well. It should be at least one test for every binding. Run the tests with `yarn test` from project root.
 
-## Alternatives
+## Alternatives / related
 
-- [bs-parse-color](https://redex.github.io/package/unpublished/theatlasroom/bs-parse-color/) (bindings for [parse-color](https://github.com/substack/parse-color))
+- [bs-parse-color](https://redex.github.io/package/unpublished/theatlasroom/bs-parse-color/) - bindings for [parse-color](https://github.com/substack/parse-color)
+- [bs-randomcolor](https://github.com/ktrzos/bs-randomColor) - bindings for [randomColor](https://github.com/davidmerfield/randomColor/) (which is the same implementation as `random()` in this library)
+- [re-color-contrast](https://github.com/mikaello/re-color-contrast) - ReasonML implementation of color-contrast calculation (which is the same as `readability(..)` in this library).
