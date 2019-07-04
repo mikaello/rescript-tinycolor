@@ -55,7 +55,7 @@ let isReadableInCombination = switch(redString, blueRgb) {
 /* returns a bool telling whether these colors can be used for background/text */
 ```
 
-See all available functions in the [original TinyColor repo](https://github.com/TypeCtrl/tinycolor).
+See all available functions in the [original TinyColor repo](https://github.com/TypeCtrl/tinycolor) and example usage of all functions in [the tests](https://github.com/mikaello/bs-tinycolor/blob/master/__tests__/Tinycolor_tests.re).
 
 ## Differences from original
 
