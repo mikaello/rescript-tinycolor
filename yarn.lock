@@ -18,10 +18,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@ctrl/tinycolor@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-2.3.0.tgz#3af67cdc8e938433d405c58ff9b556c986117720"
-  integrity sha512-N7f17eBWGCb9K5LHV9W0NSQwXZZ4ZHFtuqlVKwPffmF0fwd+nl5AOGaLC+qFhW2LveiZB0ZYHh2TKGW5Qixe3Q==
+"@ctrl/tinycolor@^2.5.2":
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-2.5.2.tgz#a2f591d6f385d8751a3e9d295203ffb2171a7040"
+  integrity sha512-0uQs1pXZtZByI5pLlWEWRnNmXmD/IWv7rgwDkuh5jGkBMC3gCVGYKbxlUglct8EBj3U6Ada1iTTSrNeep/rzlA==
 
 "@glennsl/bs-jest@^0.4.7":
   version "0.4.7"
