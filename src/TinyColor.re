@@ -306,37 +306,29 @@ let mix = (~value: int=50, color1: t, color2: t) => {
   callIfValidModificationValue(value, mix(color1), color2);
 };
 
-[@bs.send] external greyscale: t => t = "";
+[@bs.send] external greyscale: t => t = "greyscale";
 
 /* COLOR COMBINATIONS */
 
-[@bs.send]
-external analogous: (t, Js.nullable(int), Js.nullable(int)) => array(t) =
-  "";
-let analogous = (~results: option(int)=?, ~slices: option(int)=?, color: t) =>
-  analogous(
-    color,
-    Js.Nullable.fromOption(results),
-    Js.Nullable.fromOption(slices),
-  );
-[@bs.send] external monochromatic: (t, Js.nullable(int)) => array(t) = "";
-let monochromatic = (~results: option(int)=?, color: t) =>
-  monochromatic(color, Js.Nullable.fromOption(results));
-[@bs.send] external splitcomplement: t => array(t) = "";
-[@bs.send] external triad: t => array(t) = "";
-[@bs.send] external tetrad: t => array(t) = "";
-[@bs.send] external polyad: (t, Js.nullable(int)) => array(t) = "";
-let polyad = (~n: option(int)=?, color: t) =>
-  polyad(color, Js.Nullable.fromOption(n));
-[@bs.send] external complement: t => t = "";
+[@bs.send.pipe: t]
+external analogous: (~results: int=?, ~slices: int=?) => array(t) =
+  "analogous";
+[@bs.send.pipe: t]
+external monochromatic: (~results: int=?) => array(t) = "monochromatic";
+[@bs.send] external splitcomplement: t => array(t) = "splitcomplement";
+[@bs.send] external triad: t => array(t) = "triad";
+[@bs.send] external tetrad: t => array(t) = "tetrad";
+[@bs.send.pipe: t] external polyad: (~n: int=?) => array(t) = "polyad";
+[@bs.send] external complement: t => t = "complement";
 
 /* COLOR UTILITIES */
 
-[@bs.send] external equals: (t, t) => bool = "";
+[@bs.send] external equals: (t, t) => bool = "equals";
 
-[@bs.module "@ctrl/tinycolor"] external random: unit => t = "";
+[@bs.module "@ctrl/tinycolor"] external random: unit => t = "random";
 
-[@bs.module "@ctrl/tinycolor"] external readability: (t, t) => float = "";
+[@bs.module "@ctrl/tinycolor"]
+external readability: (t, t) => float = "readability";
 
 [@bs.obj]
 external wcagOption:
