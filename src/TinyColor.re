@@ -338,23 +338,25 @@ let polyad = (~n: option(int)=?, color: t) =>
 
 [@bs.module "@ctrl/tinycolor"] external readability: (t, t) => float = "";
 
-[@bs.deriving jsConverter]
-type wcagObject = {
-  level: string, /* AA | AAA */
-  size: string /* small | large */
-};
+[@bs.obj]
+external wcagOption:
+  (
+    ~level: [@bs.string] [ | `AA | `AAA]=?,
+    ~size: [@bs.string] [ | `small | `large]=?
+  ) =>
+  _ =
+  "";
 
 [@bs.module "@ctrl/tinycolor"]
-external isReadableOption: (t, t, wcagObject) => bool = "isReadable";
-
-[@bs.module "@ctrl/tinycolor"]
-external isReadable: (t, t) => bool = "isReadable";
-let isReadable = (~wcag: option(wcagObject)=?, color1: t, color2: t): bool => {
-  switch (wcag) {
-  | Some(wcagOption) => isReadableOption(color1, color2, wcagOption)
-  | None => isReadable(color1, color2)
-  };
-};
+external isReadable: (t, t, 'wcagObject) => bool = "isReadable";
+let isReadable =
+    (
+      ~level: option([ | `AA | `AAA])=?,
+      ~size: option([ | `small | `large])=?,
+      color1: t,
+      color2: t,
+    ) =>
+  isReadable(color1, color2, wcagOption(~level?, ~size?));
 
 [@bs.obj]
 external mostReadableConfig:

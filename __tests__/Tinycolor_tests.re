@@ -485,6 +485,30 @@ describe("color utils", () => {
     }
   );
 
+  test("isReadable() returns false for strict options", () =>
+    switch (
+      TinyColor.makeFromString("#293845"),
+      TinyColor.makeFromString("#80B897"),
+    ) {
+    | (Some(a), Some(b)) =>
+      expect(TinyColor.isReadable(~level=`AAA, ~size=`small, a, b))
+      |> toEqual(false)
+    | _ => expect(true) === false
+    }
+  );
+
+  test("isReadable() returns true for loose options", () =>
+    switch (
+      TinyColor.makeFromString("#293845"),
+      TinyColor.makeFromString("#80B897"),
+    ) {
+    | (Some(a), Some(b)) =>
+      expect(TinyColor.isReadable(~level=`AA, ~size=`small, a, b))
+      |> toEqual(true)
+    | _ => expect(true) === false
+    }
+  );
+
   test("isReadable() should return false for unreadable combo", () =>
     switch (
       TinyColor.makeFromString("#eee"),
