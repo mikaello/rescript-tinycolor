@@ -356,26 +356,28 @@ let isReadable = (~wcag: option(wcagObject)=?, color1: t, color2: t): bool => {
   };
 };
 
-[@bs.deriving jsConverter]
-type mostReadableConfig = {
-  includeFallbackColors: Js.nullable(bool),
-  level: Js.nullable(string),
-  size: Js.nullable(string),
-};
+[@bs.obj]
+external mostReadableConfig:
+  (
+    ~includeFallbackColors: bool=?,
+    ~level: [@bs.string] [ | `AA | `AAA]=?,
+    ~size: [@bs.string] [ | `small | `large]=?
+  ) =>
+  _ =
+  "";
+
 [@bs.module "@ctrl/tinycolor"]
-external mostReadable: (t, array(t), 'config) => t = "";
+external mostReadable: (t, array(t), 'config) => t = "mostReadable";
 let mostReadable =
     (
-      ~includeFallbackColors: option(bool)=?,
-      ~level: option(string)=?,
-      ~size: option(string)=?,
+      ~includeFallbackColors=?,
+      ~level: option([ | `AA | `AAA])=?,
+      ~size: option([ | `small | `large])=?,
       compareColors: array(t),
       color: t,
-    ) => {
-  let config: mostReadableConfig = {
-    includeFallbackColors: Js.Nullable.fromOption(includeFallbackColors),
-    level: Js.Nullable.fromOption(level),
-    size: Js.Nullable.fromOption(size),
-  };
-  mostReadable(color, compareColors, mostReadableConfigToJs(config));
-};
+    ) =>
+  mostReadable(
+    color,
+    compareColors,
+    mostReadableConfig(~includeFallbackColors?, ~level?, ~size?),
+  );

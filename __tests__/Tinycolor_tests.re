@@ -518,8 +518,8 @@ describe("color utils", () => {
       expect(
         TinyColor.mostReadable(
           ~includeFallbackColors=true,
-          ~level="AAA",
-          ~size="small",
+          ~level=`AAA,
+          ~size=`small,
           [|c|],
           a,
         )
