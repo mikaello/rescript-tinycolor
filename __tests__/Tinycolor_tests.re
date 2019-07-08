@@ -470,13 +470,19 @@ describe("color utils", () => {
     expect(TinyColor.getAlpha(a)) |> toBe(0.85);
   });
 
-  test("randomMultiple()", () => {
+  test("randomMultiple() returns single element in array", () => {
+    let a = TinyColor.randomMultiple(~count=1, ());
+
+    expect(Array.length(a)) |> toBe(1);
+  });
+
+  test("randomMultiple() returns many elements", () => {
     let a = TinyColor.randomMultiple(~count=15, ());
 
     expect(Array.length(a)) |> toBe(15);
   });
 
-  test("randomMultiple()", () => {
+  test("randomMultiple() returns all different colors", () => {
     let a = TinyColor.randomMultiple(~count=4, ());
 
     expect(
