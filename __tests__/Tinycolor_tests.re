@@ -463,6 +463,33 @@ describe("color utils", () => {
     expect(TinyColor.equals(a, b)) === false;
   });
 
+  test("random() with options", () => {
+    let a =
+      TinyColor.random(~hue=`green, ~luminosity=`bright, ~alpha=0.85, ());
+
+    expect(TinyColor.getAlpha(a)) |> toBe(0.85);
+  });
+
+  test("randomMultiple()", () => {
+    let a = TinyColor.randomMultiple(~count=15, ());
+
+    expect(Array.length(a)) |> toBe(15);
+  });
+
+  test("randomMultiple()", () => {
+    let a = TinyColor.randomMultiple(~count=4, ());
+
+    expect(
+      !TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 1))
+      && !TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 2))
+      && !TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 3))
+      && !TinyColor.equals(Array.getExn(a, 1), Array.getExn(a, 2))
+      && !TinyColor.equals(Array.getExn(a, 1), Array.getExn(a, 3))
+      && !TinyColor.equals(Array.getExn(a, 2), Array.getExn(a, 3)),
+    )
+    === true;
+  });
+
   test("readability()", () => {
     let a = TinyColor.makeFromString("#000");
     let b = TinyColor.makeFromString("#fff");

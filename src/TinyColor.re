@@ -328,7 +328,79 @@ external monochromatic: (~results: int=?) => array(t) = "monochromatic";
 
 [@bs.send] external equals: (t, t) => bool = "equals";
 
-[@bs.module "@ctrl/tinycolor"] external random: unit => t = "random";
+[@bs.module "@ctrl/tinycolor"] external random: 'config => t = "random";
+[@bs.module "@ctrl/tinycolor"]
+external randomMultiple: 'config => array(t) = "random";
+
+[@bs.obj]
+external randomConfig:
+  (
+    ~hue: [@bs.string] [
+            | `red
+            | `orange
+            | `yellow
+            | `green
+            | `blue
+            | `purple
+            | `pink
+            | `monochrome
+          ]
+            =?,
+    ~luminosity: [@bs.string] [ | `bright | `light | `dark]=?,
+    ~seed: string=?,
+    ~alpha: float=?,
+    ~count: int=?,
+    unit
+  ) =>
+  _ =
+  "";
+
+let random =
+    (
+      ~hue:
+         option(
+           [
+             | `red
+             | `orange
+             | `yellow
+             | `green
+             | `blue
+             | `purple
+             | `pink
+             | `monochrome
+           ],
+         )=?,
+      ~luminosity: option([ | `bright | `light | `dark])=?,
+      ~seed: option(string)=?,
+      ~alpha: option(float)=?,
+      (),
+    ) =>
+  random(randomConfig(~hue?, ~luminosity?, ~seed?, ~alpha?, ()));
+
+let randomMultiple =
+    (
+      ~hue:
+         option(
+           [
+             | `red
+             | `orange
+             | `yellow
+             | `green
+             | `blue
+             | `purple
+             | `pink
+             | `monochrome
+           ],
+         )=?,
+      ~luminosity: option([ | `bright | `light | `dark])=?,
+      ~seed: option(string)=?,
+      ~alpha: option(float)=?,
+      ~count: int,
+      (),
+    ) =>
+  randomMultiple(
+    randomConfig(~hue?, ~luminosity?, ~seed?, ~alpha?, ~count, ()),
+  );
 
 [@bs.module "@ctrl/tinycolor"]
 external readability: (t, t) => float = "readability";
