@@ -62,8 +62,9 @@ See all available functions in the [original TinyColor repo](https://github.com/
 - It is not possible to create an invalid tinycolor instance, it will either return `Some(t)` if it is valid, or `None` if it is invalid. E.g. an invalid instance can occur if you create a color with a string not corresponding to a valid color (`beautifulRed` is not a valid color) or you provide RGB values outside the valid range (0-255).
 - When creating instances with HSL and HSV values: saturation, lightness and value must be given as fractions instead of percent (`0.2 == 20%`).
 - All functions accept only TinyColor-instances created by one of the `make-`-functions (or `random()`), it is not possible to pass in a string or RGB-record for the functions (which is possible in the original library).
-- `setAlpha(val)` is immutable, it will return a new instance with changed alpha value (the other methods that modify a color (`spin`, `lighten`, etc.) is immutable from the original library)
-- `toName()` returns an option, either `Some(string)` if a name could be deduced (e.g. _red_) or `None` if not
+- `setAlpha(val)` is immutable, it will return a new instance with changed alpha value (the other methods that modify a color (`spin`, `lighten`, etc.) is immutable from the original library).
+- `toName()` returns an option, either `Some(string)` if a name could be deduced (e.g. _red_) or `None` if not.
+- To get multiple random colors with the `count` parameter, the function `randomMultiple()` must be used (which is the same as `random()` only that it returns an array with length `count` instead of a single color).
 
 ## Contribute
 
