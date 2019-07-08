@@ -101,7 +101,7 @@ type hsvaRatio = {
 
 /* VALIDATOR UTILS */
 
-[@bs.get] external isValid: t => bool = "";
+[@bs.get] external isValid: t => bool = "isValid";
 
 let returnSomeIfValid = (color: t): option(t) =>
   if (isValid(color)) {
@@ -214,13 +214,13 @@ let makeFromHsvaRatio = (color: hsvaRatio) =>
 [@bs.get] external getFormat: t => string = "format";
 
 [@bs.get] external getOriginalInput: t => 'tinyColor = "originalInput";
-[@bs.send] external getBrightness: t => float = "";
-[@bs.send] external isLight: t => bool = "";
-[@bs.send] external isDark: t => bool = "";
-[@bs.send] external getLuminance: t => float = "";
-[@bs.send] external getAlpha: t => float = "";
-[@bs.send] external setAlpha: (t, float) => t = "";
-[@bs.send] external clone: t => t = "";
+[@bs.send] external getBrightness: t => float = "getBrightness";
+[@bs.send] external isLight: t => bool = "isLight";
+[@bs.send] external isDark: t => bool = "isDark";
+[@bs.send] external getLuminance: t => float = "getLuminance";
+[@bs.send] external getAlpha: t => float = "getAlpha";
+[@bs.send] external setAlpha: (t, float) => t = "setAlpha";
+[@bs.send] external clone: t => t = "clone";
 
 let setAlpha = (alphaValue: float, color: t): t => {
   let colorClone = clone(color);
@@ -229,24 +229,26 @@ let setAlpha = (alphaValue: float, color: t): t => {
 
 /* STRING REPRESENTATIONS */
 
-[@bs.send] external toHsv: t => Js.t('hsv) = "";
+[@bs.send] external toHsv: t => Js.t('hsv) = "toHsv";
 let toHsv = (color: t) => toHsv(color) |> hsvaFromJs;
-[@bs.send] external toHsvString: t => string = "";
-[@bs.send] external toHsl: t => Js.t('hsl) = "";
+[@bs.send] external toHsvString: t => string = "toHsvString";
+[@bs.send] external toHsl: t => Js.t('hsl) = "toHsl";
 let toHsl = (color: t) => toHsl(color) |> hslaFromJs;
-[@bs.send] external toHslString: t => string = "";
-[@bs.send] external toHex: t => string = "";
-[@bs.send] external toHexString: t => string = "";
-[@bs.send] external toHex8: t => string = "";
-[@bs.send] external toHex8String: t => string = "";
-[@bs.send] external toRgb: t => Js.t('rgb) = "";
+[@bs.send] external toHslString: t => string = "toHslString";
+[@bs.send] external toHex: t => string = "toHex";
+[@bs.send] external toHexString: t => string = "toHexString";
+[@bs.send] external toHex8: t => string = "toHex8";
+[@bs.send] external toHex8String: t => string = "toHex8String";
+[@bs.send] external toRgb: t => Js.t('rgb) = "toRgb";
 let toRgb = (color: t) => toRgb(color) |> rgbaFromJs;
-[@bs.send] external toRgbString: t => string = "";
-[@bs.send] external toPercentageRgb: t => Js.t('rgbaPercent) = "";
+[@bs.send] external toRgbString: t => string = "toRgbString";
+[@bs.send]
+external toPercentageRgb: t => Js.t('rgbaPercent) = "toPercentageRgb";
 let toPercentageRgb = (color: t) =>
   toPercentageRgb(color) |> rgbaPercentageFromJs;
-[@bs.send] external toPercentageRgbString: t => string = "";
-[@bs.send] external toName: t => 'maybeName = "";
+[@bs.send]
+external toPercentageRgbString: t => string = "toPercentageRgbString";
+[@bs.send] external toName: t => 'maybeName = "toName";
 let toName = (color: t) => {
   let name = toName(color);
   if (Js.typeof(name) === "string") {
@@ -256,8 +258,9 @@ let toName = (color: t) => {
   };
 };
 [@bs.module "@ctrl/tinycolor"]
-external toMsFilter: (string, string) => string = "";
-[@bs.send] external toString: t => string = "";
+external toMsFilter: (string, string) => string = "toMsFilter";
+
+[@bs.send] external toString: t => string = "toString";
 
 /* COLOR MODIFICATION */
 
@@ -268,114 +271,182 @@ let callIfValidModificationValue = (value, modFun, color) =>
     None;
   };
 
-[@bs.send] external lighten: (t, int) => t = "";
+[@bs.send] external lighten: (t, int) => t = "lighten";
 let lighten = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, lighten, color);
 
-[@bs.send] external brighten: (t, int) => t = "";
+[@bs.send] external brighten: (t, int) => t = "brighten";
 let brighten = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, brighten, color);
 
-[@bs.send] external darken: (t, int) => t = "";
+[@bs.send] external darken: (t, int) => t = "darken";
 let darken = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, darken, color);
 
-[@bs.send] external tint: (t, int) => t = "";
+[@bs.send] external tint: (t, int) => t = "tint";
 let tint = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, tint, color);
 
-[@bs.send] external shade: (t, int) => t = "";
+[@bs.send] external shade: (t, int) => t = "shade";
 let shade = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, shade, color);
 
-[@bs.send] external desaturate: (t, int) => t = "";
+[@bs.send] external desaturate: (t, int) => t = "desaturate";
 let desaturate = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, desaturate, color);
 
-[@bs.send] external saturate: (t, int) => t = "";
+[@bs.send] external saturate: (t, int) => t = "saturate";
 let saturate = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, saturate, color);
 
-[@bs.send] external spin: (t, int) => t = "";
+[@bs.send] external spin: (t, int) => t = "spin";
 let spin = (~value: int=10, color: t) => {
   spin(color, value);
 };
 
-[@bs.send] external mix: (t, t, int) => t = "";
+[@bs.send] external mix: (t, t, int) => t = "mix";
 let mix = (~value: int=50, color1: t, color2: t) => {
   callIfValidModificationValue(value, mix(color1), color2);
 };
 
-[@bs.send] external greyscale: t => t = "";
+[@bs.send] external greyscale: t => t = "greyscale";
 
 /* COLOR COMBINATIONS */
 
-[@bs.send]
-external analogous: (t, Js.nullable(int), Js.nullable(int)) => array(t) =
-  "";
-let analogous = (~results: option(int)=?, ~slices: option(int)=?, color: t) =>
-  analogous(
-    color,
-    Js.Nullable.fromOption(results),
-    Js.Nullable.fromOption(slices),
-  );
-[@bs.send] external monochromatic: (t, Js.nullable(int)) => array(t) = "";
-let monochromatic = (~results: option(int)=?, color: t) =>
-  monochromatic(color, Js.Nullable.fromOption(results));
-[@bs.send] external splitcomplement: t => array(t) = "";
-[@bs.send] external triad: t => array(t) = "";
-[@bs.send] external tetrad: t => array(t) = "";
-[@bs.send] external polyad: (t, Js.nullable(int)) => array(t) = "";
-let polyad = (~n: option(int)=?, color: t) =>
-  polyad(color, Js.Nullable.fromOption(n));
-[@bs.send] external complement: t => t = "";
+[@bs.send.pipe: t]
+external analogous: (~results: int=?, ~slices: int=?) => array(t) =
+  "analogous";
+[@bs.send.pipe: t]
+external monochromatic: (~results: int=?) => array(t) = "monochromatic";
+[@bs.send] external splitcomplement: t => array(t) = "splitcomplement";
+[@bs.send] external triad: t => array(t) = "triad";
+[@bs.send] external tetrad: t => array(t) = "tetrad";
+[@bs.send.pipe: t] external polyad: (~n: int=?) => array(t) = "polyad";
+[@bs.send] external complement: t => t = "complement";
 
 /* COLOR UTILITIES */
 
-[@bs.send] external equals: (t, t) => bool = "";
+[@bs.send] external equals: (t, t) => bool = "equals";
 
-[@bs.module "@ctrl/tinycolor"] external random: unit => t = "";
+[@bs.module "@ctrl/tinycolor"] external random: 'config => t = "random";
+[@bs.module "@ctrl/tinycolor"]
+external randomMultiple: 'config => array(t) = "random";
 
-[@bs.module "@ctrl/tinycolor"] external readability: (t, t) => float = "";
+[@bs.obj]
+external randomConfig:
+  (
+    ~hue: [@bs.string] [
+            | `red
+            | `orange
+            | `yellow
+            | `green
+            | `blue
+            | `purple
+            | `pink
+            | `monochrome
+          ]
+            =?,
+    ~luminosity: [@bs.string] [ | `bright | `light | `dark]=?,
+    ~seed: string=?,
+    ~alpha: float=?,
+    ~count: int=?,
+    unit
+  ) =>
+  _ =
+  "";
 
-[@bs.deriving jsConverter]
-type wcagObject = {
-  level: string, /* AA | AAA */
-  size: string /* small | large */
-};
+let random =
+    (
+      ~hue:
+         option(
+           [
+             | `red
+             | `orange
+             | `yellow
+             | `green
+             | `blue
+             | `purple
+             | `pink
+             | `monochrome
+           ],
+         )=?,
+      ~luminosity: option([ | `bright | `light | `dark])=?,
+      ~seed: option(string)=?,
+      ~alpha: option(float)=?,
+      (),
+    ) =>
+  random(randomConfig(~hue?, ~luminosity?, ~seed?, ~alpha?, ()));
+
+let randomMultiple =
+    (
+      ~hue:
+         option(
+           [
+             | `red
+             | `orange
+             | `yellow
+             | `green
+             | `blue
+             | `purple
+             | `pink
+             | `monochrome
+           ],
+         )=?,
+      ~luminosity: option([ | `bright | `light | `dark])=?,
+      ~seed: option(string)=?,
+      ~alpha: option(float)=?,
+      ~count: int,
+      (),
+    ) =>
+  randomMultiple(
+    randomConfig(~hue?, ~luminosity?, ~seed?, ~alpha?, ~count, ()),
+  );
 
 [@bs.module "@ctrl/tinycolor"]
-external isReadableOption: (t, t, wcagObject) => bool = "isReadable";
+external readability: (t, t) => float = "readability";
+
+[@bs.obj]
+external wcagOption:
+  (
+    ~level: [@bs.string] [ | `AA | `AAA]=?,
+    ~size: [@bs.string] [ | `small | `large]=?
+  ) =>
+  _ =
+  "";
 
 [@bs.module "@ctrl/tinycolor"]
-external isReadable: (t, t) => bool = "isReadable";
-let isReadable = (~wcag: option(wcagObject)=?, color1: t, color2: t): bool => {
-  switch (wcag) {
-  | Some(wcagOption) => isReadableOption(color1, color2, wcagOption)
-  | None => isReadable(color1, color2)
-  };
-};
+external isReadable: (t, t, 'wcagObject) => bool = "isReadable";
+let isReadable =
+    (
+      ~level: option([ | `AA | `AAA])=?,
+      ~size: option([ | `small | `large])=?,
+      color1: t,
+      color2: t,
+    ) =>
+  isReadable(color1, color2, wcagOption(~level?, ~size?));
 
-[@bs.deriving jsConverter]
-type mostReadableConfig = {
-  includeFallbackColors: Js.nullable(bool),
-  level: Js.nullable(string),
-  size: Js.nullable(string),
-};
+[@bs.obj]
+external mostReadableConfig:
+  (
+    ~includeFallbackColors: bool=?,
+    ~level: [@bs.string] [ | `AA | `AAA]=?,
+    ~size: [@bs.string] [ | `small | `large]=?
+  ) =>
+  _ =
+  "";
+
 [@bs.module "@ctrl/tinycolor"]
-external mostReadable: (t, array(t), 'config) => t = "";
+external mostReadable: (t, array(t), 'config) => t = "mostReadable";
 let mostReadable =
     (
-      ~includeFallbackColors: option(bool)=?,
-      ~level: option(string)=?,
-      ~size: option(string)=?,
+      ~includeFallbackColors=?,
+      ~level: option([ | `AA | `AAA])=?,
+      ~size: option([ | `small | `large])=?,
       compareColors: array(t),
       color: t,
-    ) => {
-  let config: mostReadableConfig = {
-    includeFallbackColors: Js.Nullable.fromOption(includeFallbackColors),
-    level: Js.Nullable.fromOption(level),
-    size: Js.Nullable.fromOption(size),
-  };
-  mostReadable(color, compareColors, mostReadableConfigToJs(config));
-};
+    ) =>
+  mostReadable(
+    color,
+    compareColors,
+    mostReadableConfig(~includeFallbackColors?, ~level?, ~size?),
+  );

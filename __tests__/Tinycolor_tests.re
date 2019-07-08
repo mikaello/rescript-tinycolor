@@ -463,6 +463,33 @@ describe("color utils", () => {
     expect(TinyColor.equals(a, b)) === false;
   });
 
+  test("random() with options", () => {
+    let a =
+      TinyColor.random(~hue=`green, ~luminosity=`bright, ~alpha=0.85, ());
+
+    expect(TinyColor.getAlpha(a)) |> toBe(0.85);
+  });
+
+  test("randomMultiple()", () => {
+    let a = TinyColor.randomMultiple(~count=15, ());
+
+    expect(Array.length(a)) |> toBe(15);
+  });
+
+  test("randomMultiple()", () => {
+    let a = TinyColor.randomMultiple(~count=4, ());
+
+    expect(
+      !TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 1))
+      && !TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 2))
+      && !TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 3))
+      && !TinyColor.equals(Array.getExn(a, 1), Array.getExn(a, 2))
+      && !TinyColor.equals(Array.getExn(a, 1), Array.getExn(a, 3))
+      && !TinyColor.equals(Array.getExn(a, 2), Array.getExn(a, 3)),
+    )
+    === true;
+  });
+
   test("readability()", () => {
     let a = TinyColor.makeFromString("#000");
     let b = TinyColor.makeFromString("#fff");
@@ -481,6 +508,30 @@ describe("color utils", () => {
     ) {
     | (Some(a), Some(b)) =>
       expect(TinyColor.isReadable(a, b)) |> toEqual(true)
+    | _ => expect(true) === false
+    }
+  );
+
+  test("isReadable() returns false for strict options", () =>
+    switch (
+      TinyColor.makeFromString("#293845"),
+      TinyColor.makeFromString("#80B897"),
+    ) {
+    | (Some(a), Some(b)) =>
+      expect(TinyColor.isReadable(~level=`AAA, ~size=`small, a, b))
+      |> toEqual(false)
+    | _ => expect(true) === false
+    }
+  );
+
+  test("isReadable() returns true for loose options", () =>
+    switch (
+      TinyColor.makeFromString("#293845"),
+      TinyColor.makeFromString("#80B897"),
+    ) {
+    | (Some(a), Some(b)) =>
+      expect(TinyColor.isReadable(~level=`AA, ~size=`small, a, b))
+      |> toEqual(true)
     | _ => expect(true) === false
     }
   );
@@ -518,8 +569,8 @@ describe("color utils", () => {
       expect(
         TinyColor.mostReadable(
           ~includeFallbackColors=true,
-          ~level="AAA",
-          ~size="small",
+          ~level=`AAA,
+          ~size=`small,
           [|c|],
           a,
         )
