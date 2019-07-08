@@ -101,7 +101,7 @@ type hsvaRatio = {
 
 /* VALIDATOR UTILS */
 
-[@bs.get] external isValid: t => bool = "";
+[@bs.get] external isValid: t => bool = "isValid";
 
 let returnSomeIfValid = (color: t): option(t) =>
   if (isValid(color)) {
@@ -214,13 +214,13 @@ let makeFromHsvaRatio = (color: hsvaRatio) =>
 [@bs.get] external getFormat: t => string = "format";
 
 [@bs.get] external getOriginalInput: t => 'tinyColor = "originalInput";
-[@bs.send] external getBrightness: t => float = "";
-[@bs.send] external isLight: t => bool = "";
-[@bs.send] external isDark: t => bool = "";
-[@bs.send] external getLuminance: t => float = "";
-[@bs.send] external getAlpha: t => float = "";
-[@bs.send] external setAlpha: (t, float) => t = "";
-[@bs.send] external clone: t => t = "";
+[@bs.send] external getBrightness: t => float = "getBrightness";
+[@bs.send] external isLight: t => bool = "isLight";
+[@bs.send] external isDark: t => bool = "isDark";
+[@bs.send] external getLuminance: t => float = "getLuminance";
+[@bs.send] external getAlpha: t => float = "getAlpha";
+[@bs.send] external setAlpha: (t, float) => t = "setAlpha";
+[@bs.send] external clone: t => t = "clone";
 
 let setAlpha = (alphaValue: float, color: t): t => {
   let colorClone = clone(color);
@@ -229,24 +229,26 @@ let setAlpha = (alphaValue: float, color: t): t => {
 
 /* STRING REPRESENTATIONS */
 
-[@bs.send] external toHsv: t => Js.t('hsv) = "";
+[@bs.send] external toHsv: t => Js.t('hsv) = "toHsv";
 let toHsv = (color: t) => toHsv(color) |> hsvaFromJs;
-[@bs.send] external toHsvString: t => string = "";
-[@bs.send] external toHsl: t => Js.t('hsl) = "";
+[@bs.send] external toHsvString: t => string = "toHsvString";
+[@bs.send] external toHsl: t => Js.t('hsl) = "toHsl";
 let toHsl = (color: t) => toHsl(color) |> hslaFromJs;
-[@bs.send] external toHslString: t => string = "";
-[@bs.send] external toHex: t => string = "";
-[@bs.send] external toHexString: t => string = "";
-[@bs.send] external toHex8: t => string = "";
-[@bs.send] external toHex8String: t => string = "";
-[@bs.send] external toRgb: t => Js.t('rgb) = "";
+[@bs.send] external toHslString: t => string = "toHslString";
+[@bs.send] external toHex: t => string = "toHex";
+[@bs.send] external toHexString: t => string = "toHexString";
+[@bs.send] external toHex8: t => string = "toHex8";
+[@bs.send] external toHex8String: t => string = "toHex8String";
+[@bs.send] external toRgb: t => Js.t('rgb) = "toRgb";
 let toRgb = (color: t) => toRgb(color) |> rgbaFromJs;
-[@bs.send] external toRgbString: t => string = "";
-[@bs.send] external toPercentageRgb: t => Js.t('rgbaPercent) = "";
+[@bs.send] external toRgbString: t => string = "toRgbString";
+[@bs.send]
+external toPercentageRgb: t => Js.t('rgbaPercent) = "toPercentageRgb";
 let toPercentageRgb = (color: t) =>
   toPercentageRgb(color) |> rgbaPercentageFromJs;
-[@bs.send] external toPercentageRgbString: t => string = "";
-[@bs.send] external toName: t => 'maybeName = "";
+[@bs.send]
+external toPercentageRgbString: t => string = "toPercentageRgbString";
+[@bs.send] external toName: t => 'maybeName = "toName";
 let toName = (color: t) => {
   let name = toName(color);
   if (Js.typeof(name) === "string") {
@@ -256,8 +258,9 @@ let toName = (color: t) => {
   };
 };
 [@bs.module "@ctrl/tinycolor"]
-external toMsFilter: (string, string) => string = "";
-[@bs.send] external toString: t => string = "";
+external toMsFilter: (string, string) => string = "toMsFilter";
+
+[@bs.send] external toString: t => string = "toString";
 
 /* COLOR MODIFICATION */
 
@@ -268,40 +271,40 @@ let callIfValidModificationValue = (value, modFun, color) =>
     None;
   };
 
-[@bs.send] external lighten: (t, int) => t = "";
+[@bs.send] external lighten: (t, int) => t = "lighten";
 let lighten = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, lighten, color);
 
-[@bs.send] external brighten: (t, int) => t = "";
+[@bs.send] external brighten: (t, int) => t = "brighten";
 let brighten = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, brighten, color);
 
-[@bs.send] external darken: (t, int) => t = "";
+[@bs.send] external darken: (t, int) => t = "darken";
 let darken = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, darken, color);
 
-[@bs.send] external tint: (t, int) => t = "";
+[@bs.send] external tint: (t, int) => t = "tint";
 let tint = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, tint, color);
 
-[@bs.send] external shade: (t, int) => t = "";
+[@bs.send] external shade: (t, int) => t = "shade";
 let shade = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, shade, color);
 
-[@bs.send] external desaturate: (t, int) => t = "";
+[@bs.send] external desaturate: (t, int) => t = "desaturate";
 let desaturate = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, desaturate, color);
 
-[@bs.send] external saturate: (t, int) => t = "";
+[@bs.send] external saturate: (t, int) => t = "saturate";
 let saturate = (~value: int=10, color: t) =>
   callIfValidModificationValue(value, saturate, color);
 
-[@bs.send] external spin: (t, int) => t = "";
+[@bs.send] external spin: (t, int) => t = "spin";
 let spin = (~value: int=10, color: t) => {
   spin(color, value);
 };
 
-[@bs.send] external mix: (t, t, int) => t = "";
+[@bs.send] external mix: (t, t, int) => t = "mix";
 let mix = (~value: int=50, color1: t, color2: t) => {
   callIfValidModificationValue(value, mix(color1), color2);
 };
