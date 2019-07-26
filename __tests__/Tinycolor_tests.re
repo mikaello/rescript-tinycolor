@@ -470,6 +470,11 @@ describe("color utils", () => {
     expect(TinyColor.getAlpha(a)) |> toBe(0.85);
   });
 
+  test("randomMultiple() returns empty array for count=0", () => {
+    let a = TinyColor.randomMultiple(~count=0, ());
+    expect(Array.length(a)) |> toBe(0);
+  });
+
   test("randomMultiple() returns single element in array", () => {
     let a = TinyColor.randomMultiple(~count=1, ());
 
