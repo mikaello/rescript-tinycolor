@@ -18,10 +18,10 @@
   "bugs": "https://github.com/mikaello/bs-tinycolor/issues",
   "license": "MIT",
   "devDependencies": {
-    "@glennsl/bs-jest": "^0.4.9",
-    "bs-platform": "^5"
+    "@glennsl/bs-jest": "^0.5.0",
+    "bs-platform": "^7.2.2"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^2.5.2"
+    "@ctrl/tinycolor": "^2.6.1"
   }
 }
