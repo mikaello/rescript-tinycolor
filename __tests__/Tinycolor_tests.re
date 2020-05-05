@@ -25,6 +25,16 @@ describe("making tinycolor", () => {
     expect(Option.isNone(rubbish)) |> toBe(true);
   });
 
+  test("makeFromNumber() returns valid for valid number", () => {
+    let numberColor = TinyColor.makeFromNumber(66);
+    expect(Option.isSome(numberColor)) === true;
+  });
+
+  test("makeFromNumber() returns invalid for invalid number", () => {
+    let numberColor = TinyColor.makeFromNumber(-7);
+    expect(Option.isSome(numberColor)) === false;
+  });
+
   test("makeFromRgb() returns valid", () => {
     let a = TinyColor.makeFromRgb({r: 100, g: 100, b: 100});
     expect(Option.isSome(a)) === true;
@@ -201,6 +211,17 @@ describe("getLuminance()", () => {
   test("getting luminance for light color", () => {
     let color = TinyColor.makeFromString("white");
     expect(Option.map(color, TinyColor.getLuminance)) === Some(1.0);
+  });
+});
+
+describe("toNumber()", () => {
+  test("getting number value when created with number", () => {
+    let color = TinyColor.makeFromNumber(0xff);
+    expect(Option.map(color, TinyColor.toNumber)) === Some(255);
+  });
+  test("getting number value when created from string", () => {
+    let color = TinyColor.makeFromString("white");
+    expect(Option.map(color, TinyColor.toNumber)) === Some(0xffffff);
   });
 });
 

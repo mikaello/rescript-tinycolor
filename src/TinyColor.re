@@ -113,6 +113,16 @@ let returnSomeIfValid = (color: t): option(t) =>
 let isFraction = value => value >= 0.0 && value <= 1.0;
 let isValidHue = hue => hue >= 0 && hue <= 360;
 
+let validateColorNumber = (color: int) =>
+  if (color >= 0) {
+    /* consider also checking if number is more than 0xffffff (16777215) */
+    Some(
+      color,
+    );
+  } else {
+    None;
+  };
+
 let validateRgb = (color: rgb) => {
   let validRgbRange = value => value >= 0 && value <= 255;
   switch (color) {
@@ -161,11 +171,16 @@ let validateHsva = (color: hsva) => {
   | _ => None
   };
 };
+
 /* CREATE COLOR */
 
 [@bs.module "@ctrl/tinycolor"] external make: 'tinyColor => t = "tinycolor";
 
 let makeFromString = (color: string) => returnSomeIfValid(make(color));
+let makeFromNumber = (number: int) =>
+  (number |> validateColorNumber)
+  ->Option.map(make)
+  ->Option.flatMap(returnSomeIfValid);
 let makeFromRgb = (color: rgb) =>
   (color |> validateRgb)
   ->(Option.map(rgbToJs))
@@ -220,6 +235,7 @@ let makeFromHsvaRatio = (color: hsvaRatio) =>
 [@bs.send] external getLuminance: t => float = "getLuminance";
 [@bs.send] external getAlpha: t => float = "getAlpha";
 [@bs.send] external setAlpha: (t, float) => t = "setAlpha";
+[@bs.send] external toNumber: t => int = "toNumber";
 [@bs.send] external clone: t => t = "clone";
 
 let setAlpha = (alphaValue: float, color: t): t => {
@@ -352,8 +368,7 @@ external randomConfig:
     ~count: int=?,
     unit
   ) =>
-  _ =
-  "";
+  _;
 
 let random =
     (
@@ -411,8 +426,7 @@ external wcagOption:
     ~level: [@bs.string] [ | `AA | `AAA]=?,
     ~size: [@bs.string] [ | `small | `large]=?
   ) =>
-  _ =
-  "";
+  _;
 
 [@bs.module "@ctrl/tinycolor"]
 external isReadable: (t, t, 'wcagObject) => bool = "isReadable";
@@ -432,8 +446,7 @@ external mostReadableConfig:
     ~level: [@bs.string] [ | `AA | `AAA]=?,
     ~size: [@bs.string] [ | `small | `large]=?
   ) =>
-  _ =
-  "";
+  _;
 
 [@bs.module "@ctrl/tinycolor"]
 external mostReadable: (t, array(t), 'config) => t = "mostReadable";
