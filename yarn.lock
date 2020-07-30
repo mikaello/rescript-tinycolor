@@ -265,10 +265,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ctrl/tinycolor@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.1.0.tgz#aeeb39271e0a797196a40e988558842610d2e1a5"
-  integrity sha512-J92yG122XoF+UiuQSzBgV451vSm9B0xMb5oGs7vgZijYZtNc80hNep/KbgUeBbj5f+YHehrmbAHlg/yBGX3/+w==
+"@ctrl/tinycolor@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.1.3.tgz#3406f90fd04a394a83fe874b763b7d89edffd4c1"
+  integrity sha512-dHamDINLG/gF4Q6m3Ndnn4nGfLUCmvhY6Oweudqr2hMAMTIB2NvFrNW5HyjtdbqjNz9Z/unvA+/GI9QqBRgX0g==
 
 "@glennsl/bs-jest@^0.5.1":
   version "0.5.1"
