@@ -363,7 +363,7 @@ external randomConfig:
           ]
             =?,
     ~luminosity: [@bs.string] [ | `bright | `light | `dark]=?,
-    ~seed: string=?,
+    ~seed: int=?,
     ~alpha: float=?,
     ~count: int=?,
     unit
@@ -386,7 +386,7 @@ let random =
            ],
          )=?,
       ~luminosity: option([ | `bright | `light | `dark])=?,
-      ~seed: option(string)=?,
+      ~seed: option(int)=?,
       ~alpha: option(float)=?,
       (),
     ) =>
@@ -408,7 +408,7 @@ let randomMultiple =
            ],
          )=?,
       ~luminosity: option([ | `bright | `light | `dark])=?,
-      ~seed: option(string)=?,
+      ~seed: option(int)=?,
       ~alpha: option(float)=?,
       ~count: int,
       (),
