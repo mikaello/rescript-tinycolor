@@ -486,7 +486,13 @@ describe("color utils", () => {
 
   test("random() with options", () => {
     let a =
-      TinyColor.random(~hue=`green, ~luminosity=`bright, ~alpha=0.85, ());
+      TinyColor.random(
+        ~hue=`green,
+        ~seed=719,
+        ~luminosity=`bright,
+        ~alpha=0.85,
+        (),
+      );
 
     expect(TinyColor.getAlpha(a)) |> toBe(0.85);
   });
