@@ -3,7 +3,7 @@
 [![NPM version](http://img.shields.io/npm/v/bs-tinycolor.svg)](https://www.npmjs.org/package/bs-tinycolor)
 [![Build Status](https://travis-ci.org/mikaello/bs-tinycolor.svg?branch=master)](https://travis-ci.org/mikaello/bs-tinycolor)
 
-Bucklescript bindings for [TinyColor](https://github.com/TypeCtrl/tinycolor): fast, small color manipulation and conversion. See also [https://typectrl.github.io/tinycolor](https://typectrl.github.io/tinycolor)
+Bucklescript bindings for [TinyColor](https://github.com/scttcper/tinycolor): fast, small color manipulation and conversion. See also [https://tinycolor.netlify.app](https://tinycolor.netlify.app)
 
 ## Getting started
 
@@ -55,7 +55,7 @@ let isReadableInCombination = switch(redString, blueRgb) {
 /* returns a bool telling whether these colors can be used for background/text */
 ```
 
-See all available functions in the [original TinyColor repo](https://github.com/TypeCtrl/tinycolor) and example usage of all functions in [the tests](https://github.com/mikaello/bs-tinycolor/blob/master/__tests__/Tinycolor_tests.re).
+See all available functions in the [original TinyColor repo](https://github.com/scttcper/tinycolor) and example usage of all functions in [the tests](https://github.com/mikaello/bs-tinycolor/blob/master/__tests__/Tinycolor_tests.re).
 
 ## Differences from original
 
