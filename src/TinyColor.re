@@ -243,6 +243,8 @@ let setAlpha = (alphaValue: float, color: t): t => {
   setAlpha(colorClone, alphaValue);
 };
 
+[@bs.send] external onBackground: (t, t) => t = "onBackground";
+
 /* STRING REPRESENTATIONS */
 
 [@bs.send] external toHsv: t => Js.t('hsv) = "toHsv";

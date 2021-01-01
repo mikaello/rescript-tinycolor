@@ -178,6 +178,44 @@ describe("set and get alpha (also tests clone())", () => {
   });
 });
 
+describe("onBackground()", () => {
+  let blue = TinyColor.makeFromString("blue");
+  let red = TinyColor.makeFromString("red");
+  test("get back same color when no transparency", () => {
+    switch (blue, red) {
+    | (Some(blue), Some(red)) =>
+      expect(TinyColor.onBackground(blue, red) |> TinyColor.toHexString)
+      == "#0000ff"
+    | _ => expect(true) == false
+    }
+  });
+
+  test("get back background color when full transparency", () => {
+    switch (blue, red) {
+    | (Some(blue), Some(red)) =>
+      let blueTransparent = TinyColor.setAlpha(0.0, blue);
+      expect(
+        TinyColor.onBackground(blueTransparent, red) |> TinyColor.toHexString,
+      )
+      == "#ff0000";
+    | _ => expect(true) == false
+    }
+  });
+
+  test("get back mixed color when partly transparent", () => {
+    switch (blue, red) {
+    | (Some(blue), Some(red)) =>
+      let bluePartlyTransparent = TinyColor.setAlpha(0.5, blue);
+      expect(
+        TinyColor.onBackground(bluePartlyTransparent, red)
+        |> TinyColor.toHexString,
+      )
+      == "#800080";
+    | _ => expect(true) == false
+    }
+  });
+});
+
 describe("getBrightness()", () => {
   test("getting brightness for light color", () => {
     let color = TinyColor.makeFromString("white");
