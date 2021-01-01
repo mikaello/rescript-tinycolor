@@ -1,7 +1,7 @@
 # bs-tinycolor
 
 [![NPM version](http://img.shields.io/npm/v/bs-tinycolor.svg)](https://www.npmjs.org/package/bs-tinycolor)
-[![Build Status](https://travis-ci.org/mikaello/bs-tinycolor.svg?branch=master)](https://travis-ci.org/mikaello/bs-tinycolor)
+[![Build Status](https://travis-ci.com/mikaello/bs-tinycolor.svg?branch=master)](https://travis-ci.com/mikaello/bs-tinycolor)
 
 Bucklescript bindings for [TinyColor](https://github.com/scttcper/tinycolor): fast, small color manipulation and conversion. See also [https://tinycolor.netlify.app](https://tinycolor.netlify.app)
 
