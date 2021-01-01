@@ -351,7 +351,7 @@ external randomMultiple: 'config => array(t) = "random";
 [@bs.obj]
 external randomConfig:
   (
-    ~hue: [@bs.string] [
+    ~hue: [
             | `red
             | `orange
             | `yellow
@@ -362,7 +362,7 @@ external randomConfig:
             | `monochrome
           ]
             =?,
-    ~luminosity: [@bs.string] [ | `bright | `light | `dark]=?,
+    ~luminosity: [ | `bright | `light | `dark]=?,
     ~seed: int=?,
     ~alpha: float=?,
     ~count: int=?,
@@ -422,11 +422,7 @@ external readability: (t, t) => float = "readability";
 
 [@bs.obj]
 external wcagOption:
-  (
-    ~level: [@bs.string] [ | `AA | `AAA]=?,
-    ~size: [@bs.string] [ | `small | `large]=?
-  ) =>
-  _;
+  (~level: [ | `AA | `AAA]=?, ~size: [ | `small | `large]=?) => _;
 
 [@bs.module "@ctrl/tinycolor"]
 external isReadable: (t, t, 'wcagObject) => bool = "isReadable";
@@ -443,8 +439,8 @@ let isReadable =
 external mostReadableConfig:
   (
     ~includeFallbackColors: bool=?,
-    ~level: [@bs.string] [ | `AA | `AAA]=?,
-    ~size: [@bs.string] [ | `small | `large]=?
+    ~level: [ | `AA | `AAA]=?,
+    ~size: [ | `small | `large]=?
   ) =>
   _;
 
