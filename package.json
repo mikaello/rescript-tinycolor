@@ -1,6 +1,6 @@
 {
-  "name": "bs-tinycolor",
-  "version": "3.2.0",
+  "name": "rescript-tinycolor",
+  "version": "4.0.0",
   "scripts": {
     "build": "bsb -make-world",
     "start": "bsb -make-world -w",
@@ -9,13 +9,14 @@
     "test": "jest"
   },
   "keywords": [
-    "BuckleScript"
+    "ReScript",
+    "color-manipulation"
   ],
   "author": "mikaello",
   "description": "Fast, small color manipulation and conversion",
-  "homepage": "https://github.com/mikaello/bs-tinycolor",
-  "repository": "https://github.com/mikaello/bs-tinycolor",
-  "bugs": "https://github.com/mikaello/bs-tinycolor/issues",
+  "homepage": "https://github.com/mikaello/rescript-tinycolor",
+  "repository": "https://github.com/mikaello/rescript-tinycolor",
+  "bugs": "https://github.com/mikaello/rescript-tinycolor/issues",
   "license": "MIT",
   "devDependencies": {
     "@glennsl/bs-jest": "^0.6.0",

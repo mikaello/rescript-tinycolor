@@ -1,28 +1,28 @@
-# bs-tinycolor
+# rescript-tinycolor
 
-[![NPM version](http://img.shields.io/npm/v/bs-tinycolor.svg)](https://www.npmjs.org/package/bs-tinycolor)
-[![Build Status](https://travis-ci.com/mikaello/bs-tinycolor.svg?branch=master)](https://travis-ci.com/mikaello/bs-tinycolor)
+[![NPM version](http://img.shields.io/npm/v/rescript-tinycolor.svg)](https://www.npmjs.org/package/rescript-tinycolor)
+[![Build Status](https://travis-ci.com/mikaello/rescript-tinycolor.svg?branch=master)](https://travis-ci.com/mikaello/rescript-tinycolor)
 
-Bucklescript bindings for [TinyColor](https://github.com/scttcper/tinycolor): fast, small color manipulation and conversion. See also [https://tinycolor.netlify.app](https://tinycolor.netlify.app)
+ReScript bindings for [TinyColor](https://github.com/scttcper/tinycolor): fast, small color manipulation and conversion. See also [https://tinycolor.netlify.app](https://tinycolor.netlify.app)
 
 ## Getting started
 
 ```
-yarn add bs-tinycolor
+yarn add rescript-tinycolor
 ```
 
-Then add `bs-tinycolor` as a dependency to `bsconfig.json`:
+Then add `rescript-tinycolor` as a dependency to `bsconfig.json`:
 
 ```diff
 "bs-dependencies": [
-+  "bs-tinycolor"
++  "rescript-tinycolor"
 ]
 ```
 
 ## Example
 
 ```reason
-open BsTinycolor;
+open RescriptTinycolor;
 
 let redString = TinyColor.makeFromString("red");
 /* New instance made by name 'red' */
@@ -55,7 +55,7 @@ let isReadableInCombination = switch(redString, blueRgb) {
 /* returns a bool telling whether these colors can be used for background/text */
 ```
 
-See all available functions in the [original TinyColor repo](https://github.com/scttcper/tinycolor) and example usage of all functions in [the tests](https://github.com/mikaello/bs-tinycolor/blob/master/__tests__/Tinycolor_tests.re).
+See all available functions in the [original TinyColor repo](https://github.com/scttcper/tinycolor) and example usage of all functions in [the tests](https://github.com/mikaello/rescript-tinycolor/blob/master/__tests__/Tinycolor_tests.re).
 
 ## Differences from original
 
