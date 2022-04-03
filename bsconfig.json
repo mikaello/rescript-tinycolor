@@ -20,7 +20,7 @@
   "bs-dev-dependencies": ["@glennsl/bs-jest"],
   "warnings": {
     "number": "+A-42-48",
-    "error": "+A-3-44-102"
+    "error": "+A-3-44-102-103"
   },
   "namespace": true,
   "refmt": 3
