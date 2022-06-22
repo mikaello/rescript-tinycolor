@@ -283,10 +283,10 @@
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.3.1.tgz#fa0efcf813daa43f8a6aef3ddaa80f7e66f1278e"
   integrity sha512-jUJrjU62MUgHDSu5JfONfgRM2V7GfN5KknsygfIbxwRZXGeayIzxk4O9GiYgEAr9DG5HJThTF5+a5x3wtrOKzQ==
 
-"@glennsl/bs-jest@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@glennsl/bs-jest/-/bs-jest-0.6.0.tgz#b914f4fb9cf4b4562d16a5d527f0e99f476e9358"
-  integrity sha512-yOHJE/VFaX6tW5UKtM8yNsaneLYWYWlNGuXDjxsT9hfedGN7AO8G/viCxxG684iJbWDidwugoMaY36WQimcVnQ==
+"@glennsl/bs-jest@0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@glennsl/bs-jest/-/bs-jest-0.7.0.tgz#6b6168edf15aa4dab51cfe7734b36705beac2f11"
+  integrity sha512-GF8+OQQXLYQXCJidTDPJbTejBMAU4VgnkPoLlrznAvSi9qeDSl8Yl3zuo/Wezu8A4rpijW3Gb8ltQozP3pHw7w==
   dependencies:
     jest "^26.5.2"
 
