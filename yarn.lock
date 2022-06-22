@@ -278,12 +278,12 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ctrl/tinycolor@^3.3.1":
+"@ctrl/tinycolor@3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.3.1.tgz#fa0efcf813daa43f8a6aef3ddaa80f7e66f1278e"
   integrity sha512-jUJrjU62MUgHDSu5JfONfgRM2V7GfN5KknsygfIbxwRZXGeayIzxk4O9GiYgEAr9DG5HJThTF5+a5x3wtrOKzQ==
 
-"@glennsl/bs-jest@^0.6.0":
+"@glennsl/bs-jest@0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@glennsl/bs-jest/-/bs-jest-0.6.0.tgz#b914f4fb9cf4b4562d16a5d527f0e99f476e9358"
   integrity sha512-yOHJE/VFaX6tW5UKtM8yNsaneLYWYWlNGuXDjxsT9hfedGN7AO8G/viCxxG684iJbWDidwugoMaY36WQimcVnQ==
@@ -2693,7 +2693,7 @@ require-main-filename@^2.0.0:
   resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
 
-rescript@^9.1.4:
+rescript@9.1.4:
   version "9.1.4"
   resolved "https://registry.yarnpkg.com/rescript/-/rescript-9.1.4.tgz#1eb126f98d6c16942c0bf0df67c050198e580515"
   integrity sha512-aXANK4IqecJzdnDpJUsU6pxMViCR5ogAxzuqS0mOr8TloMnzAjJFu63fjD6LCkWrKAhlMkFFzQvVQYaAaVkFXw==
