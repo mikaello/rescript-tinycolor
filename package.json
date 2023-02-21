@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@glennsl/bs-jest": "0.7.0",
-    "rescript": "10.0.1"
+    "rescript": "10.1.2"
   },
   "dependencies": {
     "@ctrl/tinycolor": "3.3.1"
