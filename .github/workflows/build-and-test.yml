@@ -1,10 +1,6 @@
-name: Node.js CI
+name: Build and test 🔧💉
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: [push]
 
 jobs:
   build:
@@ -21,4 +17,5 @@ jobs:
         cache: 'npm'
     - run: yarn install --frozen-lockfile
     - run: yarn build
-    - run: yarn test
+    - name: Run the tests 👀
+      run: yarn test
