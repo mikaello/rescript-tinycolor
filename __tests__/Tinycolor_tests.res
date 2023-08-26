@@ -600,4 +600,40 @@ describe("conversion utils", () => {
 
     expect(hsl.s) |> toEqual(0.5)
   })
+  test("hslToRgb()", () => {
+    let rgb = TinyColor.hslToRgb(360, 100, 50)
+    let expectedRgb: TinyColor.rgb = {r: 255, g: 0, b: 0}
+
+    expect(rgb) |> toEqual(expectedRgb)
+  })
+  test("rgbToHsv()", () => {
+    let hsv = TinyColor.rgbToHsv(10, 20, 255)
+
+    expect(hsv.v) |> toEqual(1.0)
+  })
+  test("hsvToRgb()", () => {
+    let rgb = TinyColor.hsvToRgb(360, 100, 100)
+    let expectedRgb: TinyColor.rgb = {r: 255, g: 0, b: 0}
+    expect(rgb) |> toEqual(expectedRgb)
+  })
+  test("rgbToHex() works with 3char", () => {
+    let hex = TinyColor.rgbToHex(~allow3Char=true, 34, 68, 136)
+    let expectedHex = "248"
+    expect(hex) |> toEqual(expectedHex)
+  })
+  test("rgbToHex()", () => {
+    let hex = TinyColor.rgbToHex(34, 68, 136)
+    let expectedHex = "224488"
+    expect(hex) |> toEqual(expectedHex)
+  })
+  test("rgbaToHex()", () => {
+    let hex = TinyColor.rgbaToHex(34, 68, 136, 0.5)
+    let expectedHex = "22448880"
+    expect(hex) |> toEqual(expectedHex)
+  })
+  test("rgbaToArgbHex()", () => {
+    let hex = TinyColor.rgbaToArgbHex(34, 68, 136, 0.5)
+    let expectedHex = "80224488"
+    expect(hex) |> toEqual(expectedHex)
+  })
 })
