@@ -131,7 +131,7 @@ let validateRgb = (color: rgb) => {
 
 let validateRgba = (color: rgba) =>
   switch color {
-  | {r, g, b, a} if validateRgb({r: r, g: g, b: b}) !== None && isFraction(a) => Some(color)
+  | {r, g, b, a} if validateRgb({r, g, b}) !== None && isFraction(a) => Some(color)
   | _ => None
   }
 
@@ -143,7 +143,7 @@ let validateHsl = (color: hsl) =>
 
 let validateHsla = (color: hsla) =>
   switch color {
-  | {h, s, l, a} if validateHsl({h: h, s: s, l: l}) !== None && isFraction(a) => Some(color)
+  | {h, s, l, a} if validateHsl({h, s, l}) !== None && isFraction(a) => Some(color)
   | _ => None
   }
 
@@ -155,7 +155,7 @@ let validateHsv = (color: hsv) =>
 
 let validateHsva = (color: hsva) =>
   switch color {
-  | {h, s, v, a} if validateHsv({h: h, s: s, v: v}) !== None && isFraction(a) => Some(color)
+  | {h, s, v, a} if validateHsv({h, s, v}) !== None && isFraction(a) => Some(color)
   | _ => None
   }
 
@@ -389,3 +389,110 @@ let mostReadable = (
   color: t,
 ) =>
   mostReadable(color, compareColors, mostReadableConfig(~includeFallbackColors?, ~level?, ~size?))
+
+/* CONVERSION */
+
+@module("@ctrl/tinycolor")
+external rgbToRgb: (int, int, int) => rgb = "rgbToRgb"
+/**
+ Handle bounds / percentage checking to conform to CSS color spec <http://www.w3.org/TR/css3-color/>
+
+ *Assumes:* r, g, b in [0, 255] or [0, 1]
+
+ *Returns:* { r, g, b } in [0, 255]
+ */
+let rgbToRgb = (r: int, g: int, b: int) => rgbToRgb(r, g, b)
+
+@module("@ctrl/tinycolor")
+external rgbToHsl: (int, int, int) => hsl = "rgbToHsl"
+/**
+ Converts an RGB color value to HSL.
+
+ *Assumes:* r, g, and b are contained in [0, 255] or [0, 1]
+
+ *Returns:* { h, s, l } in [0,1]
+ */
+let rgbToHsl = (r: int, g: int, b: int) => rgbToHsl(r, g, b)
+
+@module("@ctrl/tinycolor")
+external hslToRgb: (int, int, int) => rgb = "hslToRgb"
+/**
+ Converts an HSL color value to RGB.
+
+ *Assumes:* h is contained in [0, 1] or [0, 360] and s and l are contained [0, 1] or [0, 100]
+
+ *Returns:* { r, g, b } in the set [0, 255]
+ */
+let hslToRgb = (h: int, s: int, l: int) => hslToRgb(h, s, l)
+
+@module("@ctrl/tinycolor")
+external rgbToHsv: (int, int, int) => hsv = "rgbToHsv"
+/**
+ Converts an RGB color value to HSV
+
+ *Assumes:* r, g, and b are contained in the set [0, 255] or [0, 1]
+
+ *Returns:* { h, s, v } in [0,1]
+ */
+let rgbToHsv = (r: int, g: int, b: int) => rgbToHsv(r, g, b)
+
+@module("@ctrl/tinycolor")
+external hsvToRgb: (int, int, int) => rgb = "hsvToRgb"
+/**
+ Converts an HSV color value to RGB.
+
+ *Assumes:* h is contained in [0, 1] or [0, 360] and s and v are contained in [0, 1] or [0, 100]
+
+ *Returns:* { r, g, b } in the set [0, 255]
+ */
+let hsvToRgb = (h: int, s: int, v: int) => hsvToRgb(h, s, v)
+
+@module("@ctrl/tinycolor")
+external rgbToHex: (int, int, int, bool) => string = "rgbToHex"
+/**
+ Converts an RGB color to hex
+
+ *Assumes:* r, g, and b are contained in the set [0, 255]
+
+ *Returns:* a 3 or 6 character hex
+ */
+let rgbToHex = (~allow3Char: bool=false, r: int, g: int, b: int) => rgbToHex(r, g, b, allow3Char)
+
+@module("@ctrl/tinycolor")
+external rgbaToHex: (int, int, int, int, bool) => string = "rgbaToHex"
+/**
+ Converts an RGBA color plus alpha transparency to hex
+
+ *Assumes:* r, g, b are contained in the set [0, 255] and a in [0, 1].
+
+ *Returns:* a 4 or 8 character rgba hex
+ */
+let rgbaToHex = (~allow4Char: bool=false, r: int, g: int, b: int, a: int) =>
+  rgbaToHex(r, g, b, a, allow4Char)
+
+@module("@ctrl/tinycolor")
+external rgbaToArgbHex: (int, int, int, int) => string = "rgbaToArgbHex"
+/**
+ Converts an RGBA color to an ARGB Hex8 string
+ Rarely used, but required for "toFilter()"
+
+ *Assumes:* r, g, b are contained in the set [0, 255] and a in [0, 1]
+
+ *Returns:* a 8 character argb hex
+ */
+let rgbaToArgbHex = (r: int, g: int, b: int, a: int) => rgbaToArgbHex(r, g, b, a)
+
+/** Converts a decimal to a hex value */
+@module("@ctrl/tinycolor")
+external convertDecimalToHex: int => string = "convertDecimalToHex"
+
+/** Converts a hex value to a decimal */
+@module("@ctrl/tinycolor")
+external convertHexToDecimal: string => int = "convertHexToDecimal"
+
+/** Parse a base-16 hex value into a base-10 integer */
+@module("@ctrl/tinycolor")
+external parseIntFromHex: string => int = "parseIntFromHex"
+
+@module("@ctrl/tinycolor")
+external numberInputToObject: int => rgb = "numberInputToObject"

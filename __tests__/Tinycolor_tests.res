@@ -587,3 +587,17 @@ describe("color utils", () => {
     }
   })
 })
+
+describe("conversion utils", () => {
+  test("rgbToRgb()", () => {
+    let rgb = TinyColor.rgbToRgb(100, 50, 200)
+    let expectedRgb: TinyColor.rgb = {r: 100, g: 50, b: 200}
+
+    expect(rgb) |> toEqual(expectedRgb)
+  })
+  test("rgbToHsl()", () => {
+    let hsl = TinyColor.rgbToHsl(10, 20, 30)
+
+    expect(hsl.s) |> toEqual(0.5)
+  })
+})
