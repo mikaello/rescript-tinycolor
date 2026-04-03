@@ -5,16 +5,15 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [22.x, 24.x]
     steps:
     - uses: actions/checkout@v6
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 24
       uses: actions/setup-node@v6
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        node-version: 24.x
+        cache: 'yarn'
     - run: yarn install --frozen-lockfile
+    - name: Check formatting
+      run: yarn rescript format -check
     - name: Run the tests 👀
       run: yarn test

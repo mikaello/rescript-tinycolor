@@ -19,7 +19,8 @@
   "bugs": "https://github.com/mikaello/rescript-tinycolor/issues",
   "license": "MIT",
   "devDependencies": {
-    "@glennsl/bs-jest": "0.7.0",
+    "@glennsl/rescript-jest": "0.13.1",
+    "jest": "27.5.1",
     "rescript": "12.2.0"
   },
   "dependencies": {
