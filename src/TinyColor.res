@@ -102,6 +102,7 @@ type hsvaRatio = {
 /* VALIDATOR UTILS */
 
 @get external isValid: t => bool = "isValid"
+@send external isMonochrome: t => bool = "isMonochrome"
 
 let returnSomeIfValid = (color: t): option<t> =>
   if isValid(color) {

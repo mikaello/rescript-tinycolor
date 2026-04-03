@@ -238,6 +238,17 @@ describe("isDark()", () =>
   })
 )
 
+describe("isMonochrome()", () => {
+  test("grey is monochrome", () => {
+    let grey = TinyColor.makeFromString("grey")
+    expect(Option.map(grey, TinyColor.isMonochrome)) === Some(true)
+  })
+  test("red is not monochrome", () => {
+    let red = TinyColor.makeFromString("red")
+    expect(Option.map(red, TinyColor.isMonochrome)) === Some(false)
+  })
+})
+
 describe("getLuminance()", () => {
   test("getting luminance for dark color", () => {
     let color = TinyColor.makeFromString("black")
