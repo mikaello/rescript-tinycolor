@@ -219,6 +219,7 @@ let toHsl = (color: t) => toHsl(color)->hslaFromJs
 @send external toHexString: t => string = "toHexString"
 @send external toHex8: t => string = "toHex8"
 @send external toHex8String: t => string = "toHex8String"
+@send external toHexShortString: t => string = "toHexShortString"
 @send external toRgb: t => 'rgb = "toRgb"
 let toRgb = (color: t) => toRgb(color)->rgbaFromJs
 @send external toRgbString: t => string = "toRgbString"

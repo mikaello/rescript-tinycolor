@@ -296,6 +296,13 @@ describe("string representation methods", () => {
   test("toHex8String()", () =>
     expect(Option.map(shortHex, TinyColor.toHex8String)) === Some("#667788ff")
   )
+  test("toHexShortString() returns hex for opaque color", () =>
+    expect(Option.map(shortHex, TinyColor.toHexShortString)) === Some("#667788")
+  )
+  test("toHexShortString() returns hex8 for transparent color", () => {
+    let semiTransparent = TinyColor.makeFromRgba({r: 102, g: 119, b: 136, a: 0.5})
+    expect(Option.map(semiTransparent, TinyColor.toHexShortString)) === Some("#66778880")
+  })
   test("toRgb()", () =>
     expect(Option.map(rgb, TinyColor.toRgb)) == Some({r: 0, g: 10, b: 20, a: 0.9})
   )
