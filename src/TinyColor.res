@@ -161,7 +161,7 @@ let validateHsva = (color: hsva) =>
 
 /* CREATE COLOR */
 
-@module("@ctrl/tinycolor") external make: 'tinyColor => t = "tinycolor"
+@new @module("@ctrl/tinycolor") external make: 'tinyColor => t = "TinyColor"
 
 let makeFromString = (color: string) => returnSomeIfValid(make(color))
 let makeFromNumber = (number: int) =>
