@@ -99,6 +99,14 @@ type hsvaRatio = {
   a: float,
 }
 
+@deriving(jsConverter)
+type cmyk = {
+  c: int,
+  m: int,
+  y: int,
+  k: int,
+}
+
 /* VALIDATOR UTILS */
 
 @get external isValid: t => bool = "isValid"
@@ -160,6 +168,14 @@ let validateHsva = (color: hsva) =>
   | _ => None
   }
 
+let validateCmyk = (color: cmyk) => {
+  let validRange = value => value >= 0 && value <= 100
+  switch color {
+  | {c, m, y, k} if validRange(c) && validRange(m) && validRange(y) && validRange(k) => Some(color)
+  | _ => None
+  }
+}
+
 /* CREATE COLOR */
 
 @new @module("@ctrl/tinycolor") external make: 'tinyColor => t = "TinyColor"
@@ -185,6 +201,8 @@ let makeFromHsva = (color: hsva) =>
   color->validateHsva->Option.map(hsvaToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
 let makeFromHsvRatio = (color: hsvRatio) => color->hsvRatioToJs->make->returnSomeIfValid
 let makeFromHsvaRatio = (color: hsvaRatio) => color->hsvaRatioToJs->make->returnSomeIfValid
+let makeFromCmyk = (color: cmyk) =>
+  color->validateCmyk->Option.map(cmykToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
 
 /* GET COLOR PROPERTIES */
 
@@ -228,6 +246,9 @@ external toPercentageRgb: t => 'rgbaPercent = "toPercentageRgb"
 let toPercentageRgb = (color: t) => toPercentageRgb(color)->rgbaPercentageFromJs
 @send
 external toPercentageRgbString: t => string = "toPercentageRgbString"
+@send external toCmyk: t => 'cmyk = "toCmyk"
+let toCmyk = (color: t) => toCmyk(color)->cmykFromJs
+@send external toCmykString: t => string = "toCmykString"
 @send external toName: t => 'maybeName = "toName"
 let toName = (color: t) => {
   let name = toName(color)
