@@ -131,7 +131,7 @@ let validateRgb = (color: rgb) => {
 
 let validateRgba = (color: rgba) =>
   switch color {
-  | {r, g, b, a} if validateRgb({r: r, g: g, b: b}) !== None && isFraction(a) => Some(color)
+  | {r, g, b, a} if validateRgb({r, g, b}) !== None && isFraction(a) => Some(color)
   | _ => None
   }
 
@@ -143,7 +143,7 @@ let validateHsl = (color: hsl) =>
 
 let validateHsla = (color: hsla) =>
   switch color {
-  | {h, s, l, a} if validateHsl({h: h, s: s, l: l}) !== None && isFraction(a) => Some(color)
+  | {h, s, l, a} if validateHsl({h, s, l}) !== None && isFraction(a) => Some(color)
   | _ => None
   }
 
@@ -155,7 +155,7 @@ let validateHsv = (color: hsv) =>
 
 let validateHsva = (color: hsva) =>
   switch color {
-  | {h, s, v, a} if validateHsv({h: h, s: s, v: v}) !== None && isFraction(a) => Some(color)
+  | {h, s, v, a} if validateHsv({h, s, v}) !== None && isFraction(a) => Some(color)
   | _ => None
   }
 
@@ -165,25 +165,25 @@ let validateHsva = (color: hsva) =>
 
 let makeFromString = (color: string) => returnSomeIfValid(make(color))
 let makeFromNumber = (number: int) =>
-  (number |> validateColorNumber)->Option.map(make)->Option.flatMap(returnSomeIfValid)
+  number->validateColorNumber->Option.map(make)->Option.flatMap(returnSomeIfValid)
 let makeFromRgb = (color: rgb) =>
-  (color |> validateRgb)->Option.map(rgbToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
+  color->validateRgb->Option.map(rgbToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
 let makeFromRgba = (color: rgba) =>
-  (color |> validateRgba)->Option.map(rgbaToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
-let makeFromRgbRatio = (color: rgbRatio) => color |> rgbRatioToJs |> make |> returnSomeIfValid
-let makeFromRgbaRatio = (color: rgbaRatio) => color |> rgbaRatioToJs |> make |> returnSomeIfValid
+  color->validateRgba->Option.map(rgbaToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
+let makeFromRgbRatio = (color: rgbRatio) => color->rgbRatioToJs->make->returnSomeIfValid
+let makeFromRgbaRatio = (color: rgbaRatio) => color->rgbaRatioToJs->make->returnSomeIfValid
 let makeFromHsl = (color: hsl) =>
-  (color |> validateHsl)->Option.map(hslToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
+  color->validateHsl->Option.map(hslToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
 let makeFromHsla = (color: hsla) =>
-  (color |> validateHsla)->Option.map(hslaToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
-let makeFromHslRatio = (color: hslRatio) => color |> hslRatioToJs |> make |> returnSomeIfValid
-let makeFromHslaRatio = (color: hslaRatio) => color |> hslaRatioToJs |> make |> returnSomeIfValid
+  color->validateHsla->Option.map(hslaToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
+let makeFromHslRatio = (color: hslRatio) => color->hslRatioToJs->make->returnSomeIfValid
+let makeFromHslaRatio = (color: hslaRatio) => color->hslaRatioToJs->make->returnSomeIfValid
 let makeFromHsv = (color: hsv) =>
-  (color |> validateHsv)->Option.map(hsvToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
+  color->validateHsv->Option.map(hsvToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
 let makeFromHsva = (color: hsva) =>
-  (color |> validateHsva)->Option.map(hsvaToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
-let makeFromHsvRatio = (color: hsvRatio) => color |> hsvRatioToJs |> make |> returnSomeIfValid
-let makeFromHsvaRatio = (color: hsvaRatio) => color |> hsvaRatioToJs |> make |> returnSomeIfValid
+  color->validateHsva->Option.map(hsvaToJs)->Option.map(make)->Option.flatMap(returnSomeIfValid)
+let makeFromHsvRatio = (color: hsvRatio) => color->hsvRatioToJs->make->returnSomeIfValid
+let makeFromHsvaRatio = (color: hsvaRatio) => color->hsvaRatioToJs->make->returnSomeIfValid
 
 /* GET COLOR PROPERTIES */
 
@@ -209,27 +209,27 @@ let setAlpha = (alphaValue: float, color: t): t => {
 /* STRING REPRESENTATIONS */
 
 @send external toHsv: t => 'hsv = "toHsv"
-let toHsv = (color: t) => toHsv(color) |> hsvaFromJs
+let toHsv = (color: t) => toHsv(color)->hsvaFromJs
 @send external toHsvString: t => string = "toHsvString"
 @send external toHsl: t => 'hsl = "toHsl"
-let toHsl = (color: t) => toHsl(color) |> hslaFromJs
+let toHsl = (color: t) => toHsl(color)->hslaFromJs
 @send external toHslString: t => string = "toHslString"
 @send external toHex: t => string = "toHex"
 @send external toHexString: t => string = "toHexString"
 @send external toHex8: t => string = "toHex8"
 @send external toHex8String: t => string = "toHex8String"
 @send external toRgb: t => 'rgb = "toRgb"
-let toRgb = (color: t) => toRgb(color) |> rgbaFromJs
+let toRgb = (color: t) => toRgb(color)->rgbaFromJs
 @send external toRgbString: t => string = "toRgbString"
 @send
 external toPercentageRgb: t => 'rgbaPercent = "toPercentageRgb"
-let toPercentageRgb = (color: t) => toPercentageRgb(color) |> rgbaPercentageFromJs
+let toPercentageRgb = (color: t) => toPercentageRgb(color)->rgbaPercentageFromJs
 @send
 external toPercentageRgbString: t => string = "toPercentageRgbString"
 @send external toName: t => 'maybeName = "toName"
 let toName = (color: t) => {
   let name = toName(color)
-  if Js.typeof(name) === "string" {
+  if typeof(name) == #string {
     Some(name)
   } else {
     None
@@ -276,7 +276,7 @@ let spin = (~value: int=10, color: t) => spin(color, value)
 
 @send external mix: (t, t, int) => t = "mix"
 let mix = (~value: int=50, color1: t, color2: t) =>
-  callIfValidModificationValue(value, mix(color1), color2)
+  callIfValidModificationValue(value, (c, v) => mix(color1, c, v), color2)
 
 @send external greyscale: t => t = "greyscale"
 

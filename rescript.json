@@ -1,6 +1,5 @@
 {
   "name": "rescript-tinycolor",
-  "version": "0.1.0",
   "sources": [
     {
       "dir": "src",
@@ -16,12 +15,11 @@
     "in-source": true
   },
   "suffix": ".bs.js",
-  "bs-dependencies": [],
-  "bs-dev-dependencies": ["@glennsl/bs-jest"],
+  "dependencies": [],
+  "dev-dependencies": ["@glennsl/rescript-jest"],
   "warnings": {
     "number": "+A-42-48",
     "error": "+A-3-44-102-103"
   },
-  "namespace": true,
-  "refmt": 3
+  "namespace": true
 }

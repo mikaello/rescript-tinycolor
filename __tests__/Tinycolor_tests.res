@@ -22,7 +22,7 @@ describe("making tinycolor", () => {
 
   test("fromString() returns None when invalid", () => {
     let rubbish = TinyColor.makeFromString("not a color")
-    expect(Option.isNone(rubbish)) |> toBe(true)
+    expect(Option.isNone(rubbish))->toBe(true)
   })
 
   test("makeFromNumber() returns valid for valid number", () => {
@@ -75,7 +75,7 @@ describe("making tinycolor", () => {
     let input: TinyColor.rgbaRatio = {r: 0.1, g: 0.5, b: 0.7, a: 0.7}
     let a = TinyColor.makeFromRgbaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput)) |> toEqual(
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
       Some(TinyColor.rgbaRatioToJs(input)),
     )
   })
@@ -112,7 +112,7 @@ describe("making tinycolor", () => {
     let input: TinyColor.hslaRatio = {h: 0.1, s: 0.5, l: 0.7, a: 0.7}
     let a = TinyColor.makeFromHslaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput)) |> toEqual(
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
       Some(TinyColor.hslaRatioToJs(input)),
     )
   })
@@ -149,7 +149,7 @@ describe("making tinycolor", () => {
     let input: TinyColor.hsvaRatio = {h: 0.1, s: 0.5, v: 0.7, a: 0.7}
     let a = TinyColor.makeFromHsvaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput)) |> toEqual(
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
       Some(TinyColor.hsvaRatioToJs(input)),
     )
   })
@@ -167,7 +167,7 @@ describe("set and get alpha (also tests clone())", () => {
     let newAlpha = 0.9
 
     let a = TinyColor.makeFromHsva({h: 10, s: 0.10, v: 0.10, a: oldAlpha})
-    Option.map(a, TinyColor.setAlpha(newAlpha)) |> ignore
+    Option.map(a, c => TinyColor.setAlpha(newAlpha, c))->ignore
     expect(Option.map(a, TinyColor.getAlpha)) === Some(oldAlpha)
   })
 
@@ -176,7 +176,7 @@ describe("set and get alpha (also tests clone())", () => {
     let newAlpha = 0.9
 
     let a = TinyColor.makeFromHsva({h: 100, s: 0.10, v: 0.10, a: oldAlpha})
-    let b = Option.map(a, TinyColor.setAlpha(newAlpha))
+    let b = Option.map(a, c => TinyColor.setAlpha(newAlpha, c))
     expect(Option.map(b, TinyColor.getAlpha)) === Some(newAlpha)
   })
 })
@@ -187,7 +187,7 @@ describe("onBackground()", () => {
   test("get back same color when no transparency", () =>
     switch (blue, red) {
     | (Some(blue), Some(red)) =>
-      expect(TinyColor.onBackground(blue, red) |> TinyColor.toHexString) == "#0000ff"
+      expect(TinyColor.onBackground(blue, red)->TinyColor.toHexString) == "#0000ff"
     | _ => expect(true) == false
     }
   )
@@ -196,7 +196,7 @@ describe("onBackground()", () => {
     switch (blue, red) {
     | (Some(blue), Some(red)) =>
       let blueTransparent = TinyColor.setAlpha(0.0, blue)
-      expect(TinyColor.onBackground(blueTransparent, red) |> TinyColor.toHexString) == "#ff0000"
+      expect(TinyColor.onBackground(blueTransparent, red)->TinyColor.toHexString) == "#ff0000"
     | _ => expect(true) == false
     }
   )
@@ -206,7 +206,7 @@ describe("onBackground()", () => {
     | (Some(blue), Some(red)) =>
       let bluePartlyTransparent = TinyColor.setAlpha(0.5, blue)
       expect(
-        TinyColor.onBackground(bluePartlyTransparent, red) |> TinyColor.toHexString,
+        TinyColor.onBackground(bluePartlyTransparent, red)->TinyColor.toHexString,
       ) == "#800080"
     | _ => expect(true) == false
     }
@@ -298,7 +298,7 @@ describe("string representation methods", () => {
     expect(Option.map(rgb, TinyColor.toPercentageRgbString)) === Some("rgba(0%, 4%, 8%, 0.9)")
   )
   test("toName() defined", () => expect(Option.map(red, TinyColor.toName)) === Some(Some("red")))
-  test("toName() undefined", () => expect(Option.map(rgb, TinyColor.toName)) |> toEqual(Some(None)))
+  test("toName() undefined", () => expect(Option.map(rgb, TinyColor.toName))->toEqual(Some(None)))
   test("toMsFilter()", () =>
     expect(
       TinyColor.toMsFilter("red", "blue"),
@@ -315,69 +315,69 @@ describe("color modification tests", () => {
   let optionMapTwo = (color, fn1, fn2) => Option.flatMap(color, fn1)->Option.map(fn2)
 
   test("lighten(int, t)", () =>
-    optionMapTwo(red, TinyColor.lighten(~value=10), TinyColor.toHexString)
-    |> expect
-    |> toEqual(Some("#ff3333"))
+    optionMapTwo(red, c => TinyColor.lighten(~value=10, c), TinyColor.toHexString)
+   ->expect
+   ->toEqual(Some("#ff3333"))
   )
 
   test("lighten(int, t) does not change original instance", () =>
-    optionMapTwo(red, TinyColor.lighten(~value=10), TinyColor.toHex8String)
-    |> expect
-    |> not_
-    |> toEqual(Option.map(red, TinyColor.toHex8String))
+    optionMapTwo(red, c => TinyColor.lighten(~value=10, c), TinyColor.toHex8String)
+   ->expect
+   ->not_
+   ->toEqual(Option.map(red, TinyColor.toHex8String))
   )
 
   test("brighten(int, t)", () =>
-    optionMapTwo(red, TinyColor.brighten(~value=10), TinyColor.toHexString)
-    |> expect
-    |> toEqual(Some("#ff1919"))
+    optionMapTwo(red, c => TinyColor.brighten(~value=10, c), TinyColor.toHexString)
+   ->expect
+   ->toEqual(Some("#ff1919"))
   )
 
   test("brighten(int, t) dose not change original instance", () =>
-    optionMapTwo(red, TinyColor.brighten(~value=10), TinyColor.toString)
-    |> expect
-    |> not_
-    |> toEqual(Option.map(red, TinyColor.toString))
+    optionMapTwo(red, c => TinyColor.brighten(~value=10, c), TinyColor.toString)
+   ->expect
+   ->not_
+   ->toEqual(Option.map(red, TinyColor.toString))
   )
 
   test("darken(int, t)", () =>
-    optionMapTwo(red, TinyColor.darken(~value=10), TinyColor.toHexString)
-    |> expect
-    |> toEqual(Some("#cc0000"))
+    optionMapTwo(red, c => TinyColor.darken(~value=10, c), TinyColor.toHexString)
+   ->expect
+   ->toEqual(Some("#cc0000"))
   )
 
   test("tint(int, t)", () =>
-    optionMapTwo(red, TinyColor.tint(~value=10), TinyColor.toHexString)
-    |> expect
-    |> toEqual(Some("#ff1a1a"))
+    optionMapTwo(red, c => TinyColor.tint(~value=10, c), TinyColor.toHexString)
+   ->expect
+   ->toEqual(Some("#ff1a1a"))
   )
 
   test("shade(int, t)", () =>
-    optionMapTwo(red, TinyColor.shade(~value=10), TinyColor.toHexString)
-    |> expect
-    |> toEqual(Some("#e60000"))
+    optionMapTwo(red, c => TinyColor.shade(~value=10, c), TinyColor.toHexString)
+   ->expect
+   ->toEqual(Some("#e60000"))
   )
 
   test("desaturate(int, t)", () =>
-    optionMapTwo(red, TinyColor.desaturate(~value=10), TinyColor.toHexString)
-    |> expect
-    |> toEqual(Some("#f20d0d"))
+    optionMapTwo(red, c => TinyColor.desaturate(~value=10, c), TinyColor.toHexString)
+   ->expect
+   ->toEqual(Some("#f20d0d"))
   )
 
   test("saturate(int, t)", () =>
-    optionMapTwo(red, TinyColor.saturate(~value=10), TinyColor.toHexString)
-    |> expect
-    |> toEqual(Some("#ff0000"))
+    optionMapTwo(red, c => TinyColor.saturate(~value=10, c), TinyColor.toHexString)
+   ->expect
+   ->toEqual(Some("#ff0000"))
   )
 
   test("spin(int, t)", () =>
-    Option.map(red, TinyColor.spin(~value=180))->Option.map(TinyColor.toHex8String)
-    |> expect === Some("#00ffffff")
+    Option.map(red, c => TinyColor.spin(~value=180, c))->Option.map(TinyColor.toHex8String)
+   ->expect === Some("#00ffffff")
   )
 
   test("spin(int, t) with value 360 does not change", () =>
-    Option.map(red, TinyColor.spin(~value=360))->Option.map(TinyColor.toHex8String)
-    |> expect === Option.map(red, TinyColor.toHex8String)
+    Option.map(red, c => TinyColor.spin(~value=360, c))->Option.map(TinyColor.toHex8String)
+   ->expect === Option.map(red, TinyColor.toHex8String)
   )
 
   test("mix(int, t)", () => {
@@ -387,15 +387,15 @@ describe("color modification tests", () => {
     switch (color1, color2) {
     | (Some(c1), Some(c2)) =>
       TinyColor.mix(~value=50, c1, c2)->Option.map(TinyColor.toHexString)
-      |> expect
-      |> toEqual(Some("#808080"))
+     ->expect
+     ->toEqual(Some("#808080"))
     | _ => expect(false) === true
     }
   })
 
   test("greyscale(t)", () =>
     Option.map(red, TinyColor.greyscale)->Option.map(TinyColor.toHex8String)
-    |> expect === Some("#808080ff")
+   ->expect === Some("#808080ff")
   )
 })
 
@@ -408,8 +408,8 @@ describe("color combinations", () => {
     ->Option.getExn
     ->TinyColor.analogous()
     ->Array.map(TinyColor.toHexString)
-    |> expect
-    |> toEqual(["#ff0000", "#ff0066", "#ff0033", "#ff0000", "#ff3300", "#ff6600"])
+   ->expect
+   ->toEqual(["#ff0000", "#ff0066", "#ff0033", "#ff0000", "#ff3300", "#ff6600"])
   )
 
   test("monochromatic()", () =>
@@ -417,26 +417,26 @@ describe("color combinations", () => {
     ->Option.getExn
     ->TinyColor.monochromatic()
     ->Array.map(TinyColor.toHexString)
-    |> expect
-    |> toEqual(["#ff0000", "#2a0000", "#550000", "#800000", "#aa0000", "#d40000"])
+   ->expect
+   ->toEqual(["#ff0000", "#2a0000", "#550000", "#800000", "#aa0000", "#d40000"])
   )
 
   test("splitcomplement()", () =>
     mapAndReturnHexArray(TinyColor.makeFromString("#f00"), TinyColor.splitcomplement)
-    |> expect
-    |> toEqual(["#ff0000", "#ccff00", "#0066ff"])
+   ->expect
+   ->toEqual(["#ff0000", "#ccff00", "#0066ff"])
   )
 
   test("triad()", () =>
     mapAndReturnHexArray(TinyColor.makeFromString("#f00"), TinyColor.triad)
-    |> expect
-    |> toEqual(["#ff0000", "#00ff00", "#0000ff"])
+   ->expect
+   ->toEqual(["#ff0000", "#00ff00", "#0000ff"])
   )
 
   test("tetrad()", () =>
     mapAndReturnHexArray(TinyColor.makeFromString("#f00"), TinyColor.tetrad)
-    |> expect
-    |> toEqual(["#ff0000", "#80ff00", "#00ffff", "#7f00ff"])
+   ->expect
+   ->toEqual(["#ff0000", "#80ff00", "#00ffff", "#7f00ff"])
   )
 
   test("polyad()", () =>
@@ -444,8 +444,8 @@ describe("color combinations", () => {
     ->Option.getExn
     ->TinyColor.polyad(~n=4, ())
     ->Array.map(TinyColor.toHexString)
-    |> expect
-    |> toEqual(["#ff0000", "#80ff00", "#00ffff", "#7f00ff"])
+   ->expect
+   ->toEqual(["#ff0000", "#80ff00", "#00ffff", "#7f00ff"])
   )
 
   test("complement()", () => {
@@ -453,7 +453,7 @@ describe("color combinations", () => {
       TinyColor.makeFromString("#f00")
       ->Option.map(TinyColor.complement)
       ->Option.map(TinyColor.toHexString)
-    expect(hex) |> toEqual(Some("#00ffff"))
+    expect(hex)->toEqual(Some("#00ffff"))
   })
 })
 
@@ -482,24 +482,24 @@ describe("color utils", () => {
   test("random() with options", () => {
     let a = TinyColor.random(~hue=#green, ~seed=719, ~luminosity=#bright, ~alpha=0.85, ())
 
-    expect(TinyColor.getAlpha(a)) |> toBe(0.85)
+    expect(TinyColor.getAlpha(a))->toBe(0.85)
   })
 
   test("randomMultiple() returns empty array for count=0", () => {
     let a = TinyColor.randomMultiple(~count=0, ())
-    expect(Array.length(a)) |> toBe(0)
+    expect(Array.length(a))->toBe(0)
   })
 
   test("randomMultiple() returns single element in array", () => {
     let a = TinyColor.randomMultiple(~count=1, ())
 
-    expect(Array.length(a)) |> toBe(1)
+    expect(Array.length(a))->toBe(1)
   })
 
   test("randomMultiple() returns many elements", () => {
     let a = TinyColor.randomMultiple(~count=15, ())
 
-    expect(Array.length(a)) |> toBe(15)
+    expect(Array.length(a))->toBe(15)
   })
 
   test("randomMultiple() returns all different colors", () => {
@@ -520,14 +520,14 @@ describe("color utils", () => {
     let b = TinyColor.makeFromString("#fff")
 
     switch (a, b) {
-    | (Some(a), Some(b)) => expect(TinyColor.readability(a, b)) |> toEqual(21.0)
+    | (Some(a), Some(b)) => expect(TinyColor.readability(a, b))->toEqual(21.0)
     | _ => expect(true) === false
     }
   })
 
   test("isReadable()", () =>
     switch (TinyColor.makeFromString("#000"), TinyColor.makeFromString("#fff")) {
-    | (Some(a), Some(b)) => expect(TinyColor.isReadable(a, b)) |> toEqual(true)
+    | (Some(a), Some(b)) => expect(TinyColor.isReadable(a, b))->toEqual(true)
     | _ => expect(true) === false
     }
   )
@@ -535,7 +535,7 @@ describe("color utils", () => {
   test("isReadable() returns false for strict options", () =>
     switch (TinyColor.makeFromString("#293845"), TinyColor.makeFromString("#80B897")) {
     | (Some(a), Some(b)) =>
-      expect(TinyColor.isReadable(~level=#AAA, ~size=#small, a, b)) |> toEqual(false)
+      expect(TinyColor.isReadable(~level=#AAA, ~size=#small, a, b))->toEqual(false)
     | _ => expect(true) === false
     }
   )
@@ -543,14 +543,14 @@ describe("color utils", () => {
   test("isReadable() returns true for loose options", () =>
     switch (TinyColor.makeFromString("#293845"), TinyColor.makeFromString("#80B897")) {
     | (Some(a), Some(b)) =>
-      expect(TinyColor.isReadable(~level=#AA, ~size=#small, a, b)) |> toEqual(true)
+      expect(TinyColor.isReadable(~level=#AA, ~size=#small, a, b))->toEqual(true)
     | _ => expect(true) === false
     }
   )
 
   test("isReadable() should return false for unreadable combo", () =>
     switch (TinyColor.makeFromString("#eee"), TinyColor.makeFromString("#fff")) {
-    | (Some(a), Some(b)) => expect(TinyColor.isReadable(a, b)) |> toEqual(false)
+    | (Some(a), Some(b)) => expect(TinyColor.isReadable(a, b))->toEqual(false)
     | _ => expect(true) === false
     }
   )
@@ -563,7 +563,7 @@ describe("color utils", () => {
 
     switch (a, cmp1, cmp2, cmp3) {
     | (Some(a), Some(c1), Some(c2), Some(c3)) =>
-      expect(TinyColor.mostReadable([c1, c2, c3], a)) |> toEqual(c2)
+      expect(TinyColor.mostReadable([c1, c2, c3], a))->toEqual(c2)
     | _ => expect(false) === true
     }
   })
@@ -581,8 +581,8 @@ describe("color utils", () => {
           ~size=#small,
           [c],
           a,
-        ) |> TinyColor.toHexString,
-      ) |> toEqual("#000000")
+        )->TinyColor.toHexString,
+      )->toEqual("#000000")
     | _ => expect(false) === true
     }
   })
