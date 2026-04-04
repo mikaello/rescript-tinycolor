@@ -5,6 +5,8 @@
     "build": "rescript build",
     "start": "rescript build -w",
     "clean": "rescript clean",
+    "check": "rescript format --check",
+    "format": "rescript format",
     "pretest": "npm run build",
     "test": "jest"
   },
