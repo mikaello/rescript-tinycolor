@@ -153,6 +153,18 @@ describe("making tinycolor", () => {
       Some(TinyColor.hsvaRatioToJs(input)),
     )
   })
+  test("makeFromCmyk() returns valid", () => {
+    let a = TinyColor.makeFromCmyk({c: 0, m: 100, y: 100, k: 0})
+    expect(Option.isSome(a)) === true
+  })
+  test("makeFromCmyk() returns None for invalid values", () => {
+    let a = TinyColor.makeFromCmyk({c: -10, m: 100, y: 100, k: 0})
+    expect(Option.isNone(a)) === true
+  })
+  test("makeFromCmyk() returns correct format", () => {
+    let a = TinyColor.makeFromCmyk({c: 0, m: 100, y: 100, k: 0})
+    expect(Option.map(a, TinyColor.getFormat)) === Some("cmyk")
+  })
 })
 
 describe("set and get alpha (also tests clone())", () => {
@@ -238,6 +250,17 @@ describe("isDark()", () =>
   })
 )
 
+describe("isMonochrome()", () => {
+  test("grey is monochrome", () => {
+    let grey = TinyColor.makeFromString("grey")
+    expect(Option.map(grey, TinyColor.isMonochrome)) === Some(true)
+  })
+  test("red is not monochrome", () => {
+    let red = TinyColor.makeFromString("red")
+    expect(Option.map(red, TinyColor.isMonochrome)) === Some(false)
+  })
+})
+
 describe("getLuminance()", () => {
   test("getting luminance for dark color", () => {
     let color = TinyColor.makeFromString("black")
@@ -285,6 +308,13 @@ describe("string representation methods", () => {
   test("toHex8String()", () =>
     expect(Option.map(shortHex, TinyColor.toHex8String)) === Some("#667788ff")
   )
+  test("toHexShortString() returns hex for opaque color", () =>
+    expect(Option.map(shortHex, TinyColor.toHexShortString)) === Some("#667788")
+  )
+  test("toHexShortString() returns hex8 for transparent color", () => {
+    let semiTransparent = TinyColor.makeFromRgba({r: 102, g: 119, b: 136, a: 0.5})
+    expect(Option.map(semiTransparent, TinyColor.toHexShortString)) === Some("#66778880")
+  })
   test("toRgb()", () =>
     expect(Option.map(rgb, TinyColor.toRgb)) == Some({r: 0, g: 10, b: 20, a: 0.9})
   )
@@ -299,6 +329,14 @@ describe("string representation methods", () => {
   )
   test("toName() defined", () => expect(Option.map(red, TinyColor.toName)) === Some(Some("red")))
   test("toName() undefined", () => expect(Option.map(rgb, TinyColor.toName))->toEqual(Some(None)))
+  test("toCmyk()", () => {
+    let pureRed = TinyColor.makeFromString("red")
+    expect(Option.map(pureRed, TinyColor.toCmyk)) == Some({c: 0, m: 100, y: 100, k: 0})
+  })
+  test("toCmykString()", () => {
+    let pureRed = TinyColor.makeFromString("red")
+    expect(Option.map(pureRed, TinyColor.toCmykString)) === Some("cmyk(0, 100, 100, 0)")
+  })
   test("toMsFilter()", () =>
     expect(
       TinyColor.toMsFilter("red", "blue"),
