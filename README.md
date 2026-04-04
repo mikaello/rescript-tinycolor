@@ -8,7 +8,7 @@ ReScript bindings for [TinyColor](https://github.com/scttcper/tinycolor): fast, 
 ## Getting started
 
 ```
-yarn add rescript-tinycolor
+npm install rescript-tinycolor
 ```
 
 Then add `rescript-tinycolor` as a dependency to `bsconfig.json`:
@@ -68,9 +68,9 @@ See all available functions in the [original TinyColor repo](https://github.com/
 
 ## Contribute
 
-If you find bugs or there are updates in [TinyColor](https://github.com/bgrins/TinyColor), feel free to open an issue or PR. If you are upgrading any dependencies, please use yarn so `yarn.lock` is updated.
+If you find bugs or there are updates in [TinyColor](https://github.com/bgrins/TinyColor), feel free to open an issue or PR.
 
-If you add, remove or change bindings, remember to update the tests as well. It should be at least one test for every binding. Run the tests with `yarn test` from project root.
+If you add, remove or change bindings, remember to update the tests as well. It should be at least one test for every binding. Run the tests with `npm test` from project root.
 
 ## Alternatives / related
 
