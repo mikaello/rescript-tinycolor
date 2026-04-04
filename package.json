@@ -22,7 +22,7 @@
   "license": "MIT",
   "devDependencies": {
     "@glennsl/rescript-jest": "0.13.1",
-    "jest": "27.5.1",
+    "jest": "30.3.0",
     "rescript": "12.2.0"
   },
   "dependencies": {
