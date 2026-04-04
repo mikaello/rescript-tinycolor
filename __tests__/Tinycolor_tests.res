@@ -2,8 +2,6 @@ open Jest
 open Expect
 open! Expect.Operators
 
-open Belt
-
 describe("making tinycolor", () => {
   test("fromString() returns valid from string", () => {
     let black = TinyColor.makeFromString("black")
@@ -435,11 +433,11 @@ describe("color modification tests", () => {
 
 describe("color combinations", () => {
   let mapAndReturnHexArray = (color, fn) =>
-    Option.map(color, fn)->Option.getWithDefault([])->Array.map(TinyColor.toHexString)
+    Option.map(color, fn)->Option.getOr([])->Belt.Array.map(TinyColor.toHexString)
 
   test("analogous()", () =>
     TinyColor.makeFromString("#f00")
-    ->Option.getExn
+    ->Option.getOrThrow
     ->TinyColor.analogous()
     ->Array.map(TinyColor.toHexString)
     ->expect
@@ -448,7 +446,7 @@ describe("color combinations", () => {
 
   test("monochromatic()", () =>
     TinyColor.makeFromString("#f00")
-    ->Option.getExn
+    ->Option.getOrThrow
     ->TinyColor.monochromatic()
     ->Array.map(TinyColor.toHexString)
     ->expect
@@ -475,7 +473,7 @@ describe("color combinations", () => {
 
   test("polyad()", () =>
     TinyColor.makeFromString("#f00")
-    ->Option.getExn
+    ->Option.getOrThrow
     ->TinyColor.polyad(~n=4, ())
     ->Array.map(TinyColor.toHexString)
     ->expect
@@ -496,14 +494,14 @@ describe("color utils", () => {
     let a = TinyColor.makeFromString("red")
     let b = TinyColor.makeFromRgb({r: 255, g: 0, b: 0})
 
-    expect(Option.eq(a, b, TinyColor.equals)) === true
+    expect(Option.equal(a, b, TinyColor.equals)) === true
   })
 
   test("equals() returns false for unequal colors", () => {
     let a = TinyColor.makeFromString("red")
     let b = TinyColor.makeFromString("blue")
 
-    expect(Option.eq(a, b, TinyColor.equals)) === false
+    expect(Option.equal(a, b, TinyColor.equals)) === false
   })
 
   test("random()", () => {
@@ -521,31 +519,31 @@ describe("color utils", () => {
 
   test("randomMultiple() returns empty array for count=0", () => {
     let a = TinyColor.randomMultiple(~count=0, ())
-    expect(Array.length(a))->toBe(0)
+    expect(Belt.Array.length(a))->toBe(0)
   })
 
   test("randomMultiple() returns single element in array", () => {
     let a = TinyColor.randomMultiple(~count=1, ())
 
-    expect(Array.length(a))->toBe(1)
+    expect(Belt.Array.length(a))->toBe(1)
   })
 
   test("randomMultiple() returns many elements", () => {
     let a = TinyColor.randomMultiple(~count=15, ())
 
-    expect(Array.length(a))->toBe(15)
+    expect(Belt.Array.length(a))->toBe(15)
   })
 
   test("randomMultiple() returns all different colors", () => {
     let a = TinyColor.randomMultiple(~count=4, ())
 
     expect(
-      !TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 1)) &&
-      (!TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 2)) &&
-      (!TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 3)) &&
-      (!TinyColor.equals(Array.getExn(a, 1), Array.getExn(a, 2)) &&
-      (!TinyColor.equals(Array.getExn(a, 1), Array.getExn(a, 3)) &&
-      !TinyColor.equals(Array.getExn(a, 2), Array.getExn(a, 3)))))),
+      !TinyColor.equals(Belt.Array.getExn(a, 0), Belt.Array.getExn(a, 1)) &&
+      (!TinyColor.equals(Belt.Array.getExn(a, 0), Belt.Array.getExn(a, 2)) &&
+      (!TinyColor.equals(Belt.Array.getExn(a, 0), Belt.Array.getExn(a, 3)) &&
+      (!TinyColor.equals(Belt.Array.getExn(a, 1), Belt.Array.getExn(a, 2)) &&
+      (!TinyColor.equals(Belt.Array.getExn(a, 1), Belt.Array.getExn(a, 3)) &&
+      !TinyColor.equals(Belt.Array.getExn(a, 2), Belt.Array.getExn(a, 3)))))),
     ) === true
   })
 
