@@ -23,6 +23,7 @@
     "jest": "27.5.1",
     "rescript": "12.2.0"
   },
+  "sideEffects": false,
   "dependencies": {
     "@ctrl/tinycolor": "4.2.0"
   }
