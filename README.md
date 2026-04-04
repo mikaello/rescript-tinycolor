@@ -1,7 +1,6 @@
 # rescript-tinycolor
 
 [![NPM version](http://img.shields.io/npm/v/rescript-tinycolor.svg)](https://www.npmjs.org/package/rescript-tinycolor)
-[![Build Status](https://travis-ci.com/mikaello/rescript-tinycolor.svg?branch=master)](https://travis-ci.com/mikaello/rescript-tinycolor)
 
 ReScript bindings for [TinyColor](https://github.com/scttcper/tinycolor): fast, small color manipulation and conversion. See also <https://tinycolor.vercel.app>
 
@@ -11,12 +10,14 @@ ReScript bindings for [TinyColor](https://github.com/scttcper/tinycolor): fast, 
 npm install rescript-tinycolor
 ```
 
-Then add `rescript-tinycolor` as a dependency to `bsconfig.json`:
+Then add `rescript-tinycolor` as a dependency to `rescript.json`:
 
 ```diff
-"bs-dependencies": [
-+  "rescript-tinycolor"
-]
+  {
+    "bs-dependencies": [
++     "rescript-tinycolor"
+    ]
+  }
 ```
 
 ## Example
