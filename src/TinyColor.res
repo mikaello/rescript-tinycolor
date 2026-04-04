@@ -1,4 +1,3 @@
-open Belt
 type t
 
 @deriving(jsConverter)
@@ -322,24 +321,13 @@ external monochromatic: (t, ~results: int=?, unit) => array<t> = "monochromatic"
 @module("@ctrl/tinycolor")
 external randomMultiple: 'config => array<t> = "random"
 
-@obj
-external randomConfig: (
-  ~hue: [
-    | #red
-    | #orange
-    | #yellow
-    | #green
-    | #blue
-    | #purple
-    | #pink
-    | #monochrome
-  ]=?,
-  ~luminosity: [#bright | #light | #dark]=?,
-  ~seed: int=?,
-  ~alpha: float=?,
-  ~count: int=?,
-  unit,
-) => _ = ""
+type randomConfigType = {
+  hue?: [#red | #orange | #yellow | #green | #blue | #purple | #pink | #monochrome],
+  luminosity?: [#bright | #light | #dark],
+  seed?: int,
+  alpha?: float,
+  count?: int,
+}
 
 let random = (
   ~hue: option<
@@ -358,7 +346,7 @@ let random = (
   ~seed: option<int>=?,
   ~alpha: option<float>=?,
   (),
-) => random(randomConfig(~hue?, ~luminosity?, ~seed?, ~alpha?, ()))
+) => random({?hue, ?luminosity, ?seed, ?alpha})
 
 let randomMultiple = (
   ~hue: option<
@@ -378,13 +366,15 @@ let randomMultiple = (
   ~alpha: option<float>=?,
   ~count: int,
   (),
-) => randomMultiple(randomConfig(~hue?, ~luminosity?, ~seed?, ~alpha?, ~count, ()))
+) => randomMultiple({?hue, ?luminosity, ?seed, ?alpha, count})
 
 @module("@ctrl/tinycolor")
 external readability: (t, t) => float = "readability"
 
-@obj
-external wcagOption: (~level: [#AA | #AAA]=?, ~size: [#small | #large]=?) => _ = ""
+type wcagOptionType = {
+  level?: [#AA | #AAA],
+  size?: [#small | #large],
+}
 
 @module("@ctrl/tinycolor")
 external isReadable: (t, t, 'wcagObject) => bool = "isReadable"
@@ -393,14 +383,13 @@ let isReadable = (
   ~size: option<[#small | #large]>=?,
   color1: t,
   color2: t,
-) => isReadable(color1, color2, wcagOption(~level?, ~size?))
+) => isReadable(color1, color2, {?level, ?size})
 
-@obj
-external mostReadableConfig: (
-  ~includeFallbackColors: bool=?,
-  ~level: [#AA | #AAA]=?,
-  ~size: [#small | #large]=?,
-) => _ = ""
+type mostReadableConfigType = {
+  includeFallbackColors?: bool,
+  level?: [#AA | #AAA],
+  size?: [#small | #large],
+}
 
 @module("@ctrl/tinycolor")
 external mostReadable: (t, array<t>, 'config) => t = "mostReadable"
@@ -410,5 +399,4 @@ let mostReadable = (
   ~size: option<[#small | #large]>=?,
   compareColors: array<t>,
   color: t,
-) =>
-  mostReadable(color, compareColors, mostReadableConfig(~includeFallbackColors?, ~level?, ~size?))
+) => mostReadable(color, compareColors, {?includeFallbackColors, ?level, ?size})
