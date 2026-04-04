@@ -2,8 +2,6 @@ open Jest
 open Expect
 open! Expect.Operators
 
-open Belt
-
 describe("making tinycolor", () => {
   test("fromString() returns valid from string", () => {
     let black = TinyColor.makeFromString("black")
@@ -75,9 +73,7 @@ describe("making tinycolor", () => {
     let input: TinyColor.rgbaRatio = {r: 0.1, g: 0.5, b: 0.7, a: 0.7}
     let a = TinyColor.makeFromRgbaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
-      Some(TinyColor.rgbaRatioToJs(input)),
-    )
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(Some(TinyColor.rgbaRatioToJs(input)))
   })
 
   test("makeFromHsl() returns valid", () => {
@@ -112,9 +108,7 @@ describe("making tinycolor", () => {
     let input: TinyColor.hslaRatio = {h: 0.1, s: 0.5, l: 0.7, a: 0.7}
     let a = TinyColor.makeFromHslaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
-      Some(TinyColor.hslaRatioToJs(input)),
-    )
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(Some(TinyColor.hslaRatioToJs(input)))
   })
 
   test("makeFromHsv() returns valid", () => {
@@ -149,9 +143,7 @@ describe("making tinycolor", () => {
     let input: TinyColor.hsvaRatio = {h: 0.1, s: 0.5, v: 0.7, a: 0.7}
     let a = TinyColor.makeFromHsvaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
-      Some(TinyColor.hsvaRatioToJs(input)),
-    )
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(Some(TinyColor.hsvaRatioToJs(input)))
   })
   test("makeFromCmyk() returns valid", () => {
     let a = TinyColor.makeFromCmyk({c: 0, m: 100, y: 100, k: 0})
@@ -217,9 +209,7 @@ describe("onBackground()", () => {
     switch (blue, red) {
     | (Some(blue), Some(red)) =>
       let bluePartlyTransparent = TinyColor.setAlpha(0.5, blue)
-      expect(
-        TinyColor.onBackground(bluePartlyTransparent, red)->TinyColor.toHexString,
-      ) == "#800080"
+      expect(TinyColor.onBackground(bluePartlyTransparent, red)->TinyColor.toHexString) == "#800080"
     | _ => expect(true) == false
     }
   )
@@ -354,68 +344,70 @@ describe("color modification tests", () => {
 
   test("lighten(int, t)", () =>
     optionMapTwo(red, c => TinyColor.lighten(~value=10, c), TinyColor.toHexString)
-   ->expect
-   ->toEqual(Some("#ff3333"))
+    ->expect
+    ->toEqual(Some("#ff3333"))
   )
 
   test("lighten(int, t) does not change original instance", () =>
     optionMapTwo(red, c => TinyColor.lighten(~value=10, c), TinyColor.toHex8String)
-   ->expect
-   ->not_
-   ->toEqual(Option.map(red, TinyColor.toHex8String))
+    ->expect
+    ->not_
+    ->toEqual(Option.map(red, TinyColor.toHex8String))
   )
 
   test("brighten(int, t)", () =>
     optionMapTwo(red, c => TinyColor.brighten(~value=10, c), TinyColor.toHexString)
-   ->expect
-   ->toEqual(Some("#ff1919"))
+    ->expect
+    ->toEqual(Some("#ff1919"))
   )
 
   test("brighten(int, t) dose not change original instance", () =>
     optionMapTwo(red, c => TinyColor.brighten(~value=10, c), TinyColor.toString)
-   ->expect
-   ->not_
-   ->toEqual(Option.map(red, TinyColor.toString))
+    ->expect
+    ->not_
+    ->toEqual(Option.map(red, TinyColor.toString))
   )
 
   test("darken(int, t)", () =>
     optionMapTwo(red, c => TinyColor.darken(~value=10, c), TinyColor.toHexString)
-   ->expect
-   ->toEqual(Some("#cc0000"))
+    ->expect
+    ->toEqual(Some("#cc0000"))
   )
 
   test("tint(int, t)", () =>
     optionMapTwo(red, c => TinyColor.tint(~value=10, c), TinyColor.toHexString)
-   ->expect
-   ->toEqual(Some("#ff1a1a"))
+    ->expect
+    ->toEqual(Some("#ff1a1a"))
   )
 
   test("shade(int, t)", () =>
     optionMapTwo(red, c => TinyColor.shade(~value=10, c), TinyColor.toHexString)
-   ->expect
-   ->toEqual(Some("#e60000"))
+    ->expect
+    ->toEqual(Some("#e60000"))
   )
 
   test("desaturate(int, t)", () =>
     optionMapTwo(red, c => TinyColor.desaturate(~value=10, c), TinyColor.toHexString)
-   ->expect
-   ->toEqual(Some("#f20d0d"))
+    ->expect
+    ->toEqual(Some("#f20d0d"))
   )
 
   test("saturate(int, t)", () =>
     optionMapTwo(red, c => TinyColor.saturate(~value=10, c), TinyColor.toHexString)
-   ->expect
-   ->toEqual(Some("#ff0000"))
+    ->expect
+    ->toEqual(Some("#ff0000"))
   )
 
   test("spin(int, t)", () =>
-    Option.map(red, c => TinyColor.spin(~value=180, c))->Option.map(TinyColor.toHex8String)
-   ->expect === Some("#00ffffff")
+    Option.map(red, c => TinyColor.spin(~value=180, c))
+    ->Option.map(TinyColor.toHex8String)
+    ->expect === Some("#00ffffff")
   )
 
   test("spin(int, t) with value 360 does not change", () =>
-    Option.map(red, c => TinyColor.spin(~value=360, c))->Option.map(TinyColor.toHex8String)
-   ->expect === Option.map(red, TinyColor.toHex8String)
+    Option.map(red, c => TinyColor.spin(~value=360, c))
+    ->Option.map(TinyColor.toHex8String)
+    ->expect === Option.map(red, TinyColor.toHex8String)
   )
 
   test("mix(int, t)", () => {
@@ -424,66 +416,68 @@ describe("color modification tests", () => {
 
     switch (color1, color2) {
     | (Some(c1), Some(c2)) =>
-      TinyColor.mix(~value=50, c1, c2)->Option.map(TinyColor.toHexString)
-     ->expect
-     ->toEqual(Some("#808080"))
+      TinyColor.mix(~value=50, c1, c2)
+      ->Option.map(TinyColor.toHexString)
+      ->expect
+      ->toEqual(Some("#808080"))
     | _ => expect(false) === true
     }
   })
 
   test("greyscale(t)", () =>
-    Option.map(red, TinyColor.greyscale)->Option.map(TinyColor.toHex8String)
-   ->expect === Some("#808080ff")
+    Option.map(red, TinyColor.greyscale)
+    ->Option.map(TinyColor.toHex8String)
+    ->expect === Some("#808080ff")
   )
 })
 
 describe("color combinations", () => {
   let mapAndReturnHexArray = (color, fn) =>
-    Option.map(color, fn)->Option.getWithDefault([])->Array.map(TinyColor.toHexString)
+    Option.map(color, fn)->Option.getOr([])->Belt.Array.map(TinyColor.toHexString)
 
   test("analogous()", () =>
     TinyColor.makeFromString("#f00")
-    ->Option.getExn
+    ->Option.getOrThrow
     ->TinyColor.analogous()
     ->Array.map(TinyColor.toHexString)
-   ->expect
-   ->toEqual(["#ff0000", "#ff0066", "#ff0033", "#ff0000", "#ff3300", "#ff6600"])
+    ->expect
+    ->toEqual(["#ff0000", "#ff0066", "#ff0033", "#ff0000", "#ff3300", "#ff6600"])
   )
 
   test("monochromatic()", () =>
     TinyColor.makeFromString("#f00")
-    ->Option.getExn
+    ->Option.getOrThrow
     ->TinyColor.monochromatic()
     ->Array.map(TinyColor.toHexString)
-   ->expect
-   ->toEqual(["#ff0000", "#2a0000", "#550000", "#800000", "#aa0000", "#d40000"])
+    ->expect
+    ->toEqual(["#ff0000", "#2a0000", "#550000", "#800000", "#aa0000", "#d40000"])
   )
 
   test("splitcomplement()", () =>
     mapAndReturnHexArray(TinyColor.makeFromString("#f00"), TinyColor.splitcomplement)
-   ->expect
-   ->toEqual(["#ff0000", "#ccff00", "#0066ff"])
+    ->expect
+    ->toEqual(["#ff0000", "#ccff00", "#0066ff"])
   )
 
   test("triad()", () =>
     mapAndReturnHexArray(TinyColor.makeFromString("#f00"), TinyColor.triad)
-   ->expect
-   ->toEqual(["#ff0000", "#00ff00", "#0000ff"])
+    ->expect
+    ->toEqual(["#ff0000", "#00ff00", "#0000ff"])
   )
 
   test("tetrad()", () =>
     mapAndReturnHexArray(TinyColor.makeFromString("#f00"), TinyColor.tetrad)
-   ->expect
-   ->toEqual(["#ff0000", "#80ff00", "#00ffff", "#7f00ff"])
+    ->expect
+    ->toEqual(["#ff0000", "#80ff00", "#00ffff", "#7f00ff"])
   )
 
   test("polyad()", () =>
     TinyColor.makeFromString("#f00")
-    ->Option.getExn
+    ->Option.getOrThrow
     ->TinyColor.polyad(~n=4, ())
     ->Array.map(TinyColor.toHexString)
-   ->expect
-   ->toEqual(["#ff0000", "#80ff00", "#00ffff", "#7f00ff"])
+    ->expect
+    ->toEqual(["#ff0000", "#80ff00", "#00ffff", "#7f00ff"])
   )
 
   test("complement()", () => {
@@ -500,14 +494,14 @@ describe("color utils", () => {
     let a = TinyColor.makeFromString("red")
     let b = TinyColor.makeFromRgb({r: 255, g: 0, b: 0})
 
-    expect(Option.eq(a, b, TinyColor.equals)) === true
+    expect(Option.equal(a, b, TinyColor.equals)) === true
   })
 
   test("equals() returns false for unequal colors", () => {
     let a = TinyColor.makeFromString("red")
     let b = TinyColor.makeFromString("blue")
 
-    expect(Option.eq(a, b, TinyColor.equals)) === false
+    expect(Option.equal(a, b, TinyColor.equals)) === false
   })
 
   test("random()", () => {
@@ -525,31 +519,31 @@ describe("color utils", () => {
 
   test("randomMultiple() returns empty array for count=0", () => {
     let a = TinyColor.randomMultiple(~count=0, ())
-    expect(Array.length(a))->toBe(0)
+    expect(Belt.Array.length(a))->toBe(0)
   })
 
   test("randomMultiple() returns single element in array", () => {
     let a = TinyColor.randomMultiple(~count=1, ())
 
-    expect(Array.length(a))->toBe(1)
+    expect(Belt.Array.length(a))->toBe(1)
   })
 
   test("randomMultiple() returns many elements", () => {
     let a = TinyColor.randomMultiple(~count=15, ())
 
-    expect(Array.length(a))->toBe(15)
+    expect(Belt.Array.length(a))->toBe(15)
   })
 
   test("randomMultiple() returns all different colors", () => {
     let a = TinyColor.randomMultiple(~count=4, ())
 
     expect(
-      !TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 1)) &&
-      (!TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 2)) &&
-      (!TinyColor.equals(Array.getExn(a, 0), Array.getExn(a, 3)) &&
-      (!TinyColor.equals(Array.getExn(a, 1), Array.getExn(a, 2)) &&
-      (!TinyColor.equals(Array.getExn(a, 1), Array.getExn(a, 3)) &&
-      !TinyColor.equals(Array.getExn(a, 2), Array.getExn(a, 3)))))),
+      !TinyColor.equals(Belt.Array.getExn(a, 0), Belt.Array.getExn(a, 1)) &&
+      (!TinyColor.equals(Belt.Array.getExn(a, 0), Belt.Array.getExn(a, 2)) &&
+      (!TinyColor.equals(Belt.Array.getExn(a, 0), Belt.Array.getExn(a, 3)) &&
+      (!TinyColor.equals(Belt.Array.getExn(a, 1), Belt.Array.getExn(a, 2)) &&
+      (!TinyColor.equals(Belt.Array.getExn(a, 1), Belt.Array.getExn(a, 3)) &&
+      !TinyColor.equals(Belt.Array.getExn(a, 2), Belt.Array.getExn(a, 3)))))),
     ) === true
   })
 
