@@ -10,12 +10,14 @@ ReScript bindings for [TinyColor](https://github.com/scttcper/tinycolor): fast, 
 npm install rescript-tinycolor
 ```
 
-Then add `rescript-tinycolor` as a dependency to `bsconfig.json`:
+Then add `rescript-tinycolor` as a dependency to `rescript.json`:
 
 ```diff
-"bs-dependencies": [
-+  "rescript-tinycolor"
-]
+  {
+    "bs-dependencies": [
++     "rescript-tinycolor"
+    ]
+  }
 ```
 
 ## Example
