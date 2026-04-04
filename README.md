@@ -14,7 +14,7 @@ Then add `rescript-tinycolor` as a dependency to `rescript.json`:
 
 ```diff
   {
-    "bs-dependencies": [
+    "dependencies": [
 +     "rescript-tinycolor"
     ]
   }
@@ -22,41 +22,41 @@ Then add `rescript-tinycolor` as a dependency to `rescript.json`:
 
 ## Example
 
-```reason
-open RescriptTinycolor;
+```rescript
+open RescriptTinycolor
 
-let redString = TinyColor.makeFromString("red");
-/* New instance made by name 'red' */
+let redString = TinyColor.makeFromString("red")
+// New instance made by name 'red'
 
-let blueRgb = TinyColor.makeFromRgb({r: 0, g: 0, b: 255});
-/* New instance made with RGB values */
+let blueRgb = TinyColor.makeFromRgb({r: 0, g: 0, b: 255})
+// New instance made with RGB values
 
-let yellowHsl = TinyColor.makeFromHsl({h: 60, s: 0.94, l: 0.5});
-/* New instance made with HSL values (saturation and lightness must be given as percent fractions) */
+let yellowHsl = TinyColor.makeFromHsl({h: 60, s: 0.94, l: 0.5})
+// New instance made with HSL values (saturation and lightness must be given as percent fractions)
 
-let darkGreenHsv = TinyColor.makeFromHsv({h: 100, s: 1.0, v: 0.3});
-/* New instance made with HSV values (saturation and value must be given as percent fractions) */
+let darkGreenHsv = TinyColor.makeFromHsv({h: 100, s: 1.0, v: 0.3})
+// New instance made with HSV values (saturation and value must be given as percent fractions)
 
-let blueRgbWithAlpha = Belt.Option.map(blueRgb, TinyColor.setAlpha(0.2));
-/* New instance with changed alpha */
+let blueRgbWithAlpha = Option.map(blueRgb, TinyColor.setAlpha(0.2))
+// New instance with changed alpha
 
-let brightness = Belt.Option.map(redString, TinyColor.getBrightness);
-/* Some(76.245) */
+let brightness = Option.map(redString, TinyColor.getBrightness)
+// Some(76.245)
 
-let hexString = Belt.Option.map(blueRgb, TinyColor.toHexString);
-/* Some("#0000ff") */
+let hexString = Option.map(blueRgb, TinyColor.toHexString)
+// Some("#0000ff")
 
-let shadedBlue = Belt.Option.map(blueRgb, TinyColor.shade(~value=50));
-/* New instanced with color shaded 50% */
+let shadedBlue = Option.map(blueRgb, TinyColor.shade(~value=50))
+// New instance with color shaded 50%
 
-let isReadableInCombination = switch(redString, blueRgb) {
-    | (Some(red), Some(blue)) => TinyColor.isReadable(red, blue);
-    | _ => false;
-};
-/* returns a bool telling whether these colors can be used for background/text */
+let isReadableInCombination = switch (redString, blueRgb) {
+| (Some(red), Some(blue)) => TinyColor.isReadable(red, blue)
+| _ => false
+}
+// returns a bool telling whether these colors can be used for background/text
 ```
 
-See all available functions in the [original TinyColor repo](https://github.com/scttcper/tinycolor) and example usage of all functions in [the tests](https://github.com/mikaello/rescript-tinycolor/blob/master/__tests__/Tinycolor_tests.re).
+See all available functions in the [original TinyColor repo](https://github.com/scttcper/tinycolor) and example usage of all functions in [the tests](https://github.com/mikaello/rescript-tinycolor/blob/master/__tests__/Tinycolor_tests.res).
 
 ## Differences from original
 
