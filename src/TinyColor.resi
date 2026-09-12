@@ -107,11 +107,243 @@ type cmyk = {
   k: int,
 }
 
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbToJs: rgb => {"b": int, "g": int, "r": int}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbFromJs: {.."b": int, "g": int, "r": int} => rgb
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbaToJs: rgba => {"a": float, "b": int, "g": int, "r": int}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbaFromJs: {.."a": float, "b": int, "g": int, "r": int} => rgba
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbaPercentageToJs: rgbaPercentage => {"a": float, "b": string, "g": string, "r": string}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbaPercentageFromJs: {.."a": float, "b": string, "g": string, "r": string} => rgbaPercentage
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbRatioToJs: rgbRatio => {"b": float, "g": float, "r": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbRatioFromJs: {.."b": float, "g": float, "r": float} => rgbRatio
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbaRatioToJs: rgbaRatio => {"a": float, "b": float, "g": float, "r": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let rgbaRatioFromJs: {.."a": float, "b": float, "g": float, "r": float} => rgbaRatio
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hslToJs: hsl => {"h": int, "l": float, "s": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hslFromJs: {.."h": int, "l": float, "s": float} => hsl
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hslaToJs: hsla => {"a": float, "h": int, "l": float, "s": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hslaFromJs: {.."a": float, "h": int, "l": float, "s": float} => hsla
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hslRatioToJs: hslRatio => {"h": float, "l": float, "s": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hslRatioFromJs: {.."h": float, "l": float, "s": float} => hslRatio
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hslaRatioToJs: hslaRatio => {"a": float, "h": float, "l": float, "s": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hslaRatioFromJs: {.."a": float, "h": float, "l": float, "s": float} => hslaRatio
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hsvToJs: hsv => {"h": int, "s": float, "v": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hsvFromJs: {.."h": int, "s": float, "v": float} => hsv
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hsvaToJs: hsva => {"a": float, "h": int, "s": float, "v": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hsvaFromJs: {.."a": float, "h": int, "s": float, "v": float} => hsva
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hsvRatioToJs: hsvRatio => {"h": float, "s": float, "v": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hsvRatioFromJs: {.."h": float, "s": float, "v": float} => hsvRatio
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hsvaRatioToJs: hsvaRatio => {"a": float, "h": float, "s": float, "v": float}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let hsvaRatioFromJs: {.."a": float, "h": float, "s": float, "v": float} => hsvaRatio
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Pass ReScript records to the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let cmykToJs: cmyk => {"c": int, "k": int, "m": int, "y": int}
+
+/** Deprecated generated interop helper retained for compatibility. */
+@deprecated(
+  "Use ReScript records with the public TinyColor APIs instead. Scheduled for removal in v6."
+)
+let cmykFromJs: {.."c": int, "k": int, "m": int, "y": int} => cmyk
+
 /** Returns whether a TinyColor instance is valid. */
 let isValid: t => bool
 
 /** Returns whether a color has no saturation. */
 let isMonochrome: t => bool
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated("Use the makeFrom* functions, which validate their input. Scheduled for removal in v6.")
+let returnSomeIfValid: t => option<t>
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated("Validate application-specific ranges locally. Scheduled for removal in v6.")
+let isFraction: float => bool
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated("Validate application-specific ranges locally. Scheduled for removal in v6.")
+let isValidHue: int => bool
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated(
+  "Use makeFromNumber, which validates the input and creates a color. Scheduled for removal in v6."
+)
+let validateColorNumber: int => option<int>
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated(
+  "Use makeFromRgb, which validates the input and creates a color. Scheduled for removal in v6."
+)
+let validateRgb: rgb => option<rgb>
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated(
+  "Use makeFromRgba, which validates the input and creates a color. Scheduled for removal in v6."
+)
+let validateRgba: rgba => option<rgba>
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated(
+  "Use makeFromHsl, which validates the input and creates a color. Scheduled for removal in v6."
+)
+let validateHsl: hsl => option<hsl>
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated(
+  "Use makeFromHsla, which validates the input and creates a color. Scheduled for removal in v6."
+)
+let validateHsla: hsla => option<hsla>
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated(
+  "Use makeFromHsv, which validates the input and creates a color. Scheduled for removal in v6."
+)
+let validateHsv: hsv => option<hsv>
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated(
+  "Use makeFromHsva, which validates the input and creates a color. Scheduled for removal in v6."
+)
+let validateHsva: hsva => option<hsva>
+
+/** Deprecated validation helper retained for compatibility. */
+@deprecated(
+  "Use makeFromCmyk, which validates the input and creates a color. Scheduled for removal in v6."
+)
+let validateCmyk: cmyk => option<cmyk>
+
+/** Deprecated untyped constructor retained for compatibility. */
+@deprecated("Use the typed makeFrom* functions. Scheduled for removal in v6.")
+let make: 'tinyColor => t
 
 /** Creates a color from a CSS color name, hex value, or color function. */
 let makeFromString: string => option<t>
@@ -161,8 +393,8 @@ let makeFromCmyk: cmyk => option<t>
 /** Returns the format used to create the color. */
 let getFormat: t => string
 
-/** Returns the original color input as JSON. */
-let getOriginalInput: t => JSON.t
+/** Returns the original color input. */
+let getOriginalInput: t => 'tinyColor
 
 /** Returns perceived brightness from 0.0 through 255.0. */
 let getBrightness: t => float
@@ -237,13 +469,19 @@ let toCmyk: t => cmyk
 let toCmykString: t => string
 
 /** Returns the CSS color name when one exactly matches. */
-let toName: t => option<string>
+let toName: t => option<'a>
 
 /** Creates a Microsoft gradient filter from two color strings. */
 let toMsFilter: (string, string) => string
 
 /** Converts the color to a string using its original format when possible. */
 let toString: t => string
+
+/** Deprecated modification helper retained for compatibility. */
+@deprecated(
+  "Use lighten, brighten, darken, tint, shade, desaturate, saturate, or mix. Scheduled for removal in v6."
+)
+let callIfValidModificationValue: (int, ('a, int) => 'b, 'a) => option<'b>
 
 /** Lightens the color by a percentage from 0 through 100. */
 let lighten: (~value: int=?, t) => option<t>
@@ -299,6 +537,18 @@ let complement: t => t
 /** Returns whether two colors have the same RGB and alpha values. */
 let equals: (t, t) => bool
 
+/** Deprecated configuration type retained for compatibility. */
+@deprecated(
+  "Pass labeled arguments directly to random or randomMultiple. Scheduled for removal in v6."
+)
+type randomConfigType = {
+  hue?: [#red | #orange | #yellow | #green | #blue | #purple | #pink | #monochrome],
+  luminosity?: [#bright | #light | #dark],
+  seed?: int,
+  alpha?: float,
+  count?: int,
+}
+
 /** Returns a random color. */
 let random: (
   ~hue: [#red | #orange | #yellow | #green | #blue | #purple | #pink | #monochrome]=?,
@@ -321,8 +571,27 @@ let randomMultiple: (
 /** Returns the WCAG contrast ratio between two colors. */
 let readability: (t, t) => float
 
+/** Deprecated configuration type retained for compatibility. */
+@deprecated("Pass labeled arguments directly to isReadable. Scheduled for removal in v6.")
+type wcagOptionType = {
+  level?: [#AA | #AAA],
+  size?: [#small | #large],
+}
+
 /** Returns whether two colors meet the requested WCAG readability level. */
 let isReadable: (~level: [#AA | #AAA]=?, ~size: [#small | #large]=?, t, t) => bool
+
+/** Deprecated configuration type retained for compatibility. */
+@deprecated("Pass labeled arguments directly to mostReadable. Scheduled for removal in v6.")
+type mostReadableConfigType = {
+  includeFallbackColors?: bool,
+  level?: [#AA | #AAA],
+  size?: [#small | #large],
+}
+
+/** Deprecated nullable binding retained for compatibility. */
+@deprecated("Use mostReadable, which returns option<t>. Scheduled for removal in v6.")
+let mostReadableNullable: (t, array<t>, 'config) => Null.t<t>
 
 /** Returns the most readable color from a list of candidates. */
 let mostReadable: (
