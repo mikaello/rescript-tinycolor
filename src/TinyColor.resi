@@ -331,4 +331,4 @@ let mostReadable: (
   ~size: [#small | #large]=?,
   array<t>,
   t,
-) => t
+) => option<t>
