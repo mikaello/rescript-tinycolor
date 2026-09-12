@@ -1,15 +1,39 @@
 import {execFileSync} from "node:child_process"
-import {existsSync, mkdirSync, readFileSync, writeFileSync} from "node:fs"
+import {mkdirSync, readFileSync, writeFileSync} from "node:fs"
 import {dirname, join} from "node:path"
 import {fileURLToPath} from "node:url"
 
+type Source = {
+  filepath: string
+  line: number
+  col: number
+}
+
+type ApiItem = {
+  kind: string
+  name: string
+  signature: string
+  docstrings: string[]
+  source: Source
+}
+
+type Documentation = {
+  items: ApiItem[]
+}
+
+type PackageJson = {
+  name: string
+  version: string
+  repository: string | {url: string}
+}
+
 const root = join(dirname(fileURLToPath(import.meta.url)), "..")
 const outputDirectory = join(root, "docs-site")
-const sourceFile = existsSync(join(root, "src/TinyColor.resi"))
-  ? "src/TinyColor.resi"
-  : "src/TinyColor.res"
+const sourceFile = "src/TinyColor.resi"
 const tools = join(root, "node_modules/rescript/cli/rescript-tools.js")
-const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"))
+const packageJson = JSON.parse(
+  readFileSync(join(root, "package.json"), "utf8"),
+) as PackageJson
 
 const extracted = execFileSync(process.execPath, [tools, "doc", sourceFile], {
   cwd: root,
@@ -20,89 +44,23 @@ if (extracted.trim() === "") {
   throw new Error(`No documentation was extracted from ${sourceFile}`)
 }
 
-const documentation = JSON.parse(extracted)
-const implementationDetails = new Set([
-  "callIfValidModificationValue",
-  "isFraction",
-  "isValidHue",
-  "make",
-  "mostReadableConfigType",
-  "mostReadableNullable",
-  "randomConfigType",
-  "returnSomeIfValid",
-  "validateCmyk",
-  "validateColorNumber",
-  "validateHsl",
-  "validateHsla",
-  "validateHsv",
-  "validateHsva",
-  "validateRgb",
-  "validateRgba",
-  "wcagOptionType",
-])
-
-const apiItems = documentation.items.filter(
-  item =>
-    item.source?.filepath?.startsWith("src/") &&
-    !implementationDetails.has(item.name),
-)
+const documentation = JSON.parse(extracted) as Documentation
+const apiItems = documentation.items
 
 if (apiItems.length === 0) {
   throw new Error(`No public API entries were extracted from ${sourceFile}`)
 }
 
-const categories = [
-  ["Types", item => item.kind === "type"],
-  ["Create", item => item.name.startsWith("makeFrom")],
-  [
-    "Inspect",
-    item =>
-      item.name.startsWith("get") ||
-      ["isDark", "isLight", "isMonochrome", "isValid"].includes(item.name),
-  ],
-  ["Convert", item => item.name.startsWith("to")],
-  [
-    "Adjust",
-    item =>
-      [
-        "brighten",
-        "clone",
-        "darken",
-        "desaturate",
-        "greyscale",
-        "lighten",
-        "mix",
-        "onBackground",
-        "saturate",
-        "setAlpha",
-        "shade",
-        "spin",
-        "tint",
-      ].includes(item.name),
-  ],
-  [
-    "Combine",
-    item =>
-      [
-        "analogous",
-        "complement",
-        "monochromatic",
-        "polyad",
-        "splitcomplement",
-        "tetrad",
-        "triad",
-      ].includes(item.name),
-  ],
-  ["Utilities", () => true],
-]
+const formatKind = (kind: string): string =>
+  `${kind.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/^./, first => first.toUpperCase())}s`
 
-const grouped = new Map(categories.map(([name]) => [name, []]))
+const grouped = new Map<string, ApiItem[]>()
 for (const item of apiItems) {
-  const category = categories.find(([, matches]) => matches(item))[0]
-  grouped.get(category).push(item)
+  const category = formatKind(item.kind)
+  grouped.set(category, [...(grouped.get(category) ?? []), item])
 }
 
-const escapeHtml = value =>
+const escapeHtml = (value: unknown): string =>
   String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -110,14 +68,22 @@ const escapeHtml = value =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;")
 
-const itemId = item => `${item.kind}-${item.name.toLowerCase()}`
-const repository = "https://github.com/mikaello/rescript-tinycolor"
+const itemId = (item: ApiItem): string =>
+  `${item.kind}-${item.name.toLowerCase()}`
+const repositoryValue =
+  typeof packageJson.repository === "string"
+    ? packageJson.repository
+    : packageJson.repository.url
+const repository = repositoryValue
+  .replace(/^git\+/, "")
+  .replace(/^git@github\.com:/, "https://github.com/")
+  .replace(/\.git$/, "")
 
-const renderItem = item => {
+const renderItem = (item: ApiItem): string => {
   const docs = item.docstrings
     .map(doc => `<p>${escapeHtml(doc)}</p>`)
     .join("")
-  const sourceUrl = `${repository}/blob/master/${item.source.filepath}#L${item.source.line}`
+  const sourceUrl = `${repository}/blob/HEAD/${item.source.filepath}#L${item.source.line}`
 
   return `
     <article class="api-card" id="${itemId(item)}" data-search="${escapeHtml(`${item.name} ${item.signature} ${item.docstrings.join(" ")}`.toLowerCase())}">
@@ -150,7 +116,7 @@ const sections = [...grouped]
     ([category, items]) => `
       <section id="${category.toLowerCase()}">
         <div class="section-heading">
-          <p>API group</p>
+          <p>Extracted kind</p>
           <h2>${category}</h2>
         </div>
         <div class="api-list">${items.map(renderItem).join("")}</div>
@@ -163,9 +129,9 @@ const html = `<!doctype html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Generated API reference for rescript-tinycolor">
+    <meta name="description" content="Generated API reference for ${escapeHtml(packageJson.name)}">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23ff6b4a'/%3E%3C/svg%3E">
-    <title>rescript-tinycolor · API</title>
+    <title>${escapeHtml(packageJson.name)} · API</title>
     <style>
       :root {
         color-scheme: dark;
@@ -277,7 +243,7 @@ const html = `<!doctype html>
         <h1>Small library.<br><span>Clear colors.</span></h1>
         <p class="lede">Fast, typed color manipulation and conversion for ReScript, powered by TinyColor.</p>
         <div class="actions">
-          <a class="button primary" href="https://www.npmjs.com/package/rescript-tinycolor">npm install rescript-tinycolor</a>
+          <a class="button primary" href="https://www.npmjs.com/package/${escapeHtml(packageJson.name)}">npm install ${escapeHtml(packageJson.name)}</a>
           <a class="button" href="${repository}">GitHub ↗</a>
           <span class="button version">v${escapeHtml(packageJson.version)} · ${apiItems.length} API entries</span>
         </div>
