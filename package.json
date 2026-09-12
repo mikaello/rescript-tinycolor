@@ -1,6 +1,6 @@
 {
   "name": "rescript-tinycolor",
-  "version": "5.1.2",
+  "version": "5.1.3",
   "scripts": {
     "build": "rescript build",
     "start": "rescript build -w",
