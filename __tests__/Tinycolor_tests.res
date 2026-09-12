@@ -73,7 +73,9 @@ describe("making tinycolor", () => {
     let input: TinyColor.rgbaRatio = {r: 0.1, g: 0.5, b: 0.7, a: 0.7}
     let a = TinyColor.makeFromRgbaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(Some(TinyColor.rgbaRatioToJs(input)))
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
+      Some(JSON.parseOrThrow(`{"r":0.1,"g":0.5,"b":0.7,"a":0.7}`)),
+    )
   })
 
   test("makeFromHsl() returns valid", () => {
@@ -108,7 +110,9 @@ describe("making tinycolor", () => {
     let input: TinyColor.hslaRatio = {h: 0.1, s: 0.5, l: 0.7, a: 0.7}
     let a = TinyColor.makeFromHslaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(Some(TinyColor.hslaRatioToJs(input)))
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
+      Some(JSON.parseOrThrow(`{"h":0.1,"s":0.5,"l":0.7,"a":0.7}`)),
+    )
   })
 
   test("makeFromHsv() returns valid", () => {
@@ -143,7 +147,9 @@ describe("making tinycolor", () => {
     let input: TinyColor.hsvaRatio = {h: 0.1, s: 0.5, v: 0.7, a: 0.7}
     let a = TinyColor.makeFromHsvaRatio(input)
 
-    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(Some(TinyColor.hsvaRatioToJs(input)))
+    expect(Option.map(a, TinyColor.getOriginalInput))->toEqual(
+      Some(JSON.parseOrThrow(`{"h":0.1,"s":0.5,"v":0.7,"a":0.7}`)),
+    )
   })
   test("makeFromCmyk() returns valid", () => {
     let a = TinyColor.makeFromCmyk({c: 0, m: 100, y: 100, k: 0})
