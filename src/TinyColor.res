@@ -392,11 +392,12 @@ type mostReadableConfigType = {
 }
 
 @module("@ctrl/tinycolor")
-external mostReadable: (t, array<t>, 'config) => t = "mostReadable"
+external mostReadableNullable: (t, array<t>, 'config) => Null.t<t> = "mostReadable"
 let mostReadable = (
   ~includeFallbackColors=?,
   ~level: option<[#AA | #AAA]>=?,
   ~size: option<[#small | #large]>=?,
   compareColors: array<t>,
   color: t,
-) => mostReadable(color, compareColors, {?includeFallbackColors, ?level, ?size})
+) =>
+  mostReadableNullable(color, compareColors, {?includeFallbackColors, ?level, ?size})->Null.toOption

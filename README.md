@@ -65,6 +65,7 @@ See all available functions in the [original TinyColor repo](https://github.com/
 - All functions accept only TinyColor-instances created by one of the `make-`-functions (or `random()`), it is not possible to pass in a string or RGB-record for the functions (which is possible in the original library).
 - `setAlpha(val)` is immutable, it will return a new instance with changed alpha value (the other methods that modify a color (`spin`, `lighten`, etc.) is immutable from the original library).
 - `toName()` returns an option, either `Some(string)` if a name could be deduced (e.g. _red_) or `None` if not.
+- `mostReadable()` returns an option because an empty candidate list without fallback colors returns `None`.
 - To get multiple random colors with the `count` parameter, the function `randomMultiple()` must be used (which is the same as `random()` only that it returns an array with length `count` instead of a single color).
 
 ## Contribute

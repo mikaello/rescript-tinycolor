@@ -23,6 +23,11 @@ describe("making tinycolor", () => {
     expect(Option.isNone(rubbish))->toBe(true)
   })
 
+  test("fromString() rejects inherited object property names", () => {
+    expect(TinyColor.makeFromString("constructor")->Option.isNone)->toBe(true)->ignore
+    expect(TinyColor.makeFromString("__proto__")->Option.isNone)->toBe(true)
+  })
+
   test("makeFromNumber() returns valid for valid number", () => {
     let numberColor = TinyColor.makeFromNumber(66)
     expect(Option.isSome(numberColor)) === true
@@ -601,7 +606,7 @@ describe("color utils", () => {
 
     switch (a, cmp1, cmp2, cmp3) {
     | (Some(a), Some(c1), Some(c2), Some(c3)) =>
-      expect(TinyColor.mostReadable([c1, c2, c3], a))->toEqual(c2)
+      expect(TinyColor.mostReadable([c1, c2, c3], a))->toEqual(Some(c2))
     | _ => expect(false) === true
     }
   })
@@ -619,8 +624,48 @@ describe("color utils", () => {
           ~size=#small,
           [c],
           a,
-        )->TinyColor.toHexString,
-      )->toEqual("#000000")
+        )->Option.map(TinyColor.toHexString),
+      )->toEqual(Some("#000000"))
+    | _ => expect(false) === true
+    }
+  })
+
+  test("mostReadable() returns None for an empty candidate list without fallback", () => {
+    switch TinyColor.makeFromString("#fff") {
+    | Some(base) =>
+      expect(TinyColor.mostReadable([], base))->toEqual(None)->ignore
+      expect(TinyColor.mostReadable(~includeFallbackColors=false, [], base))->toEqual(None)
+    | None => expect(false) === true
+    }
+  })
+
+  test("mostReadable() selects a fallback for an empty candidate list", () => {
+    switch (TinyColor.makeFromString("#fff"), TinyColor.makeFromString("#000")) {
+    | (Some(white), Some(black)) =>
+      expect(
+        TinyColor.mostReadable(~includeFallbackColors=true, [], white)->Option.map(
+          TinyColor.toHexString,
+        ),
+      )
+      ->toEqual(Some("#000000"))
+      ->ignore
+      expect(
+        TinyColor.mostReadable(~includeFallbackColors=true, [], black)->Option.map(
+          TinyColor.toHexString,
+        ),
+      )->toEqual(Some("#ffffff"))
+    | _ => expect(false) === true
+    }
+  })
+
+  test("mostReadable() returns the first candidate when contrast scores tie", () => {
+    switch (
+      TinyColor.makeFromString("#fff"),
+      TinyColor.makeFromString("#123456"),
+      TinyColor.makeFromString("#123456"),
+    ) {
+    | (Some(base), Some(first), Some(second)) =>
+      expect(TinyColor.mostReadable([first, second], base))->toBe(Some(first))
     | _ => expect(false) === true
     }
   })
