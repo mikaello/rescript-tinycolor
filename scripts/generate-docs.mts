@@ -129,7 +129,7 @@ const html = `<!doctype html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Generated API reference for ${escapeHtml(packageJson.name)}">
+    <meta name="description" content="ReScript bindings for @ctrl/tinycolor">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23ff6b4a'/%3E%3C/svg%3E">
     <title>${escapeHtml(packageJson.name)} · API</title>
     <style>
@@ -157,7 +157,7 @@ const html = `<!doctype html>
         line-height: 1.6;
       }
       a { color: inherit; }
-      .shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+      .shell { width: 100%; max-width: 1180px; margin: 0 auto; padding-inline: 1rem; }
       header { padding: 5rem 0 4rem; border-bottom: 1px solid var(--line); }
       .eyebrow, .section-heading p {
         margin: 0 0 .65rem;
@@ -167,13 +167,13 @@ const html = `<!doctype html>
         letter-spacing: .16em;
         text-transform: uppercase;
       }
-      h1 { max-width: 850px; margin: 0; font-size: clamp(2.6rem, 8vw, 6.2rem); line-height: .95; letter-spacing: -.065em; }
-      h1 span { color: var(--accent); }
+      h1 { max-width: 100%; margin: 0; overflow-wrap: anywhere; font-size: clamp(2.6rem, 8vw, 6.2rem); line-height: .95; letter-spacing: -.065em; }
       .lede { max-width: 680px; margin: 1.6rem 0 0; color: var(--muted); font-size: 1.12rem; }
       .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
       .button {
         display: inline-flex;
         align-items: center;
+        max-width: 100%;
         min-height: 2.65rem;
         padding: .55rem 1rem;
         border: 1px solid var(--line);
@@ -182,10 +182,11 @@ const html = `<!doctype html>
         text-decoration: none;
         font-size: .9rem;
         font-weight: 700;
+        overflow-wrap: anywhere;
       }
       .button.primary { border-color: var(--accent); background: var(--accent); color: #1e100d; }
       .version { color: var(--muted); }
-      .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 3rem; padding: 3rem 0 6rem; }
+      .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 3rem; padding-block: 3rem 6rem; }
       aside { position: sticky; top: 1.5rem; align-self: start; }
       label { display: block; margin-bottom: .55rem; color: var(--muted); font-size: .78rem; font-weight: 700; }
       input {
@@ -207,9 +208,10 @@ const html = `<!doctype html>
       section { scroll-margin-top: 1.5rem; margin-bottom: 4rem; }
       .section-heading { margin-bottom: 1rem; }
       h2 { margin: 0; font-size: 2rem; letter-spacing: -.035em; }
-      .api-list { display: grid; gap: .8rem; }
+      .api-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: .8rem; min-width: 0; }
       .api-card {
         scroll-margin-top: 1.5rem;
+        min-width: 0;
         padding: 1.15rem;
         border: 1px solid var(--line);
         border-radius: .9rem;
@@ -217,20 +219,20 @@ const html = `<!doctype html>
       }
       .api-card[hidden] { display: none; }
       .api-heading { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
-      .api-heading > div { display: flex; align-items: center; gap: .7rem; }
-      .api-card h3 { margin: 0; font-size: 1.06rem; }
+      .api-heading > div { display: flex; align-items: center; gap: .7rem; min-width: 0; }
+      .api-card h3 { margin: 0; overflow-wrap: anywhere; font-size: 1.06rem; }
       .kind { padding: .15rem .45rem; border-radius: .35rem; background: var(--accent-soft); color: #ff9a82; font: 700 .68rem ui-monospace, monospace; text-transform: uppercase; }
       .source-link { color: var(--muted); font-size: .78rem; text-decoration: none; white-space: nowrap; }
       .source-link:hover { color: var(--accent); }
       .api-card p { margin: .8rem 0 0; color: var(--muted); }
-      pre { overflow-x: auto; margin: .9rem 0 0; padding: .85rem 1rem; border-radius: .6rem; background: #0c0d0f; color: var(--code); font-size: .84rem; line-height: 1.55; }
+      pre { max-width: 100%; overflow-x: auto; margin: .9rem 0 0; padding: .85rem 1rem; border-radius: .6rem; background: #0c0d0f; color: var(--code); font-size: .84rem; line-height: 1.55; }
       code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
       .empty { display: none; padding: 4rem 1rem; color: var(--muted); text-align: center; }
       .empty.visible { display: block; }
       footer { padding: 1.5rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
       @media (max-width: 760px) {
         header { padding: 3.5rem 0 3rem; }
-        .layout { grid-template-columns: 1fr; gap: 2.5rem; }
+        .layout { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
         aside { position: static; }
         nav { grid-template-columns: repeat(2, 1fr); }
       }
@@ -240,8 +242,8 @@ const html = `<!doctype html>
     <header>
       <div class="shell">
         <p class="eyebrow">Generated ReScript API reference</p>
-        <h1>Small library.<br><span>Clear colors.</span></h1>
-        <p class="lede">Fast, typed color manipulation and conversion for ReScript, powered by TinyColor.</p>
+        <h1>${escapeHtml(packageJson.name)}</h1>
+        <p class="lede">ReScript bindings for <a href="https://www.npmjs.com/package/@ctrl/tinycolor"><code>@ctrl/tinycolor</code></a>, providing typed color manipulation and conversion.</p>
         <div class="actions">
           <a class="button primary" href="https://www.npmjs.com/package/${escapeHtml(packageJson.name)}">npm install ${escapeHtml(packageJson.name)}</a>
           <a class="button" href="${repository}">GitHub ↗</a>
