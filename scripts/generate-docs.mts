@@ -93,7 +93,7 @@ const renderItem = (item: ApiItem): string => {
   const sourceUrl = `${repository}/blob/HEAD/${item.source.filepath}#L${item.source.line}`
 
   return `
-    <article class="api-card${item.deprecated ? " is-deprecated" : ""}" id="${itemId(item)}" data-search="${escapeHtml(`${item.name} ${item.signature} ${item.docstrings.join(" ")} ${item.deprecated ? `deprecated ${item.deprecated}` : ""}`.toLowerCase())}">
+    <article class="api-card${item.deprecated ? " is-deprecated" : ""}"${item.deprecated ? " hidden" : ""} id="${itemId(item)}" data-deprecated="${item.deprecated ? "true" : "false"}" data-search="${escapeHtml(`${item.name} ${item.signature} ${item.docstrings.join(" ")} ${item.deprecated ? `deprecated ${item.deprecated}` : ""}`.toLowerCase())}">
       <div class="api-heading">
         <div>
           <span class="kind">${escapeHtml(item.kind)}</span>
@@ -198,7 +198,9 @@ const html = `<!doctype html>
       .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 3rem; padding-block: 3rem 6rem; }
       aside { position: sticky; top: 1.5rem; align-self: start; }
       label { display: block; margin-bottom: .55rem; color: var(--muted); font-size: .78rem; font-weight: 700; }
-      input {
+      .deprecated-filter { display: flex; align-items: center; gap: .5rem; margin-top: .8rem; color: var(--muted); font-size: .82rem; font-weight: 600; }
+      .deprecated-filter input { width: auto; margin: 0; accent-color: var(--accent); cursor: pointer; }
+      input[type="search"] {
         width: 100%;
         padding: .75rem .85rem;
         border: 1px solid var(--line);
@@ -208,7 +210,7 @@ const html = `<!doctype html>
         color: var(--text);
         font: inherit;
       }
-      input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+      input[type="search"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
       nav { display: grid; gap: .2rem; margin-top: 1.25rem; }
       nav a { display: flex; justify-content: space-between; padding: .45rem .6rem; border-radius: .45rem; color: var(--muted); text-decoration: none; }
       nav a:hover { background: var(--panel); color: var(--text); }
@@ -267,6 +269,10 @@ const html = `<!doctype html>
       <aside>
         <label for="api-search">FILTER THE API</label>
         <input id="api-search" type="search" placeholder="Try “hex” or “contrast”" autocomplete="off">
+        <label class="deprecated-filter">
+          <input id="show-deprecated" type="checkbox">
+          <span>Show deprecated</span>
+        </label>
         <nav aria-label="API sections">${navigation}</nav>
       </aside>
       <main>
@@ -277,18 +283,28 @@ const html = `<!doctype html>
     <footer><div class="shell">Generated from <code>${sourceFile}</code> with the ReScript documentation extractor.</div></footer>
     <script>
       const search = document.querySelector("#api-search")
+      const showDeprecated = document.querySelector("#show-deprecated")
       const cards = [...document.querySelectorAll(".api-card")]
       const sections = [...document.querySelectorAll("main section")]
       const empty = document.querySelector("#empty-state")
 
-      search.addEventListener("input", event => {
-        const query = event.target.value.trim().toLowerCase()
-        for (const card of cards) card.hidden = !card.dataset.search.includes(query)
+      const updateResults = () => {
+        const query = search.value.trim().toLowerCase()
+        const includeDeprecated = showDeprecated.checked
+        for (const card of cards) {
+          const matchesSearch = card.dataset.search.includes(query)
+          const matchesDeprecation = includeDeprecated || card.dataset.deprecated !== "true"
+          card.hidden = !(matchesSearch && matchesDeprecation)
+        }
         for (const section of sections) {
           section.hidden = !section.querySelector(".api-card:not([hidden])")
         }
         empty.classList.toggle("visible", cards.every(card => card.hidden))
-      })
+      }
+
+      search.addEventListener("input", updateResults)
+      showDeprecated.addEventListener("change", updateResults)
+      updateResults()
     </script>
   </body>
 </html>
