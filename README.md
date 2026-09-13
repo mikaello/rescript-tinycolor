@@ -82,6 +82,18 @@ If you add, remove or change bindings, remember to update the tests as well. It 
 
 ## Alternatives / related
 
-- [bs-parse-color](https://redex.github.io/package/unpublished/theatlasroom/bs-parse-color/) - bindings for [parse-color](https://github.com/substack/parse-color)
-- [bs-randomcolor](https://github.com/ktrzos/bs-randomColor) - bindings for [randomColor](https://github.com/davidmerfield/randomColor/) (which is the same implementation as `random()` in this library)
-- [re-color-contrast](https://github.com/mikaello/re-color-contrast) - ReasonML implementation of color-contrast calculation (which is the same as `readability(..)` in this library).
+ReScript packages:
+
+- [rescript-polished](https://github.com/brnrdog/rescript-polished) - ReScript bindings for [polished](https://polished.js.org/), including color manipulation and contrast helpers.
+- [re-color-contrast](https://github.com/mikaello/re-color-contrast) - ReScript implementation of WCAG color contrast calculation, similar to `readability(..)` in this library.
+
+JavaScript and TypeScript libraries that can be used through ReScript bindings:
+
+- [colord](https://github.com/omgovich/colord) - small, immutable, chainable library with plugins for additional color spaces and features.
+- [color2k](https://github.com/ricokahler/color2k) - small color parsing and manipulation library focused on bundle size.
+- [@colordx/core](https://github.com/dkryaklin/colordx) - modern library with OKLCH and OKLab support, plus plugins for spaces such as Display-P3.
+- [chroma-js](https://github.com/gka/chroma.js) - color conversion, interpolation, and scales, particularly useful for data visualization.
+- [color](https://github.com/Qix-/color) - immutable color parsing, conversion, and manipulation with CSS color string support.
+- [Color.js](https://github.com/color-js/color.js) - comprehensive modern color spaces, gamut mapping, and color-difference algorithms from editors of the CSS Color specifications.
+- [Culori](https://github.com/Evercoder/culori) - modular color conversion, interpolation, blending, and color-difference functions across many color spaces.
+- [@texel/color](https://github.com/texel-org/color) - tree-shakeable color conversion and gamut mapping for graphics, creative coding, and wide-gamut color spaces.
