@@ -58,6 +58,12 @@ let isReadableInCombination = switch (redString, blueRgb) {
 
 See all available functions in the [original TinyColor repo](https://github.com/scttcper/tinycolor) and example usage of all functions in [the tests](https://github.com/mikaello/rescript-tinycolor/blob/master/__tests__/Tinycolor_tests.res).
 
+## API documentation
+
+The generated [API reference](https://mikaello.github.io/rescript-tinycolor/) includes searchable signatures and links back to their ReScript source.
+
+To build it locally, run `npm run docs:build` and open `docs-site/index.html`.
+
 ## Differences from original
 
 - It is not possible to create an invalid tinycolor instance, it will either return `Some(t)` if it is valid, or `None` if it is invalid. E.g. an invalid instance can occur if you create a color with a string not corresponding to a valid color (`beautifulRed` is not a valid color) or you provide RGB values outside the valid range (0-255).

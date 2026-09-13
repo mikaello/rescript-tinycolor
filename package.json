@@ -3,6 +3,7 @@
   "version": "5.1.3",
   "scripts": {
     "build": "rescript build",
+    "docs:build": "npm run build && node scripts/generate-docs.mts",
     "start": "rescript build -w",
     "clean": "rescript clean",
     "check": "rescript format --check",

@@ -20,6 +20,9 @@ yarn-error.log*
 # Dependency directories
 node_modules/
 
+# Generated API documentation
+docs-site/
+
 # Optional npm cache directory
 .npm
 
