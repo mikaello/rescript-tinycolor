@@ -12,6 +12,7 @@ type Source = {
 type ApiItem = {
   kind: string
   name: string
+  deprecated?: string
   signature: string
   docstrings: string[]
   source: Source
@@ -83,18 +84,26 @@ const renderItem = (item: ApiItem): string => {
   const docs = item.docstrings
     .map(doc => `<p>${escapeHtml(doc)}</p>`)
     .join("")
+  const deprecation = item.deprecated
+    ? `<div class="deprecation"><strong>Deprecated.</strong> ${escapeHtml(item.deprecated)}</div>`
+    : ""
+  const deprecatedBadge = item.deprecated
+    ? `<span class="deprecated-badge">Deprecated</span>`
+    : ""
   const sourceUrl = `${repository}/blob/HEAD/${item.source.filepath}#L${item.source.line}`
 
   return `
-    <article class="api-card" id="${itemId(item)}" data-search="${escapeHtml(`${item.name} ${item.signature} ${item.docstrings.join(" ")}`.toLowerCase())}">
+    <article class="api-card${item.deprecated ? " is-deprecated" : ""}" id="${itemId(item)}" data-search="${escapeHtml(`${item.name} ${item.signature} ${item.docstrings.join(" ")} ${item.deprecated ? `deprecated ${item.deprecated}` : ""}`.toLowerCase())}">
       <div class="api-heading">
         <div>
           <span class="kind">${escapeHtml(item.kind)}</span>
+          ${deprecatedBadge}
           <h3>${escapeHtml(item.name)}</h3>
         </div>
         <a class="source-link" href="${sourceUrl}">Source ↗</a>
       </div>
       ${docs}
+      ${deprecation}
       <pre><code>${escapeHtml(item.signature)}</code></pre>
     </article>`
 }
@@ -219,12 +228,15 @@ const html = `<!doctype html>
       }
       .api-card[hidden] { display: none; }
       .api-heading { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
-      .api-heading > div { display: flex; align-items: center; gap: .7rem; min-width: 0; }
+      .api-heading > div { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .7rem; min-width: 0; }
       .api-card h3 { margin: 0; overflow-wrap: anywhere; font-size: 1.06rem; }
       .kind { padding: .15rem .45rem; border-radius: .35rem; background: var(--accent-soft); color: #ff9a82; font: 700 .68rem ui-monospace, monospace; text-transform: uppercase; }
+      .deprecated-badge { padding: .15rem .45rem; border-radius: .35rem; background: #3a301c; color: #f4c76b; font: 700 .68rem ui-monospace, monospace; text-transform: uppercase; }
       .source-link { color: var(--muted); font-size: .78rem; text-decoration: none; white-space: nowrap; }
       .source-link:hover { color: var(--accent); }
       .api-card p { margin: .8rem 0 0; color: var(--muted); }
+      .api-card.is-deprecated { border-color: #4b4028; }
+      .deprecation { margin-top: .9rem; padding: .75rem .85rem; border-left: 3px solid #d8a948; border-radius: .25rem .5rem .5rem .25rem; background: #292416; color: #e9d8ae; font-size: .88rem; }
       pre { max-width: 100%; overflow-x: auto; margin: .9rem 0 0; padding: .85rem 1rem; border-radius: .6rem; background: #0c0d0f; color: var(--code); font-size: .84rem; line-height: 1.55; }
       code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
       .empty { display: none; padding: 4rem 1rem; color: var(--muted); text-align: center; }
