@@ -17,8 +17,8 @@
   ],
   "author": "mikaello",
   "description": "Fast, small color manipulation and conversion",
-  "homepage": "https://github.com/mikaello/rescript-tinycolor",
-  "repository": "https://github.com/mikaello/rescript-tinycolor",
+  "homepage": "https://mikaello.github.io/rescript-tinycolor",
+  "repository": "github:mikaello/rescript-tinycolor",
   "bugs": "https://github.com/mikaello/rescript-tinycolor/issues",
   "license": "MIT",
   "devDependencies": {
